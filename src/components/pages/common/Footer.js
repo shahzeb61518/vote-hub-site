@@ -22,8 +22,6 @@ export default function ButtonAppBar() {
 
     return (
         <div className={classes.root} className="footer">
-            <br />
-            <br />
             <AppBar position="static">
                 <br />
                 <br />
