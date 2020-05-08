@@ -24,11 +24,12 @@ const Profile = React.lazy(() => import('../pages/Profile'))
 
 const routes = [
     { path: '/login', exact: true, name: 'Login', component: Login },
-    { path: '/user/dashboard', exact: true, name: 'Signup', component: Dashboard },
-    { path: '/user/help', exact: true, name: 'Signup', component: Help },
-    { path: '/user/settings', exact: true, name: 'Signup', component: Settings },
-    { path: '/user/new-election', exact: true, name: 'Signup', component: NewElection },
-    { path: '/user/orgnization', exact: true, name: 'Signup', component: Orgnization },
+    { path: '/signup', exact: true, name: 'Signup', component: Signup },
+    { path: '/user/dashboard', exact: true, name: 'Dashboard', component: Dashboard },
+    { path: '/user/help', exact: true, name: 'Help', component: Help },
+    { path: '/user/settings', exact: true, name: 'Settings', component: Settings },
+    { path: '/user/new-election', exact: true, name: 'NewElection', component: NewElection },
+    { path: '/user/orgnization', exact: true, name: 'Orgnization', component: Orgnization },
 
     { path: '/home', exact: true, name: 'Home', component: Home },
     { path: '/election-voting', exact: true, name: 'Election Voting', component: ElectionVoting },
