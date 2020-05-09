@@ -29,10 +29,10 @@ export default class Services extends Component {
                 <div>
                     <div className="row" style={{ position: 'absolute', color: 'white' }}>
                         <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
-                            <h1>ElectionBuddy Services</h1>
+                            <h1>VOTE-HUB: An online Election System Services</h1>
                             <br />
                             <p>
-                                Do it yourself, have ElectionBuddy experts manage everything, or only some components - it's up to you! Along with our online voting system we offer support and services to ensure your election is excellent!
+                                Do it yourself, have VOTE-HUB: An online Election System experts manage everything, or only some components - it's up to you! Along with our online voting system we offer support and services to ensure your election is excellent!
                             </p>
                         </div>
                         <div className="col">
@@ -61,7 +61,7 @@ export default class Services extends Component {
                             or meeting vote yourself, you, or your designate, will add
                             the election or meeting details and dates, design the ballots
                             and the notices, and create the voter list. You pay, launch
-                            the vote and answer voter questions. You can have ElectionBuddy
+                            the vote and answer voter questions. You can have VOTE-HUB: An online Election System
                             automatically share results with your voters. If you need help,
                             use our knowledge base or ask questions and receive answers via email.
 
@@ -110,7 +110,7 @@ export default class Services extends Component {
                         <br />
                         <p
                             style={{
-                            }}>If you want to do most of it yourself, but want to be sure it’s right, we can do that too. An ElectionBuddy Expert can review your election setup via email or an online meeting. They can consult with you to review your requirements, provide guidance, ensure that you have created the optimal election or meeting flow, and be standing by when the meeting or election opens. Optionally add on-call email support for the duration of your meeting or election.
+                            }}>If you want to do most of it yourself, but want to be sure it’s right, we can do that too. An VOTE-HUB: An online Election System Expert can review your election setup via email or an online meeting. They can consult with you to review your requirements, provide guidance, ensure that you have created the optimal election or meeting flow, and be standing by when the meeting or election opens. Optionally add on-call email support for the duration of your meeting or election.
 
                             </p>
                         <Button style={{ marginTop: '30px' }}
@@ -138,7 +138,7 @@ export default class Services extends Component {
                         <br />
                         <p
                             style={{
-                            }}>If you'd like us to do it for you, an ElectionBuddy Expert can complete your election setup. All you have to do is provide us the election details and voter list and we create the election for you. The setup is reviewed by you in an online meeting to ensure it meets your needs. If you have questions or issues, you can always phone or email your ElectionBuddy Expert. You answer voter questions yourself with phone support from your expert. Your Expert works with you to share voting results based on your electoral requirements.
+                            }}>If you'd like us to do it for you, an VOTE-HUB: An online Election System Expert can complete your election setup. All you have to do is provide us the election details and voter list and we create the election for you. The setup is reviewed by you in an online meeting to ensure it meets your needs. If you have questions or issues, you can always phone or email your VOTE-HUB: An online Election System Expert. You answer voter questions yourself with phone support from your expert. Your Expert works with you to share voting results based on your electoral requirements.
 
                             </p>
                         <Button style={{ marginTop: '30px' }}
@@ -182,7 +182,7 @@ export default class Services extends Component {
                         <br />
                         <p
                             style={{
-                            }}>Dedicated Assistance with Voter Inquiry management is a fully managed election. It provides the highest possible election integrity and independence as it removes the potential for any perceived conflict of interest. In addition to the Dedicated Setup Assistance from your ElectionBuddy Experts, the ElectionBuddy Expert team manages your voter list and interacts directly with your voters during the election. After consultation with you, voter questions are answered by the ElectionBuddy team to ensure voter anonymity is maintained. We also certify and deliver voting results to you, and, if needed, directly to your voters.
+                            }}>Dedicated Assistance with Voter Inquiry management is a fully managed election. It provides the highest possible election integrity and independence as it removes the potential for any perceived conflict of interest. In addition to the Dedicated Setup Assistance from your VOTE-HUB: An online Election System Experts, the VOTE-HUB: An online Election System Expert team manages your voter list and interacts directly with your voters during the election. After consultation with you, voter questions are answered by the VOTE-HUB: An online Election System team to ensure voter anonymity is maintained. We also certify and deliver voting results to you, and, if needed, directly to your voters.
 
                             </p>
                         <Button style={{ marginTop: '30px' }}
@@ -211,7 +211,7 @@ export default class Services extends Component {
                         <p
                             style={{
                             }}>
-                            If you are running an Annual General Meeting or special meeting where your members need to vote, ElectionBuddy's expert consultants can provide oversight and assistance to ensure your vote is smooth and certifiable. Using the ElectionBuddy voting platform, you can have our staff create motions, review voting, provide expert advice and assistance to ensure that your voting process is observable, verifiable and certified.
+                            If you are running an Annual General Meeting or special meeting where your members need to vote, VOTE-HUB: An online Election System's expert consultants can provide oversight and assistance to ensure your vote is smooth and certifiable. Using the VOTE-HUB: An online Election System voting platform, you can have our staff create motions, review voting, provide expert advice and assistance to ensure that your voting process is observable, verifiable and certified.
                             </p>
                         <Button style={{ marginTop: '30px' }}
                             variant="contained"

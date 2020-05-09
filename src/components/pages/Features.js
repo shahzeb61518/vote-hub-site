@@ -24,10 +24,10 @@ export default class Features extends Component {
                 <div>
                     <div className="row" style={{ position: 'absolute', color: 'white' }}>
                         <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
-                            <h1>ElectionBuddy Voting Features</h1>
+                            <h1>VOTE-HUB: An online Election System Voting Features</h1>
                             <br />
                             <h6>
-                                ElectionBuddy is fully featured to meet the most stringent election organization requirements.
+                                VOTE-HUB: An online Election System is fully featured to meet the most stringent election organization requirements.
                     </h6>
                         </div>
                         <div className="col">

@@ -26,7 +26,7 @@ export default class WhoItsFor extends Component {
                             <h1>Who It's For</h1>
                             <br />
                             <h6>
-                                ElectionBuddy is fully featured to meet the most stringent election organization requirements.
+                                VOTE-HUB: An online Election System is fully featured to meet the most stringent election organization requirements.
                     </h6>
                         </div>
                         <div className="col">
@@ -84,7 +84,7 @@ export default class WhoItsFor extends Component {
                 <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
                     <Card style={{ padding: '20px' }}>
                         <h4>Unions</h4>
-                        <p>ElectionBuddy can help you turn your election process into a member engagement process for contract ratifications, leadership votes, and member surveys.</p>
+                        <p>VOTE-HUB: An online Election System can help you turn your election process into a member engagement process for contract ratifications, leadership votes, and member surveys.</p>
                     </Card>
                 </div>
             </div>
@@ -93,13 +93,13 @@ export default class WhoItsFor extends Component {
                 <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
                     <Card style={{ padding: '20px' }}>
                         <h4>Government or Political Parties</h4>
-                        <p>Eliminate the risk of scandalous errors and public backlash with ElectionBuddy’s secure, integrity-focused voting process for your municipal, state/provincial, and federal government elections.</p>
+                        <p>Eliminate the risk of scandalous errors and public backlash with VOTE-HUB: An online Election System’s secure, integrity-focused voting process for your municipal, state/provincial, and federal government elections.</p>
                     </Card>
                 </div>
                 <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
                     <Card style={{ padding: '20px' }}>
                         <h4>Other Organizations</h4>
-                        <p>No matter how big or how small your organization is, or what type of organization you are, voting online with ElectionBuddy is the powerful, secure voting software you need to ensure election excellence. </p>
+                        <p>No matter how big or how small your organization is, or what type of organization you are, voting online with VOTE-HUB: An online Election System is the powerful, secure voting software you need to ensure election excellence. </p>
                     </Card>
                 </div>
 
@@ -111,7 +111,7 @@ export default class WhoItsFor extends Component {
                     <br />
                     <br />
                     <br />
-                    <h1>Join Thousands of Organizations Using ElectionBuddy</h1>
+                    <h1>Join Thousands of Organizations Using VOTE-HUB: An online Election System</h1>
 
                     <Button style={{ marginTop: '30px' }}
                         variant="contained"

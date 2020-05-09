@@ -4,6 +4,10 @@ import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 
 import backgroundImg from './../../../images/voting.jpg'
+import electionVoting1 from './../../../images/electionVoting1.PNG'
+import electionVoting2 from './../../../images/electionVoting2.PNG'
+import electionVoting3 from './../../../images/electionVoting3.PNG'
+import electionVoting4 from './../../../images/electionVoting4.PNG'
 
 export default class ElectionVoting extends Component {
     render() {
@@ -25,11 +29,12 @@ export default class ElectionVoting extends Component {
                 <div>
                     <div className="row" style={{ position: 'absolute', color: 'white' }}>
                         <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
-                            <h1>ElectionBuddy's Online Voting Methods and Process</h1>
+                            <br />
+                            <h1>VOTE-HUB: An online Election System's Online Voting Methods and Process</h1>
                             <br />
                             <h6>
-                                ElectionBuddy election setup is straightforward and fast, and voting and sharing results is just as easy. But don't let the friendly name fool you;
-                        ElectionBuddy can handle complex ballots and voting needs too! </h6>
+                                VOTE-HUB: An online Election System election setup is straightforward and fast, and voting and sharing results is just as easy. But don't let the friendly name fool you;
+                        VOTE-HUB: An online Election System can handle complex ballots and voting needs too! </h6>
                         </div>
                         <div className="col">
 
@@ -57,7 +62,10 @@ export default class ElectionVoting extends Component {
                         <p>Pull lists from Excel or your contact manager</p>
                     </div>
                     <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
-                        image here
+                        <img
+                            style={{}}
+                            src={electionVoting1}
+                            alt="election-voting-image" />
                     </div>
                     <br />
                     <br />
@@ -77,7 +85,10 @@ export default class ElectionVoting extends Component {
                         <p>Send reminders and resend bounced notices</p>
                     </div>
                     <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
-                        image here
+                        <img
+                            style={{}}
+                            src={electionVoting2}
+                            alt="election-voting-image" />
                     </div>
                     <br />
                     <br />
@@ -97,7 +108,10 @@ export default class ElectionVoting extends Component {
                         <p>Automatically notify each voter and publish the results to your webpage. Or keep them private - it's up to you!</p>
                     </div>
                     <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
-                        image here
+                        <img
+                            style={{}}
+                            src={electionVoting3}
+                            alt="election-voting-image" />
                     </div>
                     <br />
                     <br />
@@ -110,10 +124,13 @@ export default class ElectionVoting extends Component {
                     <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
                         <h4>Election and Ballot Types</h4>
                         <br />
-                        <p>You can set up ElectionBuddy for use in a wide variety of elections, votes and polls. With our various methods of voting, you can combine ballot types within an election, to simplify the voting process for your voters. View the samples to see details and examples of how our online voting system works.</p>
+                        <p>You can set up VOTE-HUB: An online Election System for use in a wide variety of elections, votes and polls. With our various methods of voting, you can combine ballot types within an election, to simplify the voting process for your voters. View the samples to see details and examples of how our online voting system works.</p>
                     </div>
                     <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
-                        image here
+                        <img
+                            style={{}}
+                            src={electionVoting4}
+                            alt="election-voting-image" />
                     </div>
                     <br />
                     <br />

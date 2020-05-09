@@ -22,8 +22,6 @@ export default function ButtonAppBar() {
 
     return (
         <div className={classes.root} className="footer">
-            <br />
-            <br />
             <AppBar position="static">
                 <br />
                 <br />
@@ -32,7 +30,7 @@ export default function ButtonAppBar() {
                         < h4>About</ h4>
                         <br />
                         <br />
-                        <p>Election-Site</p>
+                        <p>VOTE-HUB: An online Election System 2020</p>
                     </div>
                     <div className="col">
                         < h4>Join Us</ h4>
@@ -69,11 +67,11 @@ export default function ButtonAppBar() {
 
                     </div>
                     <div className="col">
-                        < h4>Cotact</ h4>
+                        < h4>Contact</ h4>
                         <br />
                         <br />
-                        <p>123-123-123</p>
-                        <p>election@election.com</p>
+                        <p>+92331-4029829</p>
+                        <p>Votehub@election.com</p>
                     </div>
 
                 </div>
@@ -81,7 +79,7 @@ export default function ButtonAppBar() {
                 <br />
                 <br />
                 <div >
-                    <h6> &copy; Election Site 2020</h6>
+                    <h6> &copy;VOTE-HUB: An online Election System 2020</h6>
                 </div>
                 <br />
 

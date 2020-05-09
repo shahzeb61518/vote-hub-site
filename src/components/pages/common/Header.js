@@ -39,7 +39,7 @@ class Header extends Component {
                 <AppBar position="static">
                     <Toolbar>
                         <Typography variant="h6" style={{ marginLeft: '20px' }}>
-                            Election-Site
+                            VOTE-HUB: An online Election System
               </Typography>
                         {
                             this.state.loggedin === false ?
@@ -117,7 +117,7 @@ class Header extends Component {
                                     </Link>
 
                                     <div style={{
-                                        marginLeft: '30%'
+                                        marginLeft: '10%'
                                     }}>
                                         <Link
                                             to='/signup'
@@ -152,7 +152,7 @@ class Header extends Component {
                                         style={{
                                             textDecoration: "None",
                                             color: 'white',
-                                            marginLeft: '55%'
+                                            marginLeft: '40%'
                                         }}
                                     >
                                         <Button style={{ marginLeft: '30px', fontSize: '12px' }} color="inherit">Dashboard</Button>
@@ -197,13 +197,14 @@ class Header extends Component {
                                         </AppHeaderDropdown>
                                     </Nav>
                                     <Link
-                                        to='/new-election'
+                                        to='/user/new-election'
                                         style={{
                                             textDecoration: "None",
                                             color: 'white',
                                         }}
                                     >
                                         <Button
+                                            class="btn btn-warning"
                                             style={{ fontSize: '12px' }}
                                             color="inherit"
                                             onClick={() => {

@@ -61,7 +61,7 @@ export default class Home extends Component {
                 {
                     this.thirdPart()
                 }
-                <hr />
+                {/* <hr /> */}
                 {
                     this.forthPart()
                 }
@@ -85,7 +85,7 @@ export default class Home extends Component {
                         <h6
                             style={{
                                 width: '300px'
-                            }}>ElectionBuddy ensures election integrity,
+                            }}>VOTE-HUB: An online Election System ensures election integrity,
                             saves serious hours and improves turnout for
                             election voting or for meeting voting. It’s
                             free to test and free for under 20 voters
@@ -170,7 +170,7 @@ export default class Home extends Component {
         return (
             <div>
                 <br /> <br />
-                <h1>Voters Will Love You for Choosing ElectionBuddy</h1>
+                <h1>Voters Will Love You for Choosing VOTE-HUB: An online Election System</h1>
                 <br />
                 <div className="row">
                     <div className="col" style={{ padding: '50px', textAlign: 'left' }}>
