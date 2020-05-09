@@ -28,7 +28,6 @@ const steps = [
     { title: 'Notice' },
     { title: 'Voters' },
     { title: 'Review' },
-    { title: 'Pay' },
     { title: 'Results' },
 ]
 
@@ -54,10 +53,9 @@ export default class NewElection extends Component {
             startDateandTime: new Date(),
             endDateandTime: new Date(),
 
-
-
-
-
+            resultStatus: "0 ballots submitted of 1 possible ballot — 0%",
+            resultStatusLink: "Access Link: secure.electionbuddy.com/m/RPkUKYQ/nc2ozvqxi3",
+            searchVoters: '',
         }
 
 
@@ -68,6 +66,7 @@ export default class NewElection extends Component {
     }
 
     handleOnClickNext = () => {
+
         let nextStep = this.state.activeStep + 1;
         this.setState({ activeStep: nextStep })
     }
@@ -107,10 +106,8 @@ export default class NewElection extends Component {
                                         this.state.activeStep === 5 ?
                                             <div> {this.reviewStep()} </div>
                                             :
-                                            this.state.activeStep === 6 ?
-                                                <div>{this.payStep()}</div>
-                                                :
-                                                <div> {this.resultStep()} </div>
+                                            <div> {this.resultStep()} </div>
+
                     }
                 </div>
 
@@ -127,9 +124,9 @@ export default class NewElection extends Component {
                     <Button
                         class="btn btn-primary"
                         type="button"
-                        style={{ marginLeft: '10px' }}
-                        onClick={this.state.activeStep === steps.length ?
-                            null
+                        style={{ marginLeft: '10px', width: '130px' }}
+                        onClick={this.state.activeStep === steps.length+ 1 ?
+                            this.props.history.push('/user/dashboard')
                             :
                             this.handleOnClickNext
                         }>{
@@ -320,7 +317,7 @@ export default class NewElection extends Component {
                 <br />
 
                 <h4>Dates</h4>
-                <div style={{ textAlign: 'left',width: '20%' }}>
+                <div style={{ textAlign: 'left', width: '20%' }}>
                     <MaterialUIPickers
                         label="Start Date and Time"
                         format="dd/MM/yyyy hh:mm"
@@ -337,7 +334,7 @@ export default class NewElection extends Component {
                         format="dd/MM/yyyy hh:mm"
                         onChange={(e) => {
                             this.setState({
-                                startDateandTime: e,
+                                endDateandTime: e,
                             })
                         }}
                     />
@@ -737,8 +734,7 @@ export default class NewElection extends Component {
                     borderRadius: '5px',
                     marginTop: '10px'
                 }}>I would like
-                <input style={{ padding: '20px', width: '60px' }} value="0" />
-                manual keys to give to voters that don't have addresses.</div>
+                <input style={{ borderRadius : '5px' , padding: '20px', width: '60px' }} value="0" /> manual keys to give to voters that don't have addresses.</div>
                 <br />
                 <br />
                 <h4>Extra Voters</h4>
@@ -751,7 +747,7 @@ export default class NewElection extends Component {
                     borderRadius: '5px',
                     marginTop: '10px'
                 }}>
-                    Reserve <input style={{ padding: '20px', width: '60px' }} value="1" /> extra keys.
+                    Reserve <input style={{ borderRadius : '5px' , padding: '20px', width: '60px' }} value="1" /> extra keys.
                 </div>
                 <br />
                 <br />
@@ -778,7 +774,7 @@ export default class NewElection extends Component {
                     </thead>
                     <tbody>
                         <tr>
-                            <td style={{textAlign: 'left'}}>
+                            <td style={{ textAlign: 'left' }}>
                                 <h6>Test the Ballot</h6>
                                 <p>See how your voters will vote</p>
                             </td>
@@ -790,7 +786,7 @@ export default class NewElection extends Component {
 
 
                         <tr >
-                            <td style={{textAlign: 'left'}}>
+                            <td style={{ textAlign: 'left' }}>
                                 <h6>Review the Voter List</h6>
                                 <p>Confirm the people that can vote</p>
                             </td>
@@ -801,7 +797,7 @@ export default class NewElection extends Component {
                         </tr>
 
                         <tr >
-                            <td style={{textAlign: 'left'}}>
+                            <td style={{ textAlign: 'left' }}>
                                 <h6>Verify Election Details</h6>
                                 <p>Certify information, dates & security</p>
                             </td>
@@ -812,7 +808,7 @@ export default class NewElection extends Component {
                         </tr>
 
                         <tr>
-                            <td style={{textAlign: 'left'}}>
+                            <td style={{ textAlign: 'left' }}>
                                 <h6>Confirm Terms & Conditions</h6>
                                 <p>What you CAN & CAN'T do</p>
                             </td>
@@ -832,18 +828,88 @@ export default class NewElection extends Component {
         )
     }
 
-    // pay step
-    payStep = () => {
-        return (
-            <div>
-            </div>
-        )
-    }
+
 
     // result step
     resultStep = () => {
         return (
             <div>
+                <br />
+                <div style={{ width: '100%', textAlign: 'center' }}>
+                    <Alert>
+                        {this.state.resultStatus}
+                    </Alert>
+                    <FormHelperText
+                        style={{ marginTop: '0px' }}
+                    >{this.state.resultStatusLink}
+                    </FormHelperText>
+                </div>
+
+
+
+                <br />
+                <div style={{ width: '100%', textAlign: 'right' }}>
+                    <input
+                        style={{ borderRadius: '5px' }}
+                        type="text"
+                        className="input"
+                        placeholder="Search"
+                    />
+                    <Button class="btn btn-light">Search</Button>
+
+                    <br />
+                    <Button class="btn btn-light"><li className="fa fa-download"></li>Download</Button>
+                </div>
+                <br />
+                <table class="table">
+                    <thead style={{ backgroundColor: 'black', color: 'white' }}>
+                        <tr>
+                            <th>Select</th>
+                            <th>Label</th>
+                            <th>Status</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody style={{ textAlign: 'left' }}>
+                        <tr>
+                            <td>
+                                <div className="custom-control custom-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        className="custom-control-input"
+                                        id="resultchkbox1"
+                                    />
+                                    <label
+                                        className="custom-control-label"
+                                        htmlFor="resultchkbox1"
+                                    ></label>
+                                </div>
+                            </td>
+                            <td>Abc</td>
+                            <td>Not Voted</td>
+                            <td>Abc@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div className="custom-control custom-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        className="custom-control-input"
+                                        id="resultchkbox2"
+                                    />
+                                    <label
+                                        className="custom-control-label"
+                                        htmlFor="resultchkbox2"
+                                    ></label>
+                                </div>
+                            </td>
+                            <td>XYZ</td>
+                            <td>Not Voted</td>
+                            <td>XYZ@gmail.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
             </div>
         )
     }
