@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Card from '@material-ui/core/Card';
 
 import Button from '@material-ui/core/Button';
 
@@ -42,7 +41,7 @@ export default class Services extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
                 <br />
                 <br />
@@ -84,7 +83,7 @@ export default class Services extends Component {
                         }}>
                         <img
                             src={services1}
-                            alt="service-logo" />
+                            alt="service" />
                     </div>
                 </div>
 
@@ -99,7 +98,7 @@ export default class Services extends Component {
                         }}>
                         <img
                             src={services2}
-                            alt="service-logo" />
+                            alt="service" />
                     </div>
                     <div className="col"
                         style={{
@@ -156,7 +155,7 @@ export default class Services extends Component {
                         }}>
                         <img
                             src={services2}
-                            alt="service-logo" />
+                            alt="service" />
                     </div>
                 </div>
 
@@ -171,7 +170,7 @@ export default class Services extends Component {
                         }}>
                         <img
                             src={services4}
-                            alt="service-logo" />
+                            alt="service" />
                     </div>
                     <div className="col"
                         style={{
@@ -228,7 +227,7 @@ export default class Services extends Component {
                         }}>
                         <img
                             src={services5}
-                            alt="service-logo" />
+                            alt="service" />
                     </div>
                 </div>
 

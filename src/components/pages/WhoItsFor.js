@@ -36,7 +36,7 @@ export default class WhoItsFor extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
 
 
@@ -129,7 +129,7 @@ export default class WhoItsFor extends Component {
                 <img
                     style={{ height: '350px', width: '100%' }}
                     src={backgroundImg}
-                    alt="background-image" />
+                    alt="background" />
             </div>
 
             </div >

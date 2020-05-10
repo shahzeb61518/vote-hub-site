@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Card from '@material-ui/core/Card';
 
 import Button from '@material-ui/core/Button';
 
@@ -43,7 +42,7 @@ export default class ElectionVoting extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
 
                 <br />
@@ -65,7 +64,7 @@ export default class ElectionVoting extends Component {
                         <img
                             style={{}}
                             src={electionVoting1}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -88,7 +87,7 @@ export default class ElectionVoting extends Component {
                         <img
                             style={{}}
                             src={electionVoting2}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -111,7 +110,7 @@ export default class ElectionVoting extends Component {
                         <img
                             style={{}}
                             src={electionVoting3}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -130,7 +129,7 @@ export default class ElectionVoting extends Component {
                         <img
                             style={{}}
                             src={electionVoting4}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -189,7 +188,7 @@ export default class ElectionVoting extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
 
 

@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
-import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import ApiManager from './../../helper/ApiManager'
 
 import MyTextField from './../../helper/MyTextField'
 
-import profileImg from './../../../images/profile.png'
 
 class Profile extends Component {
     constructor(props) {
@@ -122,7 +120,6 @@ class Profile extends Component {
 
         } = this.state
 
-        let img = this.state.userData.image
         return (
             <div
                 style={{

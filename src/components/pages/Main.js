@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import './../../App.css';
-import Home from './Home'
 import Header from './common/Header'
 import Footer from './common/Footer'
 

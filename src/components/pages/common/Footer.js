@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,7 +19,7 @@ export default function ButtonAppBar() {
     const classes = useStyles();
 
     return (
-        <div className={classes.root} className="footer">
+        <div className={classes.root} >
             <AppBar position="static">
                 <br />
                 <br />
@@ -36,7 +34,7 @@ export default function ButtonAppBar() {
                         < h4>Join Us</ h4>
                         <div
                             style={{ marginTop: '30px', padding: '20px' }}>
-                            <a
+                            <li
                                 style={{
                                     padding: '20px',
                                     textDecoration: 'none',
@@ -44,8 +42,8 @@ export default function ButtonAppBar() {
                                     background: '#3B5998',
                                     color: 'white',
                                 }}
-                                href="https://www.facebook.com" class="fa fa-facebook"></a>
-                            <a
+                                href="https://www.facebook.com" class="fa fa-facebook"></li>
+                            <li
                                 style={{
                                     padding: '20px',
                                     textDecoration: 'none',
@@ -53,8 +51,8 @@ export default function ButtonAppBar() {
                                     background: '#dd4b39',
                                     color: 'white'
                                 }}
-                                href="https://www.gmail.com" class="fa fa-google"></a>
-                            <a
+                                href="https://www.gmail.com" class="fa fa-google"></li>
+                            <li
                                 style={{
                                     padding: '20px',
                                     textDecoration: 'none',
@@ -62,7 +60,7 @@ export default function ButtonAppBar() {
                                     background: '#007bb5',
                                     color: 'white',
                                 }}
-                                href="https://www.linkedin.com" class="fa fa-linkedin"></a>
+                                href="https://www.linkedin.com" class="fa fa-linkedin"></li>
                         </div>
 
                     </div>

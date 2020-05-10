@@ -1,15 +1,7 @@
 import React, { Component } from 'react'
-import Card from '@material-ui/core/Card';
-
-import validator from 'validator';
-
-
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
-import MyTextField from '../helper/MyTextField'
-import MySelection from '../helper/MySelection'
-import ApiManager from '../helper/ApiManager'
+// import ApiManager from '../helper/ApiManager'
 
 import voteLogo from '../../images/vote-logo.PNG'
 import backgroundImg from './../../images/voting.jpg'
@@ -47,7 +39,6 @@ export default class Home extends Component {
 
     // Main body of Home page
     homeBody = () => {
-        const { } = this.state
         return (
             <div>
                 {
@@ -105,7 +96,7 @@ export default class Home extends Component {
                         }}>
                         <img
                             src={voteLogo}
-                            alt="vote-logo" />
+                            alt="vote" />
                     </div>
                 </div>
             </div>
@@ -224,7 +215,7 @@ export default class Home extends Component {
                 <img
                     style={{ height: '350px', width: '100%' }}
                     src={backgroundImg}
-                    alt="background-image" />
+                    alt="background" />
             </div>
         )
     }

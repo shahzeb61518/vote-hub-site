@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import { grey, indigo, red } from '@material-ui/core/colors';
+import { indigo } from '@material-ui/core/colors';
 
 
 
@@ -13,8 +13,8 @@ import { userData } from './redux-store/actions/ActionUserData'
 
 import { LocalStorage } from './components/helper/LocalStorage';
 
-const Login = React.lazy(() => import('./components/pages/User/Login'));
-const Signup = React.lazy(() => import('./components/pages/User/Signup'));
+// const Login = React.lazy(() => import('./components/pages/User/Login'));
+// const Signup = React.lazy(() => import('./components/pages/User/Signup'));
 const Main = React.lazy(() => import('./components/pages/Main'));
 
 

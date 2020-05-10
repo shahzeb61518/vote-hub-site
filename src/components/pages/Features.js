@@ -36,7 +36,7 @@ export default class Features extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
 
                 <div className="row">
@@ -231,7 +231,7 @@ export default class Features extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
             </div>
         )

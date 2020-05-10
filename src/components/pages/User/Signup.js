@@ -9,7 +9,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
 import MyTextField from '../../helper/MyTextField'
-import MySelection from '../../helper/MySelection'
 import MyDropdown from '../../helper/MyDropdown'
 
 import ApiManager from '../../helper/ApiManager'
@@ -144,7 +143,6 @@ export default class Signup extends Component {
                         reference={(ref) => this.orgType = ref}
                         required={true}
                         label="Orgnization Type"
-                        label="orgnization type"
                         value={orgType}
                         onChange={(e) => {
                             this.setState({
@@ -179,7 +177,6 @@ export default class Signup extends Component {
                     <MyDropdown
                         reference={(ref) => this.membership = ref}
                         required={true}
-                        label="Membership or Vote list size"
                         label="Membership or Vote list size"
                         value={membership}
                         onChange={(e) => {
@@ -255,21 +252,22 @@ export default class Signup extends Component {
     // Signup
     signUpFunction = () => {
         const {
-            name, name_error,
-            email, email_error,
-            password, password_error,
-            confirmPassword, confirmPassword_error,
-            orgType, orgType_error,
-            orgName, orgName_error,
-            membership, membership_error,
-            orgLoc, orgLoc_error } = this.state;
+            name,
+            email,
+            password,
+            confirmPassword,
+            orgType,
+            orgName,
+            membership,
+            orgLoc
+        } = this.state;
 
         if (validator.isEmpty(name + "")) {
             this.setState({
                 name_error: "Please enter your Name"
             })
-            var position = this.name.offsetTop;
-            this.scrollToView(position)
+            var positionName = this.name.offsetTop;
+            this.scrollToView(positionName)
             return;
         } else {
             this.setState({
@@ -281,8 +279,8 @@ export default class Signup extends Component {
             this.setState({
                 email_error: "Please enter email"
             })
-            var position = this.email.offsetTop;
-            this.scrollToView(position)
+            var positionEmail = this.email.offsetTop;
+            this.scrollToView(positionEmail)
             return;
         } else {
             this.setState({
@@ -295,8 +293,8 @@ export default class Signup extends Component {
             this.setState({
                 password_error: "Please enter password"
             })
-            var position = this.password.offsetTop;
-            this.scrollToView(position)
+            var positionPass = this.password.offsetTop;
+            this.scrollToView(positionPass)
             return;
         } else {
             this.setState({
@@ -306,10 +304,10 @@ export default class Signup extends Component {
 
         if (validator.isEmpty(confirmPassword + "")) {
             this.setState({
-                confirmPassword_error: "Please enter password"
+                confirmPassword_error: "Please enter Confirm Password"
             })
-            var position = this.confirmPassword.offsetTop;
-            this.scrollToView(position)
+            var positionConfirmPass = this.confirmPassword.offsetTop;
+            this.scrollToView(positionConfirmPass)
             return;
         } else {
             this.setState({
@@ -319,10 +317,10 @@ export default class Signup extends Component {
 
         if (validator.isEmpty(orgType + "")) {
             this.setState({
-                orgType_error: "Please enter password"
+                orgType_error: "Please enter Orgnization Type"
             })
-            var position = this.orgType.offsetTop;
-            this.scrollToView(position)
+            var positionOrgtyp = this.orgType.offsetTop;
+            this.scrollToView(positionOrgtyp)
             return;
         } else {
             this.setState({
@@ -332,10 +330,10 @@ export default class Signup extends Component {
 
         if (validator.isEmpty(orgName + "")) {
             this.setState({
-                orgName_error: "Please enter password"
+                orgName_error: "Please enter Orgnization Name"
             })
-            var position = this.orgName.offsetTop;
-            this.scrollToView(position)
+            var positionOrgname = this.orgName.offsetTop;
+            this.scrollToView(positionOrgname)
             return;
         } else {
             this.setState({
@@ -345,10 +343,10 @@ export default class Signup extends Component {
 
         if (validator.isEmpty(membership + "")) {
             this.setState({
-                membership_error: "Please enter password"
+                membership_error: "Please enter Membership or Voter size"
             })
-            var position = this.membership.offsetTop;
-            this.scrollToView(position)
+            var positionMem = this.membership.offsetTop;
+            this.scrollToView(positionMem)
             return;
         } else {
             this.setState({
@@ -358,10 +356,10 @@ export default class Signup extends Component {
 
         if (validator.isEmpty(orgLoc + "")) {
             this.setState({
-                orgLoc_error: "Please enter password"
+                orgLoc_error: "Please enter Orgnization Location"
             })
-            var position = this.orgLoc.offsetTop;
-            this.scrollToView(position)
+            var positionOrgLoc = this.orgLoc.offsetTop;
+            this.scrollToView(positionOrgLoc)
             return;
         } else {
             this.setState({

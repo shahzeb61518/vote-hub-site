@@ -20,8 +20,6 @@ export default function MyTextField(props) {
         _startAdornment,
         _endAdornment,
         onClick,
-        _editable,
-        size
     } = props
     return (
         <>

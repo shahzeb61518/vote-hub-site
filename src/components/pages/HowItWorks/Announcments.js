@@ -43,7 +43,7 @@ export default class Announcments extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
 
 
@@ -68,7 +68,7 @@ export default class Announcments extends Component {
                         <img
                             style={{}}
                             src={anouncment1}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -100,7 +100,7 @@ export default class Announcments extends Component {
                         <img
                             style={{}}
                             src={anouncment2}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -131,7 +131,7 @@ export default class Announcments extends Component {
                         <img
                             style={{}}
                             src={anouncment3}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -191,7 +191,7 @@ export default class Announcments extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
 
 

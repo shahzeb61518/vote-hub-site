@@ -4,17 +4,15 @@ import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom'
 import validator from 'validator';
 
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
-import jwtDecode from 'jwt-decode'
+// import jwtDecode from 'jwt-decode'
 import { connect } from 'react-redux';
 import { userData } from './../../../redux-store/actions/ActionUserData'
-import { LocalStorage } from '../../helper/LocalStorage';
+// import { LocalStorage } from '../../helper/LocalStorage';
 
 import MyTextField from '../../helper/MyTextField'
-import MySelection from '../../helper/MySelection'
-import ApiManager from '../../helper/ApiManager'
+// import ApiManager from '../../helper/ApiManager'
 
 class Login extends Component {
     constructor(props) {
@@ -139,15 +137,15 @@ class Login extends Component {
 
     // login
     loginFunction = () => {
-        const { email, email_error, password, password_error } = this.state
+        const { email, password } = this.state
 
 
         if (validator.isEmpty(email + "")) {
             this.setState({
                 email_error: "Please enter email"
             })
-            var position = this.email.offsetTop;
-            this.scrollToView(position)
+            var positionEmail = this.email.offsetTop;
+            this.scrollToView(positionEmail)
             return;
         } else {
             this.setState({
@@ -160,8 +158,8 @@ class Login extends Component {
             this.setState({
                 password_error: "Please enter password"
             })
-            var position = this.password.offsetTop;
-            this.scrollToView(position)
+            var positionPass = this.password.offsetTop;
+            this.scrollToView(positionPass)
             return;
         } else {
             this.setState({

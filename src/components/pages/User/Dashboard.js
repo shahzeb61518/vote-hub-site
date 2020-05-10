@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 
 import Card from '@material-ui/core/Card';
-import { Link } from 'react-router-dom'
-import validator from 'validator';
-import MyTextField from '../../helper/MyTextField'
 
 import Button from '@material-ui/core/Button';
 
-import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
-import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
+import { DropdownItem, DropdownMenu, DropdownToggle, Nav} from 'reactstrap';
+import {  AppHeaderDropdown } from '@coreui/react';
 
 
 export default class Dashboard extends Component {

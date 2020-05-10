@@ -44,7 +44,7 @@ export default class MeetingVoting extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
 
 
@@ -65,7 +65,7 @@ export default class MeetingVoting extends Component {
                         <img
                             style={{}}
                             src={meetingVoting1}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -92,7 +92,7 @@ export default class MeetingVoting extends Component {
                         <img
                             style={{}}
                             src={meetingVoting2}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -118,7 +118,7 @@ export default class MeetingVoting extends Component {
                         <img
                             style={{}}
                             src={meetingVoting3}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -137,7 +137,7 @@ export default class MeetingVoting extends Component {
                         <img
                             style={{}}
                             src={meetingVoting4}
-                            alt="election-voting-image" />
+                            alt="election-voting" />
                     </div>
                     <br />
                     <br />
@@ -197,7 +197,7 @@ export default class MeetingVoting extends Component {
                     <img
                         style={{ height: '350px', width: '100%' }}
                         src={backgroundImg}
-                        alt="background-image" />
+                        alt="background" />
                 </div>
 
 

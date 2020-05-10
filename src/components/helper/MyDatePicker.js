@@ -11,11 +11,7 @@ import {
 
 export default function MaterialUIPickers(props) {
     // The first commit of Material-UI
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-
-    const handleDateChange = date => {
-        setSelectedDate(date);
-    };
+ 
 
     const defaultFormat = "dd/MM/yyyy";
     const {
@@ -46,12 +42,10 @@ export default function MaterialUIPickers(props) {
                     margin={margin}
                     id={id}
                     label={label}
-                    format={format }
                     maxDate={maxDate}
                     minDate={minDate}
                     value={value}
                     onChange={onChange}
-                    // onChange={handleDateChange}
 
                     InputLabelProps={{
                         shrink: true,

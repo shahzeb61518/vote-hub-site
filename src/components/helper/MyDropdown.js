@@ -23,10 +23,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleSelect(props) {
     const classes = useStyles();
-    const [values, setValues] = React.useState({
-        age: '',
-        name: 'hai',
-    });
 
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
@@ -34,13 +30,7 @@ export default function SimpleSelect(props) {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
-    const handleChange = event => {
-        setValues(oldValues => ({
-            ...oldValues,
-            [event.target.name]: event.target.value,
-        }));
-    };
-
+  
 
     const {
         label,
@@ -51,8 +41,6 @@ export default function SimpleSelect(props) {
         helperText = "",
         error = false,
         reference,
-        multiple = false,
-        data = [],
         loader
     } = props
 
