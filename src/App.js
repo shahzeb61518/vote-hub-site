@@ -56,8 +56,7 @@ class App extends Component {
                 {/* 
 								<Route exact path={ROUTES.err_404} name="Page 404" render={props => <Page404 {...props} />} />
 								<Route exact path={ROUTES.err_500} name="Page 500" render={props => <Page500 {...props} />} /> */}
-                <Route path="/home" name="Home" render={props => <Main {...props} />} />
-                <Redirect to="/home" />
+                <Route path="/" name="Home" render={props => <Main {...props} />} />
 
               </Switch>
             </MuiThemeProvider>

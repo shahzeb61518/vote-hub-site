@@ -6,13 +6,13 @@ import validator from 'validator';
 
 import Button from '@material-ui/core/Button';
 
-// import jwtDecode from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
 import { connect } from 'react-redux';
 import { userData } from './../../../redux-store/actions/ActionUserData'
-// import { LocalStorage } from '../../helper/LocalStorage';
+import { LocalStorage } from '../../helper/LocalStorage';
 
 import MyTextField from '../../helper/MyTextField'
-// import ApiManager from '../../helper/ApiManager'
+import ApiManager from '../../helper/ApiManager'
 
 class Login extends Component {
     constructor(props) {
@@ -30,6 +30,26 @@ class Login extends Component {
 
         }
     }
+
+    componentDidMount() {
+
+        if (this.props.location) {
+            if (this.props.location.state) {
+                if (this.props.location.state.userEmail) {
+                    console.log("UserEmail>", this.props.location.state.userEmail)
+                    // api call for after verify from email
+                    new ApiManager(this.props.location.state.userEmail).editStatus().then(result => {
+                        if (result.no_result) {
+                            return
+                        }
+                        console.log("result after adding>>>", result);
+                    })
+                }
+            }
+        }
+    }
+
+
 
     render() {
         return (
@@ -173,52 +193,52 @@ class Login extends Component {
             disableBtn: true
         })
 
-        // new ApiManager().signIn(
-        //     email,
-        //     password,
-        // ).then(result => {
-        //     this.setState({
-        //         isLoading: true,
-        //     })
-        //     if (result.no_result) {
-        //         this.setState({
-        //             isLoading: false,
-        //             disableBtn: false,
-        //         })
-        //         return
-        //     }
-        //     if (result.data) {
-        //         if (result.data.error) {
-        //             alert(result.data.error)
-        //             this.setState({
-        //                 isLoading: false,
-        //                 disableBtn: false,
-        //             })
-        //             return
-        //         }
+        new ApiManager().signIn(
+            email,
+            password,
+        ).then(result => {
+            this.setState({
+                isLoading: true,
+            })
+            if (result.no_result) {
+                this.setState({
+                    isLoading: false,
+                    disableBtn: false,
+                })
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    this.setState({
+                        isLoading: false,
+                        disableBtn: false,
+                    })
+                    return
+                }
 
 
 
 
-        //         if (result.data) {
-        //             const { token } = result.data;
-        //             var decoded = jwtDecode(token);
-        //             new LocalStorage().setUserData(JSON.stringify(decoded))
-        //             new LocalStorage().setUserJwt(token);
-        //             this.props.userData(decoded, token)
-        //         }
+                if (result.data) {
+                    // const { token } = result.data;
+                    // var decoded = jwtDecode(token);
+                    // new LocalStorage().setUserData(JSON.stringify(decoded))
+                    // new LocalStorage().setUserJwt(token);
+                    // this.props.userData(decoded, token)
+                }
 
-        //         this.props.history.push('/home');
-        //         this.setState({
-        //             isLoading: false,
-        //             disableBtn: false
-        //         })
-        //         console.log("result after adding>>>", result);
+                this.props.history.push('/home');
+                this.setState({
+                    isLoading: false,
+                    disableBtn: false
+                })
+                console.log("result after adding>>>", result);
 
-        //     }
- 
+            }
 
-        // })
+
+        })
 
     }
 }

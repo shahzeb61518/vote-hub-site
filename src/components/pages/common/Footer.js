@@ -42,7 +42,7 @@ export default function ButtonAppBar() {
                                     background: '#3B5998',
                                     color: 'white',
                                 }}
-                                href="https://www.facebook.com" class="fa fa-facebook"></li>
+                                href="https://www.facebook.com" className="fa fa-facebook"></li>
                             <li
                                 style={{
                                     padding: '20px',
@@ -51,7 +51,7 @@ export default function ButtonAppBar() {
                                     background: '#dd4b39',
                                     color: 'white'
                                 }}
-                                href="https://www.gmail.com" class="fa fa-google"></li>
+                                href="https://www.gmail.com" className="fa fa-google"></li>
                             <li
                                 style={{
                                     padding: '20px',
@@ -60,7 +60,7 @@ export default function ButtonAppBar() {
                                     background: '#007bb5',
                                     color: 'white',
                                 }}
-                                href="https://www.linkedin.com" class="fa fa-linkedin"></li>
+                                href="https://www.linkedin.com" className="fa fa-linkedin"></li>
                         </div>
 
                     </div>

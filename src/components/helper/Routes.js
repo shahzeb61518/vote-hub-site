@@ -3,6 +3,7 @@ import React from 'react';
 
 const Login = React.lazy(() => import('../pages/User/Login'))
 const Signup = React.lazy(() => import('../pages/User/Signup'))
+const VerifyMail = React.lazy(() => import('../pages/User/VerifyMail'))
 const Dashboard = React.lazy(() => import('../pages/User/Dashboard'))
 const Settings = React.lazy(() => import('../pages/User/Settings'))
 const NewElection = React.lazy(() => import('../pages/User/NewElection'))
@@ -21,6 +22,7 @@ const ForgotPassword = React.lazy(() => import('../pages/User/ForgotPassword'))
 const routes = [
     { path: '/login', exact: true, name: 'Login', component: Login },
     { path: '/signup', exact: true, name: 'Signup', component: Signup },
+    { path: '/verify-mail', exact: true, name: 'Verify Mail', component: VerifyMail },
     { path: '/user/dashboard', exact: true, name: 'Dashboard', component: Dashboard },
     { path: '/user/settings', exact: true, name: 'Settings', component: Settings },
     { path: '/user/new-election', exact: true, name: 'NewElection', component: NewElection },

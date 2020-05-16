@@ -8,19 +8,23 @@ user = JSON.parse(user);
 export default class ApiManager {
 
 
-    userId = user.userId
-    userName = user.name
+    // userId = user.userId
+    // userName = user.name
 
 
     // LocalHost
-    _BASE_URL = "http://localhost:4000/api/"
+    // _BASE_URL = "http://localhost:4000/api/"
+    _BASE_URL = "https://votehub999.herokuapp.com/"
 
 
     //USERS
-    _USER_LOGIN = "user/login"
-    _USER_SIGNUP = "user/signup"
+    _USER_SIGNUP = "signup"
+    _USER_LOGIN = "signin"
+    _USER_EDIT_STATUS = "signup/editstatus"
     _USER_UPDATE = "user/update"
     _USER_GET_BY_ID = "user/get"
+
+
 
 
     async sendPostRequest(_url, _params, headers) {
@@ -66,22 +70,27 @@ export default class ApiManager {
     //USER FUNCTIONS
     //SingUp
     singUp(
-        _name,
-        _email,
-        _password,
+        firstname,
+        lastname,
+        email,
+        password,
+        orgType,
+        orgName,
+        membership,
+        orgLoc
     ) {
         let url = this._USER_SIGNUP;
         let userData = {
-            name: _name,
-            email: _email,
-            phone: 'none',
-            dob: 'none',
-            education: 'none',
-            job: 'none',
-            address: 'none',
-            password: _password
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            password: password,
+            organizationType: orgType,
+            organizationName: orgName,
+            voterlistSize: membership,
+            organizationLocation: orgLoc
         }
-        console.log("data for adding>>>>>", userData)
+        console.log("data for SignUp>>>>>", userData)
         return this.sendPostRequest(url, userData, this.headers)
     }
 
@@ -98,13 +107,21 @@ export default class ApiManager {
         return this.sendPostRequest(url, userData, this.headers)
     }
 
-    //User by ID
-    userById(id) {
-        let url = this._USER_GET_BY_ID;
-        let userId = { id: id }
-        // console.log("getting user by id>>>>", id)
-        return this.sendPostRequest(url, userId, this.headers)
+    editStatus(userEmail) {
+        let url = this._USER_EDIT_STATUS;
+        let userData = {
+            email: userEmail,
+        }
+        return this.sendPostRequest(url, userData, this.headers)
     }
+
+    //User by ID
+    // userById(id) {
+    //     let url = this._USER_GET_BY_ID;
+    //     let userId = { id: id }
+    //     // console.log("getting user by id>>>>", id)
+    //     return this.sendPostRequest(url, userId, this.headers)
+    // }
 
     //user update
     updateUser(
