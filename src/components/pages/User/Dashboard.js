@@ -36,6 +36,7 @@ export default class Dashboard extends Component {
                 <div className="container" style={{ padding: '10px' }}>
                     <br />
                     <br />
+                    <br />
                     <div style={{ textAlign: 'left' }}>
                         <h1>Welcome <span>{this.state.userName}</span>! Your elections are listed below:</h1>
                         <p>To filter the list, select an election type (ex. running, completed) or choose actions to complete setup, view the voter list or access results.
@@ -127,6 +128,12 @@ export default class Dashboard extends Component {
                         </div>
                     </div>
                 </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+
             </div>
 
         )

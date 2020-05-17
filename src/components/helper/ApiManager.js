@@ -24,6 +24,9 @@ export default class ApiManager {
     _USER_UPDATE = "user/update"
     _USER_GET_BY_ID = "user/get"
 
+    // ELECTION
+    _ELECTION_ADD = "election/add"
+
 
 
 
@@ -160,6 +163,23 @@ export default class ApiManager {
             return this.sendPostRequest(url, userData, this.headers)
         }
 
+    }
+
+
+    addElection(
+        title,
+        organization,
+        startdate,
+        enddate
+    ) {
+        let url = this._ELECTION_ADD;
+        let electionData = {
+            title: title,
+            organization: organization,
+            startdate: startdate,
+            enddate: enddate
+        }
+        return this.sendPostRequest(url, electionData, this.headers)
     }
 
 

@@ -9,10 +9,11 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 // import Menu from '../../helper/Menu'
-import { DropdownItem, DropdownMenu, DropdownToggle, Nav  } from 'reactstrap';
+import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import { AppHeaderDropdown } from '@coreui/react';
 
-// import { LocalStorage } from "../../helper/LocalStorage";
+import { LocalStorage } from "../../helper/LocalStorage";
+import { userData } from '../../../redux-store/actions/ActionUserData'
 
 import { userLogout } from '../../../redux-store/actions/ActionUserData'
 
@@ -39,7 +40,7 @@ class Header extends Component {
                             VOTE-HUB: An online Election System
               </Typography>
                         {
-                            this.state.loggedin === false ?
+                            !this.props.user.token ?
                                 <>
                                     <Link
                                         to='/home'
@@ -184,11 +185,7 @@ class Header extends Component {
                                                 >Orgnization</DropdownItem>
                                                 <DropdownItem divider />
                                                 <DropdownItem
-                                                    onClick={() => {
-                                                        this.setState({ loggedin: false })
-                                                        this.props.history.push('/')
-                                                    }
-                                                    }
+                                                    onClick={e => this.props.userLogout(e)}
                                                 >Logout</DropdownItem>
                                             </DropdownMenu>
                                         </AppHeaderDropdown>
@@ -216,6 +213,16 @@ class Header extends Component {
         );
     }
 
+    checkLoginStatus = () => {
+        const jwt = new LocalStorage().getUserJwt();
+        if (jwt) {
+            const user_data = new LocalStorage().getUserData();
+            // console.log(user_data)
+            this.props.userData(JSON.parse(user_data), jwt)
+
+        }
+    }
+
 }
 
 const mapStateToProps = (state) => {
@@ -228,7 +235,9 @@ const mapStateToProps = (state) => {
 }
 
 const actions = {
-    userLogout
+    userLogout,
+    userData
+
 }
 
 export default withRouter(connect(mapStateToProps, actions)(Header))

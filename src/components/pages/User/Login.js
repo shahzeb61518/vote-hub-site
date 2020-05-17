@@ -32,21 +32,29 @@ class Login extends Component {
     }
 
     componentDidMount() {
-
-        if (this.props.location) {
-            if (this.props.location.state) {
-                if (this.props.location.state.userEmail) {
-                    console.log("UserEmail>", this.props.location.state.userEmail)
-                    // api call for after verify from email
-                    new ApiManager(this.props.location.state.userEmail).editStatus().then(result => {
-                        if (result.no_result) {
-                            return
-                        }
-                        console.log("result after adding>>>", result);
-                    })
+        let userEmail = new LocalStorage().getUserData();
+        userEmail = JSON.parse(userEmail);
+        console.log("userEmailuserEmail>", userEmail)
+        if (userEmail) {
+            new ApiManager().editStatus(userEmail).then(result => {
+                if (result.no_result) {
+                    return
                 }
-            }
+                console.log("result after adding>>>", result);
+            })
         }
+
+
+        // console.log("UserEmail>", this.props.location.state)
+        // if (this.props.location) {
+        //     if (this.props.location.state) {
+        //         if (this.props.location.state.userEmail) {
+        //             console.log("UserEmail>", this.props.location.state.userEmail)
+        //             // api call for after verify from email
+
+        //         }
+        //     }
+        // }
     }
 
 
@@ -221,11 +229,11 @@ class Login extends Component {
 
 
                 if (result.data) {
-                    // const { token } = result.data;
-                    // var decoded = jwtDecode(token);
-                    // new LocalStorage().setUserData(JSON.stringify(decoded))
-                    // new LocalStorage().setUserJwt(token);
-                    // this.props.userData(decoded, token)
+                    const { token } = result.data;
+                    var decoded = jwtDecode(token);
+                    new LocalStorage().setUserData(JSON.stringify(decoded))
+                    new LocalStorage().setUserJwt(token);
+                    this.props.userData(decoded, token)
                 }
 
                 this.props.history.push('/home');

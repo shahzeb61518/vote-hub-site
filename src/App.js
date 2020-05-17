@@ -13,8 +13,9 @@ import { userData } from './redux-store/actions/ActionUserData'
 
 import { LocalStorage } from './components/helper/LocalStorage';
 
-// const Login = React.lazy(() => import('./components/pages/User/Login'));
-// const Signup = React.lazy(() => import('./components/pages/User/Signup'));
+const Login = React.lazy(() => import('./components/pages/User/Login'));
+const Signup = React.lazy(() => import('./components/pages/User/Signup'));
+const Dashboard = React.lazy(() => import('./components/pages/User/Dashboard'));
 const Main = React.lazy(() => import('./components/pages/Main'));
 
 
@@ -47,7 +48,7 @@ class App extends Component {
   render() {
     console.log("this.props.user.token", this.props.user.token)
 
-    // if (this.props.user.token) {
+    if (this.props.user.token) {
       return (
         <Router  >
           <React.Suspense fallback={loading()}>
@@ -56,26 +57,26 @@ class App extends Component {
                 {/* 
 								<Route exact path={ROUTES.err_404} name="Page 404" render={props => <Page404 {...props} />} />
 								<Route exact path={ROUTES.err_500} name="Page 500" render={props => <Page500 {...props} />} /> */}
-                <Route path="/" name="Home" render={props => <Main {...props} />} />
-
+                <Route path="/user/dashboard" name="Home" render={props => <Main {...props} />} />
+                {/* <Route exact path="/user/dashboard" name="Dashboard" render={props => <Dashboard {...props} />} /> */}
+                <Redirect to="/user/dashboard" />
               </Switch>
             </MuiThemeProvider>
           </React.Suspense>
         </Router>
       );
-    // } else {
-    //   return (
-    //     <Router basename="/">
-    //       <React.Suspense fallback={loading()}>
-    //         <Switch>
-    //           <Route exact path="/login" name="Login Page" render={props => <Login {...props} />} />
-    //           <Route exact path="/signup" name="Signup Page" render={props => <Signup {...props} />} />
-    //           <Redirect to="/login" />
-    //         </Switch>
-    //       </React.Suspense>
-    //     </Router>
-    //   )
-    // }
+    } else {
+      return (
+        <Router basename="/">
+          <React.Suspense fallback={loading()}>
+            <Switch>
+              <Route path="/" name="Home" render={props => <Main {...props} />} />
+              <Redirect to="/home" />
+            </Switch>
+          </React.Suspense>
+        </Router>
+      )
+    }
 
   }
 

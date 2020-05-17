@@ -17,6 +17,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
+import validator from 'validator';
+
+import { LocalStorage } from '../../helper/LocalStorage';
+import ApiManager from '../../helper/ApiManager'
+
 
 const steps = [
     { title: 'Details' },
@@ -35,26 +40,49 @@ export default class NewElection extends Component {
             btnLabel: 'Next',
 
             testorlivebtn: '',
-            typebtn: '',
-            remoteoronsitebtn: '',
+            typebtn: 'electionvote',
+            remoteoronsitebtn: 'remotevot',
 
             electionTitle: '',
+            electionTitle_error: '',
             orgnization: '',
-            emai: 'abc@gmail.com',
-            voterLanguage: '',
+            orgnizationLocation: '',
+            orgnization_error: '',
+            startDateandTime: new Date(),
+            endDateandTime: new Date(),
+
+            successMsg: "",
+            isLoading: false,
+            disableBtn: false,
+
+
+            email: '',
+            voterLanguage: 'english',
             ballotbtn: '',
             voterbtn: '',
             adminbtn: '',
             viewbtn: '',
-            startDateandTime: new Date(),
-            endDateandTime: new Date(),
+
 
             resultStatus: "0 ballots submitted of 1 possible ballot — 0%",
             resultStatusLink: "Access Link: secure.electionbuddy.com/m/RPkUKYQ/nc2ozvqxi3",
             searchVoters: '',
         }
 
+        this.userData = ''
+    }
 
+    componentDidMount() {
+        this.userData = new LocalStorage().getUserData();
+        this.userData = JSON.parse(this.userData);
+        console.log("this.userData>", this.userData)
+        if(this.userData){
+            this.setState({
+                orgnization: this.userData.organizationName,
+                orgnizationLocation: this.userData.organizationLocation,
+                email: this.userData.email
+            })
+        }
     }
 
     handleOnClickStepper = (step) => {
@@ -62,7 +90,6 @@ export default class NewElection extends Component {
     }
 
     handleOnClickNext = () => {
-
         let nextStep = this.state.activeStep + 1;
         this.setState({ activeStep: nextStep })
     }
@@ -120,8 +147,8 @@ export default class NewElection extends Component {
                     <Button
                         class="btn btn-primary"
                         type="button"
-                        style={{ marginLeft: '10px', width: '130px' }}
-                        onClick={this.state.activeStep === steps.length+ 1 ?
+                        style={{ marginLeft: '10px', minwidth: '130px' }}
+                        onClick={this.state.activeStep === steps.length + 1 ?
                             this.props.history.push('/user/dashboard')
                             :
                             this.handleOnClickNext
@@ -129,7 +156,7 @@ export default class NewElection extends Component {
                             this.state.activeStep === steps.length ?
                                 "Finish"
                                 :
-                                "Next"
+                                "Save and Next"
                         }
                     </Button>
 
@@ -170,7 +197,7 @@ export default class NewElection extends Component {
 
 
 
-    // detail step
+    // detail step DESIGN
     detailStep = () => {
         const handleChangeTestLive = (event) => {
             this.setState({ testorlivebtn: event.target.value });
@@ -206,7 +233,7 @@ export default class NewElection extends Component {
 
                 <br />
                 <h4>Settings</h4>
-                <h6>Test or Live</h6>
+                {/* <h6>Test or Live</h6>
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="testing" name="testing" value={this.state.testorlivebtn} onChange={handleChangeTestLive}>
                         <FormControlLabel style={{ marginBottom: '0px' }} value="test" control={<Radio />} label="Test" />
@@ -215,16 +242,16 @@ export default class NewElection extends Component {
                         <FormHelperText style={{ marginTop: '0px' }}>Run your actual election: add your entire voter list and add only the features you want. If you are new to VOTE-HUB: An online Election System please choose the test option.</FormHelperText>
                     </RadioGroup>
                 </FormControl>
-                <br />
+                <br /> */}
                 <br />
                 <h6>Type</h6>
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="type" name="type" value={this.state.typebtn} onChange={handleChangeType}>
                         <FormControlLabel style={{ marginBottom: '0px' }} value="electionvote" control={<Radio />} label="Election Vote" />
                         <FormHelperText style={{ marginTop: '0px' }}>Create a ballot with one or more positions or questions, send notifications, gather votes, and collect results.</FormHelperText>
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="meetingvote" control={<Radio />} label="Meeting Vote" />
+                        <FormControlLabel disabled style={{ marginBottom: '0px' }} value="meetingvote" control={<Radio />} label="Meeting Vote" />
                         <FormHelperText style={{ marginTop: '0px' }}>Voters register and vote on agenda items or motions during a meeting, conference, or class. </FormHelperText>
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="announcment" control={<Radio />} label="Announcment" />
+                        <FormControlLabel disabled style={{ marginBottom: '0px' }} value="announcment" control={<Radio />} label="Announcment" />
                         <FormHelperText style={{ marginTop: '0px' }}>Notify voters of a future election and collect nominations.</FormHelperText>
                     </RadioGroup>
                 </FormControl>
@@ -235,8 +262,8 @@ export default class NewElection extends Component {
                 <FormControl component="fieldset">
                     <RadioGroup aria-label="type" name="type" value={this.state.remoteoronsitebtn} onChange={handleChangeRemoteOrOnsite}>
                         <FormControlLabel style={{ marginBottom: '0px' }} value="remotevot" control={<Radio />} label="Remote Voting — voters vote from their own home or office" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="bothvote" control={<Radio />} label="Both Remote Voting AND Onsite Election Voting" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="onsitevote" control={<Radio />} label="Onsite Voting — voters vote during a meeting or an AGM" />
+                        <FormControlLabel disabled style={{ marginBottom: '0px' }} value="bothvote" control={<Radio />} label="Both Remote Voting AND Onsite Election Voting" />
+                        <FormControlLabel disabled style={{ marginBottom: '0px' }} value="onsitevote" control={<Radio />} label="Onsite Voting — voters vote during a meeting or an AGM" />
                     </RadioGroup>
                 </FormControl>
                 <br />
@@ -272,15 +299,29 @@ export default class NewElection extends Component {
                         reference={(ref) => this.orgnization = ref}
                         required={true}
                         label="Ognization"
+                        value={this.state.orgnization}
                         onChange={(e) => {
                             this.setState({
                                 orgnization: e.target.value
                             })
                         }}
                     >
-                        <MenuItem value={"None"} >None</MenuItem>
+                        <MenuItem value={
+                            this.state.orgnization ?
+                                this.state.orgnization
+                                :
+                                "none"
+                        } >
+                            {
+                                this.state.orgnization ?
+                                    this.state.orgnization
+                                    :
+                                    "NONE"
+                            }
+                        </MenuItem>
                     </MyDropdown>
                 </div>
+                <h6>Location: {this.state.orgnizationLocation}</h6>
 
                 <br />
                 <br />
@@ -295,6 +336,7 @@ export default class NewElection extends Component {
                     <MyDropdown
                         required={true}
                         label="Voter Language"
+                        value={this.state.voterLanguage}
                         onChange={(e) => {
                             this.setState({
                                 voterLanguage: e.target.value
@@ -340,56 +382,129 @@ export default class NewElection extends Component {
                 <br />
                 <br />
 
-                <h4>Security</h4>
-                <h6><li className="fa fa-lock"></li> SSL connection encryption is enabled automatically for all voters.</h6>
-                <h6>Integrity and Ballot Access</h6>
-                <FormControl component="fieldset">
-                    <RadioGroup aria-label="type" name="type" value={this.state.ballotbtn} onChange={handleChangeballotbtn}>
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="high" control={<Radio />} label="High — VOTE-HUB: An online Election System creates a unique ballot link with a random, secret access key for each voter" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="medium" control={<Radio />} label="Medium — you create a unique election access link, and an access key for each voter" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="low" control={<Radio />} label="Low — you create a unique election access link that allows ballot access without an access key. Anyone can vote, and voters can submit multiple ballots" />
-                    </RadioGroup>
-                </FormControl>
+                {/* <div>
+                    <h4>Security</h4>
+                    <h6><li className="fa fa-lock"></li> SSL connection encryption is enabled automatically for all voters.</h6>
+                    <h6>Integrity and Ballot Access</h6>
+                    <FormControl component="fieldset">
+                        <RadioGroup aria-label="type" name="type" value={this.state.ballotbtn} onChange={handleChangeballotbtn}>
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="high" control={<Radio />} label="High — VOTE-HUB: An online Election System creates a unique ballot link with a random, secret access key for each voter" />
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="medium" control={<Radio />} label="Medium — you create a unique election access link, and an access key for each voter" />
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="low" control={<Radio />} label="Low — you create a unique election access link that allows ballot access without an access key. Anyone can vote, and voters can submit multiple ballots" />
+                        </RadioGroup>
+                    </FormControl>
 
-                <br />
-                <br />
+                    <br />
+                    <br />
 
-                <h6>Voter Anonymity</h6>
-                <FormControl component="fieldset">
-                    <RadioGroup aria-label="type" name="type" value={this.state.voterbtn} onChange={handleChangevoterbtn}>
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="secret" control={<Radio />} label="Secret Ballot — voter choices cannot be linked to voters" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="poll" control={<Radio />} label="Poll — voter choices are linked to voters for election administrators only" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="show" control={<Radio />} label="Show of Hands — voter choices are linked to voters and shared with administrators and voters" />
-                    </RadioGroup>
-                </FormControl>
+                    <h6>Voter Anonymity</h6>
+                    <FormControl component="fieldset">
+                        <RadioGroup aria-label="type" name="type" value={this.state.voterbtn} onChange={handleChangevoterbtn}>
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="secret" control={<Radio />} label="Secret Ballot — voter choices cannot be linked to voters" />
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="poll" control={<Radio />} label="Poll — voter choices are linked to voters for election administrators only" />
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="show" control={<Radio />} label="Show of Hands — voter choices are linked to voters and shared with administrators and voters" />
+                        </RadioGroup>
+                    </FormControl>
 
-                <br />
-                <br />
+                    <br />
+                    <br />
 
-                <h6>Election administrator may view the election results</h6>
-                <FormControl component="fieldset">
-                    <RadioGroup aria-label="type" name="type" value={this.state.adminbtn} onChange={handleChangeadminbtn}>
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="elecstart" control={<Radio />} label="any time after the election starts" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="elecend" control={<Radio />} label="only after the election has ended" />
-                    </RadioGroup>
-                </FormControl>
+                    <h6>Election administrator may view the election results</h6>
+                    <FormControl component="fieldset">
+                        <RadioGroup aria-label="type" name="type" value={this.state.adminbtn} onChange={handleChangeadminbtn}>
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="elecstart" control={<Radio />} label="any time after the election starts" />
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="elecend" control={<Radio />} label="only after the election has ended" />
+                        </RadioGroup>
+                    </FormControl>
 
-                <br />
-                <br />
+                    <br />
+                    <br />
 
-                <h6>Voters may view the election results</h6>
-                <p>Results are never automatically sent to your voters. </p>
-                <FormControl component="fieldset">
-                    <RadioGroup aria-label="type" name="type" value={this.state.viewbtn} onChange={handleChangeviewbtn}>
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="elecstart" disabled control={<Radio />} label="any time after the election starts" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="elecend" control={<Radio />} label="only after the election has ended" />
-                        <FormControlLabel style={{ marginBottom: '0px' }} value="view" control={<Radio />} label="don't allow voters to view the results" />
-                    </RadioGroup>
-                </FormControl>
+                    <h6>Voters may view the election results</h6>
+                    <p>Results are never automatically sent to your voters. </p>
+                    <FormControl component="fieldset">
+                        <RadioGroup aria-label="type" name="type" value={this.state.viewbtn} onChange={handleChangeviewbtn}>
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="elecstart" disabled control={<Radio />} label="any time after the election starts" />
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="elecend" control={<Radio />} label="only after the election has ended" />
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="view" control={<Radio />} label="don't allow voters to view the results" />
+                        </RadioGroup>
+                    </FormControl>
+                </div> */}
                 <br />
                 <br />
             </div>
         )
+    }
+
+    // detail step FUNCTION
+    addDetailsStep = () => {
+        const {
+            electionTitle,
+            orgnization,
+            startDateandTime,
+            endDateandTime
+        } = this.state;
+
+        if (validator.isEmpty(electionTitle + "")) {
+            this.setState({
+                electionTitle_error: "Please enter your Election Title"
+            })
+            var positionelectionTitle = this.electionTitle.offsetTop;
+            this.scrollToView(positionelectionTitle)
+            return;
+        } else {
+            this.setState({
+                electionTitle_error: ""
+            })
+        }
+
+        if (validator.isEmpty(orgnization + "")) {
+            this.setState({
+                orgnization_error: "Please enter your "
+            })
+            var positionorgnization = this.orgnization.offsetTop;
+            this.scrollToView(positionorgnization)
+            return;
+        } else {
+            this.setState({
+                orgnization_error: ""
+            })
+        }
+
+
+
+        this.setState({
+            disableBtn: true
+        })
+
+        new ApiManager().addElection(
+            electionTitle,
+            orgnization,
+            startDateandTime,
+            endDateandTime
+        ).then(result => {
+            this.setState({
+                isLoading: true,
+            })
+            if (result.no_result) {
+                this.setState({
+                    isLoading: false,
+                    disableBtn: false,
+                })
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    this.setState({
+                        isLoading: false,
+                        disableBtn: false,
+                    })
+                    return
+                }
+            }
+            console.log("result after adding>>>", result);
+        })
     }
 
     // ballot step
@@ -730,7 +845,7 @@ export default class NewElection extends Component {
                     borderRadius: '5px',
                     marginTop: '10px'
                 }}>I would like
-                <input style={{ borderRadius : '5px' , padding: '20px', width: '60px' }} value="0" /> manual keys to give to voters that don't have addresses.</div>
+                <input style={{ borderRadius: '5px', padding: '20px', width: '60px' }} value="0" /> manual keys to give to voters that don't have addresses.</div>
                 <br />
                 <br />
                 <h4>Extra Voters</h4>
@@ -743,7 +858,7 @@ export default class NewElection extends Component {
                     borderRadius: '5px',
                     marginTop: '10px'
                 }}>
-                    Reserve <input style={{ borderRadius : '5px' , padding: '20px', width: '60px' }} value="1" /> extra keys.
+                    Reserve <input style={{ borderRadius: '5px', padding: '20px', width: '60px' }} value="1" /> extra keys.
                 </div>
                 <br />
                 <br />

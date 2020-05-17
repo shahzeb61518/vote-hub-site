@@ -12,6 +12,7 @@ import MyTextField from '../../helper/MyTextField'
 import MyDropdown from '../../helper/MyDropdown'
 
 import ApiManager from '../../helper/ApiManager'
+import { LocalStorage } from '../../helper/LocalStorage';
 
 export default class Signup extends Component {
     constructor(props) {
@@ -447,7 +448,7 @@ export default class Signup extends Component {
             this.props.history.push('/verify-mail',{
             userEmail: email
             });
-            
+             new LocalStorage().setUserData(JSON.stringify(email))
             this.setState({
                 isLoading: false,
                 disableBtn: false

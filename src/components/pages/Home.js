@@ -83,7 +83,7 @@ export default class Home extends Component {
                             </h6>
                         <Button style={{ marginTop: '30px' }}
                             variant="contained"
-                            class="btn btn-primary"
+                            className="btn btn-primary"
                             onClick={() => {
                                 // this.tryElectionSite()
                             }}>
@@ -201,7 +201,7 @@ export default class Home extends Component {
 
                     <Button style={{ marginTop: '30px' }}
                         variant="contained"
-                        class="btn btn-primary"
+                        className="btn btn-primary"
                         onClick={() => {
                             // this.createElection()
                         }}>
