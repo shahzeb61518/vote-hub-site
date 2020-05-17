@@ -22,6 +22,9 @@ import validator from 'validator';
 import { LocalStorage } from '../../helper/LocalStorage';
 import ApiManager from '../../helper/ApiManager'
 
+import MyModal, { toggleModal } from '../../helper/MyModal';
+
+const ADDPOSITION_ID = "addpositionmodal"
 
 const steps = [
     { title: 'Details' },
@@ -55,7 +58,13 @@ export default class NewElection extends Component {
             isLoading: false,
             disableBtn: false,
 
+            electiontitleballot: '',
+            ballotInfo: '',
+            instructions: '',
+            postionorquestion: 'multiple',
 
+            noOfCondidate: '',
+            positionOrQuestionsNext: false,
             email: '',
             voterLanguage: 'english',
             ballotbtn: '',
@@ -67,16 +76,23 @@ export default class NewElection extends Component {
             resultStatus: "0 ballots submitted of 1 possible ballot — 0%",
             resultStatusLink: "Access Link: secure.electionbuddy.com/m/RPkUKYQ/nc2ozvqxi3",
             searchVoters: '',
+
+
+            candidateNameObject: {},
+            candidateDescriptionObject: {},
+
         }
 
-        this.userData = ''
+        this.userData = '';
+        this.counterName = 1;
+        this.counterDes = 1;
     }
 
     componentDidMount() {
         this.userData = new LocalStorage().getUserData();
         this.userData = JSON.parse(this.userData);
         console.log("this.userData>", this.userData)
-        if(this.userData){
+        if (this.userData) {
             this.setState({
                 orgnization: this.userData.organizationName,
                 orgnizationLocation: this.userData.organizationLocation,
@@ -90,8 +106,11 @@ export default class NewElection extends Component {
     }
 
     handleOnClickNext = () => {
-        let nextStep = this.state.activeStep + 1;
-        this.setState({ activeStep: nextStep })
+        if (this.state.activeStep === 1) {
+            this.addDetailsStep()
+        } else if (this.state.activeStep === 2) {
+            this.addBallotStep()
+        }
     }
 
     handleOnClickBack = () => {
@@ -223,6 +242,9 @@ export default class NewElection extends Component {
             this.setState({ viewbtn: event.target.value });
         };
 
+        const handleChangepositionbtn = (event) => {
+            this.setState({ postionorquestion: event.target.value });
+        }
 
         return (
             <div style={{ textAlign: 'left' }}>
@@ -503,14 +525,48 @@ export default class NewElection extends Component {
                     return
                 }
             }
+            let nextStep = this.state.activeStep + 1;
+            this.setState({
+                activeStep: nextStep,
+                electiontitleballot: electionTitle
+            })
             console.log("result after adding>>>", result);
         })
     }
 
+    // detail step get FUNCTION
+    // getDetailsStepData = () => {
+    //     new ApiManager().getElectionData().then(result => {
+    //         if (result.no_result) {
+    //             this.setState({
+    //                 isLoading: false,
+    //                 disableBtn: false,
+    //             })
+    //             return
+    //         }
+    //         if (result.data) {
+    //             if (result.data.error) {
+    //                 alert(result.data.error)
+    //                 this.setState({
+    //                     isLoading: false,
+    //                     disableBtn: false,
+    //                 })
+    //                 return
+    //             }
+    //         }
+    //         if (result.data) {
+    //             console.log("result after result.data>>>", result.data);
+
+    //         }
+    //     })
+    // }
+
     // ballot step
+
     ballotStep = () => {
         return (
             <div style={{ textAlign: 'left' }}>
+                <h5>Election Title: {this.state.electiontitleballot}</h5>
                 <Alert severity="info">
                     Design your ballot - add instructions, positions and questions.
                 </Alert>
@@ -521,7 +577,15 @@ export default class NewElection extends Component {
                     Share overall instructions, overall voting guidelines and how winners will be selected. Add website links too! Do not add specific candidate or question information, you will do that when you design each position or question below.
                 </Alert>
                 <div style={{ width: '100%' }}>
-                    <textarea style={{ width: '100%' }} />
+                    <textarea
+                        style={{
+                            width: '100%',
+                            padding: '5px',
+                            borderRadius: '5px'
+                        }}
+                        onChange={(e) => this.setState({ ballotInfo: e.target.value })}
+                        style={{ width: '100%' }}
+                    />
                 </div>
                 <br />
                 <br />
@@ -531,11 +595,311 @@ export default class NewElection extends Component {
                 </Alert>
                 <br />
                 <br />
-                <Button class="btn btn-primary"><li className="fa fa-plus"> </li> Add position or question</Button>
+                {this.addPositionModal()}
+                <Button
+                    class="btn btn-primary"
+                    onClick={() => {
+                        toggleModal(ADDPOSITION_ID)
+                    }}
+                >
+                    <li className="fa fa-plus">
+                    </li> Add position or question</Button>
                 <br />
                 <br />
             </div>
         )
+    }
+    // MODAL OF BALLOTS
+    addPositionModal = () => {
+        return (
+            <MyModal
+                modal_id={ADDPOSITION_ID}
+                title={"Add Positions or Questions"}
+                action_btn_title="Create"
+                action_btn_color="primary"
+                cancelModal="modal"
+                large_modal='modal-lg'
+            // action={this.downloadCampaign}
+            >
+                <span>
+                    <div className="justify-content-center" style={{ padding: '10px' }}>
+                        {
+                            this.state.positionOrQuestionsNext == false ?
+                                <div>
+                                    <div style={{ width: '100%' }}>
+                                        <h6>Select a position or question type</h6>
+                                    </div>
+                                    <br />
+                                    <div style={{ width: '100%' }}>
+                                        <FormControl component="fieldset">
+                                            <RadioGroup aria-label="type" name="type" value={this.state.postionorquestion} onChange={this.handleChangepositionbtn}>
+                                                <FormControlLabel style={{ marginBottom: '0px' }} value="multiple" control={<Radio />} label="Multiple candidates for 1 vacancy — eg. vote for a President or Vice President" />
+                                                <FormControlLabel
+                                                    disabled
+                                                    style={{ marginBottom: '0px' }}
+                                                    value="elecend"
+                                                    control={<Radio />} label="Multiple candidates for 2 or more vacancies — eg. vote for 3 of 5 directors" />
+                                                <FormControlLabel
+                                                    disabled
+                                                    style={{ marginBottom: '0px' }}
+                                                    value="elecend"
+                                                    control={<Radio />} label="Single candidate for 1 vacancy — eg. ratify or acclaim 1 candidate" />
+                                                <FormControlLabel
+                                                    disabled
+                                                    style={{ marginBottom: '0px' }}
+                                                    value="elecend"
+                                                    control={<Radio />} label="Yes or No — eg. approve or reject a bylaw amendment, budget, contract or a question" />
+                                                <FormControlLabel
+                                                    disabled
+                                                    style={{ marginBottom: '0px' }}
+                                                    value="elecend"
+                                                    control={<Radio />} label="Referendums or Polls — eg. vote for options on initiatives and gather comments" />
+                                                <FormControlLabel
+                                                    disabled
+                                                    style={{ marginBottom: '0px' }}
+                                                    value="elecend"
+                                                    control={<Radio />} label="Surveys — eg. collect information by scoring options on a Likert rating scale" />
+                                                <FormControlLabel
+                                                    disabled
+                                                    style={{ marginBottom: '0px' }}
+                                                    value="elecend"
+                                                    control={<Radio />} label="Nominations — eg. collect names when you don't have candidates running for a position" />
+                                                <FormControlLabel
+                                                    disabled
+                                                    style={{ marginBottom: '0px' }}
+                                                    value="elecend"
+                                                    control={<Radio />} label="Start with a blank question" />
+                                            </RadioGroup>
+                                        </FormControl>
+                                    </div>
+                                    <br />
+                                    <hr />
+                                    <br />
+                                    <h6>Select how many candidates you have</h6>
+                                    <Alert severity="info">
+                                        If you have more than 20 candidates, you can continue adding candidates after you create this question or position.
+                        </Alert>
+                                    <h6>Number of candidates</h6>
+                                    <div style={{ width: '50%' }}>
+                                        <MyDropdown
+                                            required={true}
+                                            label="No of Condidate"
+                                            value={this.state.noOfCondidate}
+                                            onChange={(e) => {
+                                                this.setState({
+                                                    noOfCondidate: e.target.value,
+                                                    positionOrQuestionsNext: true
+                                                })
+                                            }}
+                                        >
+                                            <MenuItem value={"2"} >2</MenuItem>
+                                            <MenuItem value={"3"} >3</MenuItem>
+                                            <MenuItem value={"4"} >4</MenuItem>
+                                            <MenuItem value={"5"} >5</MenuItem>
+                                            <MenuItem value={"6"} >6</MenuItem>
+                                            <MenuItem value={"7"} >7</MenuItem>
+                                            <MenuItem value={"8"} >8</MenuItem>
+                                            <MenuItem value={"9"} >9</MenuItem>
+                                            <MenuItem value={"10"} >10</MenuItem>
+                                            <MenuItem value={"11"} >11</MenuItem>
+                                            <MenuItem value={"12"} >12</MenuItem>
+                                            <MenuItem value={"13"} >13</MenuItem>
+                                            <MenuItem value={"14"} >14</MenuItem>
+                                            <MenuItem value={"15"} >15</MenuItem>
+                                            <MenuItem value={"16"} >16</MenuItem>
+                                            <MenuItem value={"17"} >17</MenuItem>
+                                            <MenuItem value={"18"} >18</MenuItem>
+                                            <MenuItem value={"19"} >19</MenuItem>
+                                            <MenuItem value={"20"} >20</MenuItem>
+                                        </MyDropdown>
+
+                                    </div>
+                                </div>
+                                :
+                                <div>
+                                    <br />
+                                    <br />
+                                    <h5>Position and Questions</h5>
+                                    <br />
+                                    <div>
+                                        <div style={{ width: '60%', marginLeft: '20%' }}>
+                                            <MyTextField
+                                                label="Position"
+                                                required={true}
+                                                type="text"
+                                                value={this.state.position}
+                                                onChange={(e) => {
+                                                    this.setState({
+                                                        position: e.target.value
+                                                    });
+                                                }}
+                                            />
+                                        </div>
+                                        <br />
+                                        <br />
+
+                                    </div>
+                                    <div>
+                                        <div style={{ width: '60%', marginLeft: '20%' }}>
+                                            <label>Candidate Name</label>
+                                            <input
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '5px',
+                                                    borderRadius: '5px'
+                                                }}
+                                                ref="input"
+                                                placeholder="Candidate Name"
+                                            />
+                                            <br />
+                                            <label>Description</label>
+                                            <textarea
+                                                ref="textarea"
+                                                placeholder="description"
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '5px',
+                                                    borderRadius: '5px'
+                                                }} />
+                                        </div>
+                                        <br />
+                                        <Button
+                                            className="btn btn-primary"
+                                            style={{ marginLeft: '40%' }}
+                                            onClick={() => {
+                                                if (this.refs.input.value.trim() != "") {
+                                                    if (this.refs.textarea.value.trim() != "") {
+                                                        const candidateNameObject = this.state.candidateNameObject;
+                                                        const candidateDescriptionObject = this.state.candidateDescriptionObject;
+                                                        candidateNameObject['name' + this.counterName++] = this.refs.input.value;
+                                                        candidateDescriptionObject['descriotion' + this.counterDes++] = this.refs.textarea.value;
+                                                        this.setState({ candidateNameObject });
+                                                        this.setState({ candidateDescriptionObject });
+                                                        this.refs.input.select();
+                                                        this.refs.textarea.select();
+                                                    }
+                                                }
+                                                console.log("candidateDescriptionObject", this.state.candidateDescriptionObject)
+                                            }}>Add Candidate</Button>
+                                        <br /><br />
+                                        <div>
+                                            <ul>{Object.values(this.state.candidateNameObject)
+                                                .map(name =>
+                                                    <li>
+                                                        <Alert severity="info">
+                                                            Name: {name}
+                                                        </Alert></li>)}
+                                            </ul>
+                                            <ul>{Object.values(this.state.candidateDescriptionObject)
+                                                .map(des =>
+                                                    <li>
+                                                        <Alert severity="info">
+                                                            Description: {des}
+                                                        </Alert></li>)}
+                                                <br />
+                                                <br />
+                                            </ul>
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <h6>Voter Instructions</h6>
+                                        <Alert severity="info">
+                                            The settings result in the following instructions:
+                                          </Alert>
+                                        <div style={{ width: '100%' }}>
+                                            <textarea
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '5px',
+                                                    borderRadius: '5px'
+                                                }}
+                                                onChange={(e) => this.setState({ instructions: e.target.value })}
+                                                style={{ width: '100%' }}
+                                            />
+                                        </div>
+                                        {/* <div style={{ width: '60%', marginLeft: '20%' }}>
+                                            <MyTextField
+                                                label="Candidate Name"
+                                                required={true}
+                                                type="text"
+                                                value={this.state.candidateName}
+                                                onChange={(e) => {
+                                                    this.setState({
+                                                        candidateName: e.target.value
+                                                    });
+                                                }}
+                                            />
+                                            <textarea
+                                                placeholder="description"
+                                                style={{ width: '100%' }} />
+
+                                        </div>
+                                     */}
+                                    </div>
+                                    <div></div>
+                                </div>
+                        }
+
+                    </div>
+                </span>
+            </MyModal>
+        )
+    }
+
+    // BALLOTS step FUNCTION
+    addBallotStep = () => {
+        const {
+            electiontitleballot,
+            ballotInfo,
+            postionorquestion,
+            noOfCondidate,
+            details,
+            position,
+            candidateNameObject,
+            candidateDescriptionObject,
+            instructions
+        } = this.state;
+
+
+        this.setState({
+            disableBtn: true
+        })
+
+        new ApiManager().createBallot(
+            electiontitleballot,
+            ballotInfo,
+            postionorquestion,
+            noOfCondidate,
+            details,
+            position,
+            candidateNameObject,
+            candidateDescriptionObject,
+            instructions
+        ).then(result => {
+            this.setState({
+                isLoading: true,
+            })
+            if (result.no_result) {
+                this.setState({
+                    isLoading: false,
+                    disableBtn: false,
+                })
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    this.setState({
+                        isLoading: false,
+                        disableBtn: false,
+                    })
+                    return
+                }
+            }
+            let nextStep = this.state.activeStep + 1;
+            this.setState({ activeStep: nextStep })
+            console.log("result after adding>>>", result);
+        })
     }
 
     // notice step
@@ -939,8 +1303,6 @@ export default class NewElection extends Component {
         )
     }
 
-
-
     // result step
     resultStep = () => {
         return (
@@ -1025,3 +1387,4 @@ export default class NewElection extends Component {
         )
     }
 }
+

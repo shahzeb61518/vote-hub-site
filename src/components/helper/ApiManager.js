@@ -2,14 +2,19 @@ import axios from 'axios';
 import { LocalStorage } from './LocalStorage'
 
 
-let user = new LocalStorage().getUserData();
-user = JSON.parse(user);
 
 export default class ApiManager {
 
 
     // userId = user.userId
     // userName = user.name
+
+
+    jwt = new LocalStorage().getUserJwt();
+    headers = {
+        'Authorization': "Bearer " + this.jwt,
+    }
+
 
 
     // LocalHost
@@ -26,14 +31,13 @@ export default class ApiManager {
 
     // ELECTION
     _ELECTION_ADD = "election/add"
-
-
+    _ELECTION_GET = "election"
+    _CREATE_BALLOT= "ballot/create"
 
 
     async sendPostRequest(_url, _params, headers) {
         _url = this._BASE_URL + _url;
         console.log("API _url", _url)
-        // console.log("my jwt token>>>>>>.", headers)
 
         if (!_params) {
             _params = {}
@@ -172,6 +176,8 @@ export default class ApiManager {
         startdate,
         enddate
     ) {
+
+
         let url = this._ELECTION_ADD;
         let electionData = {
             title: title,
@@ -179,7 +185,42 @@ export default class ApiManager {
             startdate: startdate,
             enddate: enddate
         }
+        console.log("electionData", electionData)
+
         return this.sendPostRequest(url, electionData, this.headers)
+    }
+
+    getElectionData() {
+        let url = this._ELECTION_GET;
+        return this.sendPostRequest(url, '', this.headers)
+    }
+
+
+    createBallot(
+        electiontitle,
+        ballotInfo,
+        noVacancy,
+        noCandidates,
+        details,
+        position,
+        candidatename,
+        description,
+        instructions
+    ) {
+        let url = this._CREATE_BALLOT;
+        let ballotData = {
+            electiontitle: electiontitle,
+            ballotInfo: ballotInfo,
+            noVacancy: noVacancy,
+            noCandidates: noCandidates,
+            details: details,
+            position: position,
+            candidatename: candidatename,
+            description: description,
+            instructions: instructions
+        }
+        console.log("ballotData", ballotData)
+        return this.sendPostRequest(url, ballotData, this.headers)
     }
 
 
