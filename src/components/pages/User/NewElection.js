@@ -72,6 +72,24 @@ export default class NewElection extends Component {
             adminbtn: '',
             viewbtn: '',
 
+            votersstepemail: false,
+            votersstepphone: false,
+            phone: '',
+            voterInfo: 'copypaste',
+
+            votersstepid: '',
+            voterstepemail: '',
+            votersstepphone: '',
+
+
+            textColorReview1: '#c30019',
+            textColorReview2: '#c30019',
+            textColorReview3: '#c30019',
+            textColorReview4: '#c30019',
+            reviewText1: 'Test vote is NOT completed',
+            reviewText2: 'Voter list is NOT reviewed',
+            reviewText3: 'Election details are NOT verified',
+            reviewText4: 'Terms & conditions are NOT confirmed',
 
             resultStatus: "0 ballots submitted of 1 possible ballot — 0%",
             resultStatusLink: "Access Link: secure.electionbuddy.com/m/RPkUKYQ/nc2ozvqxi3",
@@ -108,8 +126,23 @@ export default class NewElection extends Component {
     handleOnClickNext = () => {
         if (this.state.activeStep === 1) {
             this.addDetailsStep()
+
         } else if (this.state.activeStep === 2) {
             this.addBallotStep()
+
+        } else if (this.state.activeStep === 3) {
+            let nextStep = this.state.activeStep + 1;
+            this.setState({ activeStep: nextStep })
+
+        } else if (this.state.activeStep === 4) {
+            this.addVotersStep()
+
+        } else if (this.state.activeStep === 5) {
+            let nextStep = this.state.activeStep + 1;
+            this.setState({ activeStep: nextStep })
+
+        } else if (this.state.activeStep === 6) {
+            // this.()
         }
     }
 
@@ -533,7 +566,6 @@ export default class NewElection extends Component {
             console.log("result after adding>>>", result);
         })
     }
-
     // detail step get FUNCTION
     // getDetailsStepData = () => {
     //     new ApiManager().getElectionData().then(result => {
@@ -619,7 +651,7 @@ export default class NewElection extends Component {
                 action_btn_color="primary"
                 cancelModal="modal"
                 large_modal='modal-lg'
-            // action={this.downloadCampaign}
+            // action={this.actionfucntion}
             >
                 <span>
                     <div className="justify-content-center" style={{ padding: '10px' }}>
@@ -845,7 +877,6 @@ export default class NewElection extends Component {
             </MyModal>
         )
     }
-
     // BALLOTS step FUNCTION
     addBallotStep = () => {
         const {
@@ -901,6 +932,31 @@ export default class NewElection extends Component {
             console.log("result after adding>>>", result);
         })
     }
+    // Ballot step get FUNCTION
+    // getBallotStepData = () => {
+    //     new ApiManager().getBallotData().then(result => {
+    //         if (result.no_result) {
+    //             this.setState({
+    //                 isLoading: false,
+    //                 disableBtn: false,
+    //             })
+    //             return
+    //         }
+    //         if (result.data) {
+    //             if (result.data.error) {
+    //                 alert(result.data.error)
+    //                 this.setState({
+    //                     isLoading: false,
+    //                     disableBtn: false,
+    //                 })
+    //                 return
+    //             }
+    //         }
+    //         if (result.data) {
+    //             console.log("result after result.data>>>", result.data);
+    //         }
+    //     })
+    // }
 
     // notice step
     noticeStep = () => {
@@ -921,16 +977,40 @@ export default class NewElection extends Component {
                         <input
                             type="checkbox"
                             className="custom-control-input"
-                            id="checkbox2"
+                            id="votersstepemail"
+                            checked={true}
+                            onChange={() => {
+                                this.setState({
+                                    votersstepemail: true
+                                })
+                            }
+                            }
                         />
                         <label
                             className="custom-control-label"
-                            htmlFor="checkbox2"
+                            htmlFor="votersstepemail"
                         >Email notices</label>
                         <FormHelperText
                             style={{ marginTop: '0px' }}
                         >We email each voter the announcement and a link to the nomination ballot — highest anonymity.
                     </FormHelperText>
+                        {this.state.votersstepemail ?
+                            <div style={{ width: '40%' }}>
+                                <MyTextField
+                                    label="Email"
+                                    required={true}
+                                    type="text"
+                                    value={this.state.email}
+                                    onChange={(e) => {
+                                        this.setState({
+                                            email: e.target.value
+                                        });
+                                    }}
+                                />
+                            </div>
+                            :
+                            undefined
+                        }
                     </div>
                 </div>
 
@@ -944,16 +1024,40 @@ export default class NewElection extends Component {
                         <input
                             type="checkbox"
                             className="custom-control-input"
-                            id="checkbox3"
+                            id="votersstepphone"
+                            checked={true}
+                            onChange={() => {
+                                this.setState({
+                                    votersstepphone: true
+                                })
+                            }
+                            }
                         />
                         <label
                             className="custom-control-label"
-                            htmlFor="checkbox3"
+                            htmlFor="votersstepphone"
                         >SMS notices</label>
                         <FormHelperText
                             style={{ marginTop: '0px' }}
                         >We send each voter the announcement via text message to their mobile phone.
                     </FormHelperText>
+                        {this.state.votersstepphone ?
+                            <div style={{ width: '40%' }}>
+                                <MyTextField
+                                    label="Phone"
+                                    required={true}
+                                    type="text"
+                                    value={this.state.phone}
+                                    onChange={(e) => {
+                                        this.setState({
+                                            phone: e.target.value
+                                        });
+                                    }}
+                                />
+                            </div>
+                            :
+                            undefined
+                        }
                     </div>
                 </div>
 
@@ -967,6 +1071,7 @@ export default class NewElection extends Component {
                 }}>
                     <div className="custom-control custom-checkbox">
                         <input
+                            disabled
                             type="checkbox"
                             className="custom-control-input"
                             id="checkbox4"
@@ -991,6 +1096,7 @@ export default class NewElection extends Component {
                 }}>
                     <div className="custom-control custom-checkbox">
                         <input
+                            disabled
                             type="checkbox"
                             className="custom-control-input"
                             id="checkbox5"
@@ -1015,6 +1121,7 @@ export default class NewElection extends Component {
                 }}>
                     <div className="custom-control custom-checkbox">
                         <input
+                            disabled
                             type="checkbox"
                             className="custom-control-input"
                             id="checkbox6"
@@ -1035,6 +1142,7 @@ export default class NewElection extends Component {
                 <h4>Notice Templates</h4>
                 <div className="custom-control custom-checkbox">
                     <input
+                        disabled
                         type="checkbox"
                         className="custom-control-input"
                         id="checkbox7"
@@ -1059,150 +1167,256 @@ export default class NewElection extends Component {
         )
     }
 
+
     // voters step
     votersStep = () => {
+        const handleChangeVoterInfo = (event) => {
+            this.setState({ voterInfo: event.target.value });
+        };
         return (
             <div style={{ textAlign: 'left' }}>
-                <Alert severity="info">
-                    Select how each voter accesses their ballot and the number of votes they receive.
+                <div>
+                    <Alert severity="info">
+                        Select how each voter accesses their ballot and the number of votes they receive.
             </Alert>
-                <br />
-                <br />
-                <div style={{
-                    background: '#e8e8e8',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginTop: '10px'
-                }}>
-                    <div className="custom-control custom-checkbox">
-                        <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="checkboxn1"
-                        /><label
-                            className="custom-control-label"
-                            htmlFor="checkboxn1"
-                        >Ballot ID</label>
-                        <FormHelperText
-                            style={{ marginTop: '0px' }}
-                        > Assign an unique identifier to each voter to better manage voter lists — eg. member ID.</FormHelperText>
+                    <br />
+                    <br />
+                    <div style={{
+                        background: '#e8e8e8',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        marginTop: '10px'
+                    }}>
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="checkboxn1"
+                            /><label
+                                className="custom-control-label"
+                                htmlFor="checkboxn1"
+                            >Ballot ID</label>
+                            <FormHelperText
+                                style={{ marginTop: '0px' }}
+                            > Assign an unique identifier to each voter to better manage voter lists — eg. member ID.</FormHelperText>
+                        </div>
+                    </div>
+
+
+                    <div style={{
+                        background: '#e8e8e8',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        marginTop: '10px'
+                    }}>
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="checkboxn2"
+                            /><label
+                                className="custom-control-label"
+                                htmlFor="checkboxn2"
+                            >Voter Label</label>
+                            <FormHelperText
+                                style={{ marginTop: '0px' }}
+                            >Assign a label to each voter to personalize notices and manage voter lists — eg. name. </FormHelperText>
+                        </div>
+                    </div>
+
+
+                    <div style={{
+                        background: '#e8e8e8',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        marginTop: '10px'
+                    }}>
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="checkboxn3"
+                            /><label
+                                className="custom-control-label"
+                                htmlFor="checkboxn3"
+                            >Weighted Ballots</label>
+                            <FormHelperText
+                                style={{ marginTop: '0px' }}
+                            >Multiple votes per voter — eg. home owner elections use square footage to assign votes. </FormHelperText>
+                        </div>
+                    </div>
+
+
+                    <div style={{
+                        background: '#e8e8e8',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        marginTop: '10px'
+                    }}>
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="checkboxn4"
+                            /><label
+                                className="custom-control-label"
+                                htmlFor="checkboxn4"
+                            >Voting Groups</label>
+                            <FormHelperText
+                                style={{ marginTop: '0px' }}
+                            >Categorize each voter to a group and allow groups to vote on specific questions.</FormHelperText>
+                        </div>
+                    </div>
+
+
+                    <div style={{
+                        background: '#e8e8e8',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        marginTop: '10px'
+                    }}>
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="checkboxn5"
+                            /><label
+                                className="custom-control-label"
+                                htmlFor="checkboxn5"
+                            >Two Factor Authentication</label>
+                            <FormHelperText
+                                style={{ marginTop: '0px' }}
+                            >Increase voter integrity by verifying the voter with a text message or voter password.</FormHelperText>
+                        </div>
+                    </div>
+
+
+                    <div style={{
+                        background: '#e8e8e8',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        marginTop: '10px'
+                    }}>
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="checkboxn6"
+                            /><label
+                                className="custom-control-label"
+                                htmlFor="checkboxn6"
+                            >Reporting Groups</label>
+                            <FormHelperText
+                                style={{ marginTop: '0px' }}
+                            >Add groups like Gender or Location to your voting list so that your results can be summarized. </FormHelperText>
+                        </div>
+
                     </div>
                 </div>
 
-
-                <div style={{
-                    background: '#e8e8e8',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginTop: '10px'
-                }}>
-                    <div className="custom-control custom-checkbox">
-                        <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="checkboxn2"
-                        /><label
-                            className="custom-control-label"
-                            htmlFor="checkboxn2"
-                        >Voter Label</label>
-                        <FormHelperText
-                            style={{ marginTop: '0px' }}
-                        >Assign a label to each voter to personalize notices and manage voter lists — eg. name. </FormHelperText>
-                    </div>
-                </div>
-
-
-                <div style={{
-                    background: '#e8e8e8',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginTop: '10px'
-                }}>
-                    <div className="custom-control custom-checkbox">
-                        <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="checkboxn3"
-                        /><label
-                            className="custom-control-label"
-                            htmlFor="checkboxn3"
-                        >Weighted Ballots</label>
-                        <FormHelperText
-                            style={{ marginTop: '0px' }}
-                        >Multiple votes per voter — eg. home owner elections use square footage to assign votes. </FormHelperText>
-                    </div>
-                </div>
-
-
-                <div style={{
-                    background: '#e8e8e8',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginTop: '10px'
-                }}>
-                    <div className="custom-control custom-checkbox">
-                        <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="checkboxn4"
-                        /><label
-                            className="custom-control-label"
-                            htmlFor="checkboxn4"
-                        >Voting Groups</label>
-                        <FormHelperText
-                            style={{ marginTop: '0px' }}
-                        >Categorize each voter to a group and allow groups to vote on specific questions.</FormHelperText>
-                    </div>
-                </div>
-
-
-                <div style={{
-                    background: '#e8e8e8',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginTop: '10px'
-                }}>
-                    <div className="custom-control custom-checkbox">
-                        <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="checkboxn5"
-                        /><label
-                            className="custom-control-label"
-                            htmlFor="checkboxn5"
-                        >Two Factor Authentication</label>
-                        <FormHelperText
-                            style={{ marginTop: '0px' }}
-                        >Increase voter integrity by verifying the voter with a text message or voter password.</FormHelperText>
-                    </div>
-                </div>
-
-
-                <div style={{
-                    background: '#e8e8e8',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    marginTop: '10px'
-                }}>
-                    <div className="custom-control custom-checkbox">
-                        <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="checkboxn6"
-                        /><label
-                            className="custom-control-label"
-                            htmlFor="checkboxn6"
-                        >Reporting Groups</label>
-                        <FormHelperText
-                            style={{ marginTop: '0px' }}
-                        >Add groups like Gender or Location to your voting list so that your results can be summarized. </FormHelperText>
-                    </div>
-
-                </div>
 
                 <br />
                 <br />
                 <h4>Voter Information</h4>
+                <br />
+                <div>
+                    <Alert severity="info">
+                        Add eligible voters from a previous election, from another application, by copying and pasting from Excel or Google Sheets, or by typing details into each cell. After adding your voters, please validate your voter list using the "Validate" button. For this test election, you can only have 5 voters.
+                 </Alert>
+                    <br />
+                    <FormControl component="fieldset">
+                        <RadioGroup aria-label="type" name="type" value={this.state.voterInfo} onChange={handleChangeVoterInfo}>
+                            <FormControlLabel disabled style={{ marginBottom: '0px' }} value="usevoterlist" control={<Radio />} label="Use a voter list from a prior election" />
+                            <FormControlLabel style={{ marginBottom: '0px' }} value="copypaste" control={<Radio />} label="Copy and paste or type a voter list (use with lists with less than 5,000 voters)" />
+                            <FormControlLabel disabled style={{ marginBottom: '0px' }} value="import" control={<Radio />} label="Import from a CSV file (typically only for lists with more than 5,000 voters)" />
+                        </RadioGroup>
+                    </FormControl>
+                    <br />
+                    <br />
+                    {/* <div className="row">
+                        <div className="col">
+                            <p>ID</p>
+                        </div>
+                        <div className="col">
+                            <p>Email</p>
+
+                        </div>
+                        <div className="col">
+                            <p>Phone</p>
+
+                        </div>
+                    </div> */}
+                    <table class="table">
+                        <thead style={{ backgroundColor: 'black', color: 'white' }}>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input
+                                        style={{
+                                            width: '100%',
+                                            padding: '5px',
+                                            borderRadius: '5px'
+                                        }}
+                                        ref="input"
+                                        placeholder="Id"
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        style={{
+                                            width: '100%',
+                                            padding: '5px',
+                                            borderRadius: '5px'
+                                        }}
+                                        ref="input"
+                                        placeholder="Email"
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        style={{
+                                            width: '100%',
+                                            padding: '5px',
+                                            borderRadius: '5px'
+                                        }}
+                                        ref="input"
+                                        placeholder="Phone"
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <Button
+                        className="btn btn-primary"
+                        style={{ marginLeft: '40%' }}
+                        onClick={() => {
+                            if (this.refs.input.value.trim() != "") {
+                                const candidateIdObject = this.state.candidateIdObject;
+                                const candidateEmailObject = this.state.candidateEmailObject;
+                                const candidatePhoneObject = this.state.candidatePhoneObject;
+                                candidateIdObject['Id' + this.counterId++] = this.refs.input.value;
+                                candidateEmailObject['Email' + this.counterEmail++] = this.refs.input.value;
+                                candidatePhoneObject['Phone' + this.counterPhone++] = this.refs.input.value;
+                                this.setState({ candidateIdObject });
+                                this.setState({ candidateEmailObject });
+                                this.setState({ candidatePhoneObject });
+                                this.refs.input.select();
+                                this.refs.input.select();
+                                this.refs.input.select();
+                            }
+                            console.log("candidateIdObject", this.state.candidateIdObject)
+                            console.log("candidateEmailObject", this.state.candidateEmailObject)
+                            console.log("candidatePhoneObject", this.state.candidatePhoneObject)
+                        }}>Add Candidate</Button>
+                    <br />
+                </div>
+
                 <div style={{
                     background: '#e8e8e8',
                     padding: '10px',
@@ -1229,6 +1443,51 @@ export default class NewElection extends Component {
             </div >
         )
     }
+    // voters step FUNCTION
+    addVotersStep = () => {
+        const {
+            email,
+            phone,
+        } = this.state;
+
+        this.setState({
+            disableBtn: true
+        })
+        var voterId = Math.floor(performance.now() * 10000000000000) + '';
+        console.log("voterId>", voterId);
+
+        new ApiManager().addVotersData(
+            voterId,
+            email,
+            phone,
+        ).then(result => {
+            this.setState({
+                isLoading: true,
+            })
+            if (result.no_result) {
+                this.setState({
+                    isLoading: false,
+                    disableBtn: false,
+                })
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    this.setState({
+                        isLoading: false,
+                        disableBtn: false,
+                    })
+                    return
+                }
+            }
+            let nextStep = this.state.activeStep + 1;
+            this.setState({
+                activeStep: nextStep
+            })
+            console.log("result after adding>>>", result);
+        })
+    }
 
     // review step
     reviewStep = () => {
@@ -1253,9 +1512,16 @@ export default class NewElection extends Component {
                                 <h6>Test the Ballot</h6>
                                 <p>See how your voters will vote</p>
                             </td>
-                            <td>Test vote is NOT completed</td>
+                            <td style={{ color: this.state.textColorReview1 }}>{this.state.reviewText1}</td>
                             <td>
-                                <Button class="btn btn-light">Test</Button>
+                                <Button
+                                    onClick={() => {
+                                        this.setState({
+                                            reviewText1: 'Test vote is completed',
+                                            textColorReview1: '#17BF3C'
+                                        })
+                                    }}
+                                    class="btn btn-light">Test</Button>
                             </td>
                         </tr>
 
@@ -1265,20 +1531,33 @@ export default class NewElection extends Component {
                                 <h6>Review the Voter List</h6>
                                 <p>Confirm the people that can vote</p>
                             </td>
-                            <td>Voter list is NOT reviewed</td>
+                            <td style={{ color: this.state.textColorReview2 }}>{this.state.reviewText2}</td>
                             <td>
-                                <Button class="btn btn-light">Review</Button>
+                                <Button
+                                    onClick={() => {
+                                        this.setState({
+                                            reviewText2: 'Voter list is reviewed',
+                                            textColorReview2: '#17BF3C'
+                                        })
+                                    }}
+                                    class="btn btn-light">Review</Button>
                             </td>
                         </tr>
-
                         <tr >
                             <td style={{ textAlign: 'left' }}>
                                 <h6>Verify Election Details</h6>
-                                <p>Certify information, dates & security</p>
+                                <p >Certify information, dates & security</p>
                             </td>
-                            <td>Election details are NOT verified</td>
+                            <td style={{ color: this.state.textColorReview3 }}>{this.state.reviewText3}</td>
                             <td>
-                                <Button class="btn btn-light"> Verify</Button>
+                                <Button
+                                    onClick={() => {
+                                        this.setState({
+                                            reviewText3: 'Election details are verified',
+                                            textColorReview3: '#17BF3C'
+                                        })
+                                    }}
+                                    class="btn btn-light"> Verify</Button>
                             </td>
                         </tr>
 
@@ -1287,9 +1566,16 @@ export default class NewElection extends Component {
                                 <h6>Confirm Terms & Conditions</h6>
                                 <p>What you CAN & CAN'T do</p>
                             </td>
-                            <td>Terms & conditions are NOT confirmed</td>
+                            <td style={{ color: this.state.textColorReview4 }}>{this.state.reviewText4}</td>
                             <td>
-                                <Button class="btn btn-light"> Confirm</Button>
+                                <Button
+                                    onClick={() => {
+                                        this.setState({
+                                            reviewText4: 'Terms & conditions are confirmed',
+                                            textColorReview4: '#17BF3C'
+                                        })
+                                    }}
+                                    class="btn btn-light"> Confirm</Button>
                             </td>
                         </tr>
                     </tbody>

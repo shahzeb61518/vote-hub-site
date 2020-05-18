@@ -32,8 +32,10 @@ export default class ApiManager {
     // ELECTION
     _ELECTION_ADD = "election/add"
     _ELECTION_GET = "election"
-    _CREATE_BALLOT= "ballot/create"
-
+    _CREATE_BALLOT = "ballot/create"
+    _BALLOT_GET = "ballot"
+    _ADD_VOTERS = "voters/add"
+    _VOTERS_GET = "voters"
 
     async sendPostRequest(_url, _params, headers) {
         _url = this._BASE_URL + _url;
@@ -98,7 +100,7 @@ export default class ApiManager {
             organizationLocation: orgLoc
         }
         console.log("data for SignUp>>>>>", userData)
-        return this.sendPostRequest(url, userData, this.headers)
+        return this.sendPostRequest(url, userData, '')
     }
 
     //SignIn
@@ -111,7 +113,7 @@ export default class ApiManager {
             email: _email,
             password: _password
         }
-        return this.sendPostRequest(url, userData, this.headers)
+        return this.sendPostRequest(url, userData, '')
     }
 
     editStatus(userEmail) {
@@ -119,7 +121,7 @@ export default class ApiManager {
         let userData = {
             email: userEmail,
         }
-        return this.sendPostRequest(url, userData, this.headers)
+        return this.sendPostRequest(url, userData, '')
     }
 
     //User by ID
@@ -189,7 +191,6 @@ export default class ApiManager {
 
         return this.sendPostRequest(url, electionData, this.headers)
     }
-
     getElectionData() {
         let url = this._ELECTION_GET;
         return this.sendPostRequest(url, '', this.headers)
@@ -222,7 +223,30 @@ export default class ApiManager {
         console.log("ballotData", ballotData)
         return this.sendPostRequest(url, ballotData, this.headers)
     }
+    getBallotData() {
+        let url = this._BALLOT_GET;
+        return this.sendPostRequest(url, '', this.headers)
+    }
 
+
+    addVotersData(
+        voterId,
+        email,
+        phone,
+    ) {
+        let url = this._ADD_VOTERS;
+        let votersData = {
+            voterId: voterId,
+            voterEmail: email,
+            voterNo: phone,
+        }
+        console.log("votersData", votersData)
+        return this.sendPostRequest(url, votersData, this.headers)
+    }
+    getVotersData() {
+        let url = this._VOTERS_GET;
+        return this.sendPostRequest(url, '', this.headers)
+    }
 
 
 }
