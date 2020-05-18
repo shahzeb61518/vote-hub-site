@@ -4,17 +4,34 @@ import Card from '@material-ui/core/Card';
 
 import Button from '@material-ui/core/Button';
 
-import { DropdownItem, DropdownMenu, DropdownToggle, Nav} from 'reactstrap';
-import {  AppHeaderDropdown } from '@coreui/react';
+import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
+import { AppHeaderDropdown } from '@coreui/react';
 
+import { LocalStorage } from '../../helper/LocalStorage';
 
 export default class Dashboard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            userName: "shah",
+            userFName: "",
+            userLName: "",
             electionName: "Board Exam",
             date: "25-05-2020 12:12PM"
+        }
+        this.userData = '';
+
+    }
+
+
+    componentDidMount() {
+        this.userData = new LocalStorage().getUserData();
+        this.userData = JSON.parse(this.userData);
+        console.log("this.userData>", this.userData)
+        if (this.userData) {
+            this.setState({
+                userFName: this.userData.firstname,
+                userLName: this.userData.lastname
+            })
         }
     }
 
@@ -38,7 +55,7 @@ export default class Dashboard extends Component {
                     <br />
                     <br />
                     <div style={{ textAlign: 'left' }}>
-                        <h1>Welcome <span>{this.state.userName}</span>! Your elections are listed below:</h1>
+                        <h1>Welcome <span>{this.state.userFName + " " + this.state.userLName}</span>! Your elections are listed below:</h1>
                         <p>To filter the list, select an election type (ex. running, completed) or choose actions to complete setup, view the voter list or access results.
                 </p>
                     </div>

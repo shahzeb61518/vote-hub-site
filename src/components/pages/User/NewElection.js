@@ -18,6 +18,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
 import validator from 'validator';
+import { connect } from 'react-redux'
 
 import { LocalStorage } from '../../helper/LocalStorage';
 import ApiManager from '../../helper/ApiManager'
@@ -25,6 +26,7 @@ import ApiManager from '../../helper/ApiManager'
 import MyModal, { toggleModal } from '../../helper/MyModal';
 
 const ADDPOSITION_ID = "addpositionmodal"
+const REVIEW_TEST_ID = "reviewtest"
 
 const steps = [
     { title: 'Details' },
@@ -35,7 +37,7 @@ const steps = [
     { title: 'Results' },
 ]
 
-export default class NewElection extends Component {
+class NewElection extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -102,6 +104,8 @@ export default class NewElection extends Component {
             candidateIdObject: [],
             candidateEmailObject: [],
             candidatePhoneObject: [],
+
+            stepFive: ''
         }
 
         this.userData = '';
@@ -114,6 +118,20 @@ export default class NewElection extends Component {
     }
 
     componentDidMount() {
+
+        if (this.props.location) {
+            if (this.props.location.state) {
+                if (this.props.location.state.stepFive) {
+                    console.log("activeStepOfReview>", this.props.location.state.stepFive)
+                    this.setState({
+                        activeStep: this.props.location.state.stepFive.activeStep,
+                        reviewText1: this.props.location.state.stepFive.reviewText1,
+                        textColorReview1: this.props.location.state.stepFive.textColorReview1,
+                    })
+                }
+            }
+        }
+
         this.userData = new LocalStorage().getUserData();
         this.userData = JSON.parse(this.userData);
         console.log("this.userData>", this.userData)
@@ -143,15 +161,14 @@ export default class NewElection extends Component {
 
         } else if (this.state.activeStep === 4) {
             this.addVotersStep()
-            let nextStep = this.state.activeStep + 1;
-            this.setState({ activeStep: nextStep })
 
         } else if (this.state.activeStep === 5) {
             let nextStep = this.state.activeStep + 1;
             this.setState({ activeStep: nextStep })
 
-        } else if (this.state.activeStep === 6) {
-            // this.()
+        } else {
+            let nextStep = this.state.activeStep + 1;
+            this.setState({ activeStep: nextStep })
         }
     }
 
@@ -1437,7 +1454,7 @@ export default class NewElection extends Component {
                                         candidateIdObject['Id' + this.counterId++] = this.refs.inputId.value;
                                         candidateEmailObject['Email' + this.counterEmail++] = this.refs.inputEmail.value;
                                         candidatePhoneObject['Phone' + this.counterPhone++] = this.refs.inputPhone.value;
-                                        
+
                                         this.setState({ candidateIdObject, candidateEmailObject, candidatePhoneObject });
                                         this.refs.inputId.select();
                                         this.refs.inputEmail.select();
@@ -1499,13 +1516,13 @@ export default class NewElection extends Component {
         })
         // var voterId = Math.floor(performance.now() * 10000000000000) + '';
         // console.log("voterId>", voterId);
-        let id = 23;
-        let email = "abc@gmail.com ";
-        let phone = "1231231312";
+        // let id = 23;
+        // let email = "abc@gmail.com ";
+        // let phone = "1231231312";
         new ApiManager().addVotersData(
-            id,
-            email,
-            phone,
+            candidateIdObject,
+            candidateEmailObject,
+            candidatePhoneObject,
         ).then(result => {
             this.setState({
                 isLoading: true,
@@ -1562,10 +1579,7 @@ export default class NewElection extends Component {
                             <td>
                                 <Button
                                     onClick={() => {
-                                        this.setState({
-                                            reviewText1: 'Test vote is completed',
-                                            textColorReview1: '#17BF3C'
-                                        })
+                                        this.props.history.push('/user/new-election/test')
                                     }}
                                     class="btn btn-light">Test</Button>
                             </td>
@@ -1634,6 +1648,26 @@ export default class NewElection extends Component {
             </div>
         )
     }
+    // MODAL OF Review
+    //  reviewModal = () => {
+    //     return (
+    //         <MyModal
+    //             modal_id={REVIEW_TEST_ID}
+    //             title={"Add Positions or Questions"}
+    //             action_btn_title="Create"
+    //             action_btn_color="primary"
+    //             cancelModal="modal"
+    //             large_modal='modal-lg'
+    //         // action={this.actionfucntion}
+    //         >
+    //             <span>
+    //                 <div className="justify-content-center" style={{ padding: '10px' }}>
+
+    //                 </div>
+    //             </span>
+    //         </MyModal>
+    //     )
+    // }
 
     // result step
     resultStep = () => {
@@ -1719,4 +1753,15 @@ export default class NewElection extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return state
+}
+
+const actions = {
+
+}
+
+export default connect(mapStateToProps, actions)(NewElection)
+
 
