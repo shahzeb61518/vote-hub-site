@@ -4,10 +4,6 @@ import React from 'react';
 const Login = React.lazy(() => import('../pages/User/Login'))
 const Signup = React.lazy(() => import('../pages/User/Signup'))
 const VerifyMail = React.lazy(() => import('../pages/User/VerifyMail'))
-const Dashboard = React.lazy(() => import('../pages/User/Dashboard'))
-const Settings = React.lazy(() => import('../pages/User/Settings'))
-const NewElection = React.lazy(() => import('../pages/User/NewElection'))
-const Orgnization = React.lazy(() => import('../pages/User/Orgnization'))
 
 const Home = React.lazy(() => import('../pages/Home'))
 const ElectionVoting = React.lazy(() => import('../pages/HowItWorks/ElectionVoting'))
@@ -23,11 +19,6 @@ const routes = [
     { path: '/login', exact: true, name: 'Login', component: Login },
     { path: '/signup', exact: true, name: 'Signup', component: Signup },
     { path: '/verify-mail', exact: true, name: 'Verify Mail', component: VerifyMail },
-    { path: '/user/dashboard', exact: true, name: 'Dashboard', component: Dashboard },
-    { path: '/user/settings', exact: true, name: 'Settings', component: Settings },
-    { path: '/user/new-election', exact: true, name: 'NewElection', component: NewElection },
-    { path: '/user/orgnization', exact: true, name: 'Orgnization', component: Orgnization },
-
     { path: '/home', exact: true, name: 'Home', component: Home },
     { path: '/election-voting', exact: true, name: 'Election Voting', component: ElectionVoting },
     { path: '/meeting-voting', exact: true, name: 'Meeting Voting', component: MeetingVoting },

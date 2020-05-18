@@ -99,11 +99,18 @@ export default class NewElection extends Component {
             candidateNameObject: {},
             candidateDescriptionObject: {},
 
+            candidateIdObject: [],
+            candidateEmailObject: [],
+            candidatePhoneObject: [],
         }
 
         this.userData = '';
         this.counterName = 1;
         this.counterDes = 1;
+
+        this.counterId = 1;
+        this.counterEmail = 1;
+        this.counterPhone = 1;
     }
 
     componentDidMount() {
@@ -136,6 +143,8 @@ export default class NewElection extends Component {
 
         } else if (this.state.activeStep === 4) {
             this.addVotersStep()
+            let nextStep = this.state.activeStep + 1;
+            this.setState({ activeStep: nextStep })
 
         } else if (this.state.activeStep === 5) {
             let nextStep = this.state.activeStep + 1;
@@ -1363,9 +1372,16 @@ export default class NewElection extends Component {
                                             padding: '5px',
                                             borderRadius: '5px'
                                         }}
-                                        ref="input"
+                                        ref="inputId"
                                         placeholder="Id"
                                     />
+                                    <div>{Object.values(this.state.candidateIdObject)
+                                        .map(id =>
+                                            <Alert>
+                                                {id}
+                                            </Alert>
+                                        )}
+                                    </div>
                                 </td>
                                 <td>
                                     <input
@@ -1374,9 +1390,16 @@ export default class NewElection extends Component {
                                             padding: '5px',
                                             borderRadius: '5px'
                                         }}
-                                        ref="input"
+                                        ref="inputEmail"
                                         placeholder="Email"
                                     />
+                                    <div>{Object.values(this.state.candidateEmailObject)
+                                        .map(email =>
+                                            <Alert>
+                                                {email}
+                                            </Alert>
+                                        )}
+                                    </div>
                                 </td>
                                 <td>
                                     <input
@@ -1385,9 +1408,16 @@ export default class NewElection extends Component {
                                             padding: '5px',
                                             borderRadius: '5px'
                                         }}
-                                        ref="input"
+                                        ref="inputPhone"
                                         placeholder="Phone"
                                     />
+                                    <div>{Object.values(this.state.candidatePhoneObject)
+                                        .map(phone =>
+                                            <Alert >
+                                                {phone}
+                                            </Alert>
+                                        )}
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -1396,24 +1426,37 @@ export default class NewElection extends Component {
                         className="btn btn-primary"
                         style={{ marginLeft: '40%' }}
                         onClick={() => {
-                            if (this.refs.input.value.trim() != "") {
-                                const candidateIdObject = this.state.candidateIdObject;
-                                const candidateEmailObject = this.state.candidateEmailObject;
-                                const candidatePhoneObject = this.state.candidatePhoneObject;
-                                candidateIdObject['Id' + this.counterId++] = this.refs.input.value;
-                                candidateEmailObject['Email' + this.counterEmail++] = this.refs.input.value;
-                                candidatePhoneObject['Phone' + this.counterPhone++] = this.refs.input.value;
-                                this.setState({ candidateIdObject });
-                                this.setState({ candidateEmailObject });
-                                this.setState({ candidatePhoneObject });
-                                this.refs.input.select();
-                                this.refs.input.select();
-                                this.refs.input.select();
+                            if (this.refs.inputId.value.trim() != "") {
+                                if (this.refs.inputEmail.value.trim() != "") {
+                                    if (this.refs.inputPhone.value.trim() != "") {
+
+                                        const candidateIdObject = this.state.candidateIdObject;
+                                        const candidateEmailObject = this.state.candidateEmailObject;
+                                        const candidatePhoneObject = this.state.candidatePhoneObject;
+
+                                        candidateIdObject['Id' + this.counterId++] = this.refs.inputId.value;
+                                        candidateEmailObject['Email' + this.counterEmail++] = this.refs.inputEmail.value;
+                                        candidatePhoneObject['Phone' + this.counterPhone++] = this.refs.inputPhone.value;
+                                        
+                                        this.setState({ candidateIdObject, candidateEmailObject, candidatePhoneObject });
+                                        this.refs.inputId.select();
+                                        this.refs.inputEmail.select();
+                                        this.refs.inputPhone.select();
+
+                                        this.refs.inputId.value = '';
+                                        this.refs.inputEmail.value = '';
+                                        this.refs.inputPhone.value = '';
+                                    }
+                                }
                             }
+
                             console.log("candidateIdObject", this.state.candidateIdObject)
                             console.log("candidateEmailObject", this.state.candidateEmailObject)
                             console.log("candidatePhoneObject", this.state.candidatePhoneObject)
-                        }}>Add Candidate</Button>
+                        }
+                        }> Add Voter</Button>
+                    <br />
+                    <br />
                     <br />
                 </div>
 
@@ -1446,18 +1489,21 @@ export default class NewElection extends Component {
     // voters step FUNCTION
     addVotersStep = () => {
         const {
-            email,
-            phone,
+            candidateIdObject,
+            candidateEmailObject,
+            candidatePhoneObject,
         } = this.state;
 
         this.setState({
             disableBtn: true
         })
-        var voterId = Math.floor(performance.now() * 10000000000000) + '';
-        console.log("voterId>", voterId);
-
+        // var voterId = Math.floor(performance.now() * 10000000000000) + '';
+        // console.log("voterId>", voterId);
+        let id = 23;
+        let email = "abc@gmail.com ";
+        let phone = "1231231312";
         new ApiManager().addVotersData(
-            voterId,
+            id,
             email,
             phone,
         ).then(result => {

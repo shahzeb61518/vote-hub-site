@@ -17,6 +17,7 @@ const Login = React.lazy(() => import('./components/pages/User/Login'));
 const Signup = React.lazy(() => import('./components/pages/User/Signup'));
 const Dashboard = React.lazy(() => import('./components/pages/User/Dashboard'));
 const Main = React.lazy(() => import('./components/pages/Main'));
+const LoggedInMain = React.lazy(() => import('./components/pages/User/LoggedInMain'));
 
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
@@ -57,7 +58,7 @@ class App extends Component {
                 {/* 
 								<Route exact path={ROUTES.err_404} name="Page 404" render={props => <Page404 {...props} />} />
 								<Route exact path={ROUTES.err_500} name="Page 500" render={props => <Page500 {...props} />} /> */}
-                <Route path="/user/dashboard" name="Home" render={props => <Main {...props} />} />
+                <Route path="/user/dashboard" name="Home" render={props => <LoggedInMain {...props} />} />
                 {/* <Route exact path="/user/dashboard" name="Dashboard" render={props => <Dashboard {...props} />} /> */}
                 <Redirect to="/user/dashboard" />
               </Switch>

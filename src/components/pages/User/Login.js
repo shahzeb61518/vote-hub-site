@@ -33,6 +33,8 @@ class Login extends Component {
 
     componentDidMount() {
         let userEmail = new LocalStorage().getUserData();
+
+        
         userEmail = JSON.parse(userEmail);
         console.log("userEmailuserEmail>", userEmail)
         if (userEmail) {
@@ -234,9 +236,9 @@ class Login extends Component {
                     new LocalStorage().setUserData(JSON.stringify(decoded))
                     new LocalStorage().setUserJwt(token);
                     this.props.userData(decoded, token)
+                    this.props.history.push('/user/dashboard');
                 }
 
-                this.props.history.push('/home');
                 this.setState({
                     isLoading: false,
                     disableBtn: false

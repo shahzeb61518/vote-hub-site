@@ -185,7 +185,11 @@ class Header extends Component {
                                                 >Orgnization</DropdownItem>
                                                 <DropdownItem divider />
                                                 <DropdownItem
-                                                    onClick={e => this.props.userLogout(e)}
+                                                    onClick={(e) => {
+                                                        this.props.userLogout(e)
+                                                        this.props.history.push('/login');
+
+                                                    }}
                                                 >Logout</DropdownItem>
                                             </DropdownMenu>
                                         </AppHeaderDropdown>
