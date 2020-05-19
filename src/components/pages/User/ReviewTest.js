@@ -14,21 +14,57 @@ class ReviewTest extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            electionTitle: 'test',
+            electionTitle: '',
             orgnization: '',
             candaidatebtn: 'none',
             item: {
                 activeStep: 5,
                 textColorReview1: '#17BF3C',
                 reviewText1: 'Test vote is completed',
-            }
+            },
+            candidates: '',
+            voterData: ''
         }
-        this.userData='';
+        this.userData = '';
 
     }
 
 
     componentDidMount() {
+
+
+        if (this.props.location) {
+            if (this.props.location.state) {
+                console.log("Title>", this.props.location.state.title)
+                console.log("candidateNames>", this.props.location.state.candidateNames)
+                this.setState({
+                    electionTitle: this.props.location.state.title,
+                    candidates: this.props.location.state.candidateNames,
+
+                })
+                // Get voters data
+                new ApiManager().getVotersData("board").then(result => {
+                    if (result.no_result) {
+                        return
+                    }
+                    if (result.data) {
+                        if (result.data.error) {
+                            alert(result.data.error)
+                            return
+                        }
+                    }
+                    if (result.data[0]) {
+                        if (result.data[0].voterEmail) {
+                            console.log("result getVotersData>>>", result.data[0].voterEmail);
+                            this.setState({
+                                voterData: result.data[0].voterEmail
+                            })
+                        }
+                    }
+                })
+            }
+        }
+
 
         this.userData = new LocalStorage().getUserData();
         this.userData = JSON.parse(this.userData);
@@ -40,21 +76,8 @@ class ReviewTest extends Component {
         }
 
 
-        // new ApiManager().getVotersData().then(result => {
-        //     if (result.no_result) {
-        //         return
-        //     }
-        //     if (result.data) {
-        //         if (result.data.error) {
-        //             alert(result.data.error)
-        //             return
-        //         }
-        //     }
-        //     if (result.data) {
-        //         console.log("result after result.data>>>", result.data);
 
-        //     }
-        // })
+
     }
 
     render() {
@@ -91,8 +114,11 @@ class ReviewTest extends Component {
                                 <td>
                                     <FormControl component="fieldset">
                                         <RadioGroup aria-label="type" name="type" value={this.state.candaidatebtn} onChange={handleChangecandidate}>
-                                            <FormControlLabel style={{ marginBottom: '0px' }} value="name1" control={<Radio />} label="Person1" />
-                                            <FormControlLabel style={{ marginBottom: '0px' }} value="name2" control={<Radio />} label="Person2" />
+                                            {
+                                                this.state.candidates && this.state.candidates.map(function (item, i) {
+                                                    return <FormControlLabel style={{ marginBottom: '0px' }} value={item} control={<Radio />} label={item} />
+                                                })
+                                            }
                                             <FormControlLabel style={{ marginBottom: '0px' }} value="none" control={<Radio />} label="Abstain" />
                                         </RadioGroup>
                                     </FormControl>

@@ -8,14 +8,17 @@ import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import { AppHeaderDropdown } from '@coreui/react';
 
 import { LocalStorage } from '../../helper/LocalStorage';
+import ApiManager from '../../helper/ApiManager'
 
 export default class Dashboard extends Component {
     constructor(props) {
         super(props)
         this.state = {
+
+            electionData: '',
             userFName: "",
             userLName: "",
-            electionName: "Board Exam",
+            electionName: "",
             date: "25-05-2020 12:12PM"
         }
         this.userData = '';
@@ -33,6 +36,27 @@ export default class Dashboard extends Component {
                 userLName: this.userData.lastname
             })
         }
+
+
+        // Get Election data
+        new ApiManager().getElectionData().then(result => {
+            if (result.no_result) {
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    return
+                }
+            }
+            if (result.data) {
+                this.setState({
+                    electionData: result.data[0]
+                })
+                console.log("getElectionData>>>", result.data[0]);
+
+            }
+        })
     }
 
     render() {
@@ -131,8 +155,14 @@ export default class Dashboard extends Component {
                                 </AppHeaderDropdown>
                             </Nav>
                             <div style={{ float: 'left', marginLeft: '10px' }}>
-                                <h4 style={{ marginTop: '5px' }}>{this.state.electionName}</h4>
-                                <p>{this.state.date}</p>
+                                {this.state.electionData ?
+                                    <div>
+                                        <h4 style={{ marginTop: '5px' }}>{this.state.electionData.title}</h4>
+                                        <p>{this.state.electionData.startdate}</p>
+                                    </div>
+                                    :
+                                    undefined
+                                }
                             </div>
                         </div>
                         <div className="col" style={{ textAlign: 'right' }}>

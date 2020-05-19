@@ -98,14 +98,19 @@ class NewElection extends Component {
             searchVoters: '',
 
 
-            candidateNameObject: {},
-            candidateDescriptionObject: {},
+            candidateNameObject: [],
+            candidateDescriptionObject: [],
 
             candidateIdObject: [],
             candidateEmailObject: [],
             candidatePhoneObject: [],
 
-            stepFive: ''
+            stepFive: '',
+
+
+            electionData: '',
+            ballotData: '',
+            votersData: '',
         }
 
         this.userData = '';
@@ -590,34 +595,31 @@ class NewElection extends Component {
                 electiontitleballot: electionTitle
             })
             console.log("result after adding>>>", result);
+            this.getDetailsStepData()
         })
     }
     // detail step get FUNCTION
-    // getDetailsStepData = () => {
-    //     new ApiManager().getElectionData().then(result => {
-    //         if (result.no_result) {
-    //             this.setState({
-    //                 isLoading: false,
-    //                 disableBtn: false,
-    //             })
-    //             return
-    //         }
-    //         if (result.data) {
-    //             if (result.data.error) {
-    //                 alert(result.data.error)
-    //                 this.setState({
-    //                     isLoading: false,
-    //                     disableBtn: false,
-    //                 })
-    //                 return
-    //             }
-    //         }
-    //         if (result.data) {
-    //             console.log("result after result.data>>>", result.data);
+    getDetailsStepData = () => {
+        new ApiManager().getElectionData().then(result => {
+            if (result.no_result) {
 
-    //         }
-    //     })
-    // }
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    return
+                }
+            }
+            if (result.data) {
+                console.log("result after result.getDetailsStepData>>>", result.data);
+                this.setState({
+                    electionData: result.data
+                })
+
+            }
+        })
+    }
 
     // ballot step
 
@@ -798,27 +800,45 @@ class NewElection extends Component {
 
                                     </div>
                                     <div>
-                                        <div style={{ width: '60%', marginLeft: '20%' }}>
-                                            <label>Candidate Name</label>
-                                            <input
-                                                style={{
-                                                    width: '100%',
-                                                    padding: '5px',
-                                                    borderRadius: '5px'
-                                                }}
-                                                ref="input"
-                                                placeholder="Candidate Name"
-                                            />
+                                        <div className="row" style={{ width: '60%', marginLeft: '20%' }}>
+                                            <div className="col">
+                                                <label>Candidate Name</label>
+                                                <input
+                                                    style={{
+                                                        width: '100%',
+                                                        padding: '5px',
+                                                        borderRadius: '5px'
+                                                    }}
+                                                    ref="input"
+                                                    placeholder="Candidate Name"
+                                                />
+                                                <div>{Object.values(this.state.candidateNameObject)
+                                                    .map(name =>
+                                                        <Alert>
+                                                            {name}
+                                                        </Alert>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="col">
+                                                <label>Description</label>
+                                                <textarea
+                                                    ref="textarea"
+                                                    placeholder="description"
+                                                    style={{
+                                                        width: '100%',
+                                                        padding: '5px',
+                                                        borderRadius: '5px'
+                                                    }} />
+
+                                                {Object.values(this.state.candidateDescriptionObject)
+                                                    .map(des =>
+                                                        <Alert>
+                                                            {des}
+                                                        </Alert>
+                                                    )}
+                                            </div>
                                             <br />
-                                            <label>Description</label>
-                                            <textarea
-                                                ref="textarea"
-                                                placeholder="description"
-                                                style={{
-                                                    width: '100%',
-                                                    padding: '5px',
-                                                    borderRadius: '5px'
-                                                }} />
                                         </div>
                                         <br />
                                         <Button
@@ -827,37 +847,27 @@ class NewElection extends Component {
                                             onClick={() => {
                                                 if (this.refs.input.value.trim() != "") {
                                                     if (this.refs.textarea.value.trim() != "") {
+
+
                                                         const candidateNameObject = this.state.candidateNameObject;
                                                         const candidateDescriptionObject = this.state.candidateDescriptionObject;
-                                                        candidateNameObject['name' + this.counterName++] = this.refs.input.value;
-                                                        candidateDescriptionObject['descriotion' + this.counterDes++] = this.refs.textarea.value;
-                                                        this.setState({ candidateNameObject });
-                                                        this.setState({ candidateDescriptionObject });
+
+                                                        candidateNameObject.push(this.refs.input.value);
+                                                        candidateDescriptionObject.push(this.refs.textarea.value);
+                                                        this.setState({ candidateNameObject, candidateDescriptionObject });
+
                                                         this.refs.input.select();
                                                         this.refs.textarea.select();
+
+                                                        this.refs.input.value = '';
+                                                        this.refs.textarea.value = '';
+
                                                     }
                                                 }
                                                 console.log("candidateDescriptionObject", this.state.candidateDescriptionObject)
                                             }}>Add Candidate</Button>
                                         <br /><br />
-                                        <div>
-                                            <ul>{Object.values(this.state.candidateNameObject)
-                                                .map(name =>
-                                                    <li>
-                                                        <Alert severity="info">
-                                                            Name: {name}
-                                                        </Alert></li>)}
-                                            </ul>
-                                            <ul>{Object.values(this.state.candidateDescriptionObject)
-                                                .map(des =>
-                                                    <li>
-                                                        <Alert severity="info">
-                                                            Description: {des}
-                                                        </Alert></li>)}
-                                                <br />
-                                                <br />
-                                            </ul>
-                                        </div>
+
                                         <br />
                                         <br />
                                         <h6>Voter Instructions</h6>
@@ -900,7 +910,7 @@ class NewElection extends Component {
 
                     </div>
                 </span>
-            </MyModal>
+            </MyModal >
         )
     }
     // BALLOTS step FUNCTION
@@ -956,8 +966,32 @@ class NewElection extends Component {
             let nextStep = this.state.activeStep + 1;
             this.setState({ activeStep: nextStep })
             console.log("result after adding>>>", result);
+            this.getBallotStepData()
         })
     }
+
+    // Ballot step get FUNCTION
+    getBallotStepData = () => {
+        new ApiManager().getBallotData().then(result => {
+            if (result.no_result) {
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    return
+                }
+            }
+            if (result.data) {
+                console.log("result after result.getBallotStepData>>>", result.data);
+                this.setState({
+                    ballotData: result.data
+                })
+
+            }
+        })
+    }
+
     // Ballot step get FUNCTION
     // getBallotStepData = () => {
     //     new ApiManager().getBallotData().then(result => {
@@ -988,6 +1022,7 @@ class NewElection extends Component {
     noticeStep = () => {
         return (
             <div style={{ textAlign: 'left' }}>
+                <h5>Election Title: {this.state.electiontitleballot}</h5>
                 <h4>Notifications</h4>
                 <Alert severity="info">
                     Specify how voters will receive notices and access keys — choose any of the following:
@@ -1201,6 +1236,8 @@ class NewElection extends Component {
         };
         return (
             <div style={{ textAlign: 'left' }}>
+                <h5>Election Title: {this.state.electiontitleballot}</h5>
+
                 <div>
                     <Alert severity="info">
                         Select how each voter accesses their ballot and the number of votes they receive.
@@ -1451,9 +1488,9 @@ class NewElection extends Component {
                                         const candidateEmailObject = this.state.candidateEmailObject;
                                         const candidatePhoneObject = this.state.candidatePhoneObject;
 
-                                        candidateIdObject['Id' + this.counterId++] = this.refs.inputId.value;
-                                        candidateEmailObject['Email' + this.counterEmail++] = this.refs.inputEmail.value;
-                                        candidatePhoneObject['Phone' + this.counterPhone++] = this.refs.inputPhone.value;
+                                        candidateIdObject.push(this.refs.inputId.value);
+                                        candidateEmailObject.push(this.refs.inputEmail.value);
+                                        candidatePhoneObject.push(this.refs.inputPhone.value);
 
                                         this.setState({ candidateIdObject, candidateEmailObject, candidatePhoneObject });
                                         this.refs.inputId.select();
@@ -1506,9 +1543,11 @@ class NewElection extends Component {
     // voters step FUNCTION
     addVotersStep = () => {
         const {
+            electiontitleballot,
             candidateIdObject,
             candidateEmailObject,
             candidatePhoneObject,
+
         } = this.state;
 
         this.setState({
@@ -1520,9 +1559,11 @@ class NewElection extends Component {
         // let email = "abc@gmail.com ";
         // let phone = "1231231312";
         new ApiManager().addVotersData(
+            electiontitleballot,
             candidateIdObject,
             candidateEmailObject,
             candidatePhoneObject,
+
         ).then(result => {
             this.setState({
                 isLoading: true,
@@ -1549,6 +1590,29 @@ class NewElection extends Component {
                 activeStep: nextStep
             })
             console.log("result after adding>>>", result);
+            this.getVotersStepData()
+        })
+    }
+
+    // Voter step get FUNCTION
+    getVotersStepData = () => {
+        new ApiManager().getVotersData(this.state.electiontitleballot).then(result => {
+            if (result.no_result) {
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    return
+                }
+            }
+            if (result.data) {
+                console.log("result after result.getVotersStepData>>>", result.data);
+                this.setState({
+                    votersData: result.data
+                })
+
+            }
         })
     }
 
@@ -1556,6 +1620,8 @@ class NewElection extends Component {
     reviewStep = () => {
         return (
             <div>
+                <h5>Election Title: {this.state.electiontitleballot}</h5>
+
                 <Alert severity="info">
                     To start your election, complete the following review tasks.
                 </Alert>
@@ -1579,7 +1645,10 @@ class NewElection extends Component {
                             <td>
                                 <Button
                                     onClick={() => {
-                                        this.props.history.push('/user/new-election/test')
+                                        this.props.history.push('/user/new-election/test', {
+                                            title: this.state.electiontitleballot,
+                                            candidateNames: this.state.candidateNameObject
+                                        })
                                     }}
                                     class="btn btn-light">Test</Button>
                             </td>
