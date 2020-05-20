@@ -26,7 +26,9 @@ import ApiManager from '../../helper/ApiManager'
 import MyModal, { toggleModal } from '../../helper/MyModal';
 
 const ADDPOSITION_ID = "addpositionmodal"
-const REVIEW_TEST_ID = "reviewtest"
+const REVIEWSTEP_REVIEW_ID = "reviewstepreview"
+const REVIEWSTEP_VERIFY_ID = "reviewstepverify"
+const REVIEWSTEP_CONFIRM_ID = "reviewstepconfirm"
 
 const steps = [
     { title: 'Details' },
@@ -210,7 +212,12 @@ class NewElection extends Component {
                                         <div> {this.votersStep()} </div>
                                         :
                                         this.state.activeStep === 5 ?
-                                            <div> {this.reviewStep()} </div>
+                                            <div>
+                                                {this.reviewStep()}
+                                                {this.reviewStepReviewModal()}
+                                                {this.reviewStepVerifyModal()}
+                                                {this.reviewStepConfirmModal()}
+                                            </div>
                                             :
                                             <div> {this.resultStep()} </div>
 
@@ -592,7 +599,7 @@ class NewElection extends Component {
             let nextStep = this.state.activeStep + 1;
             this.setState({
                 activeStep: nextStep,
-                electiontitleballot: electionTitle
+                // electiontitleballot: electionTitle
             })
             console.log("result after adding>>>", result);
             this.getDetailsStepData()
@@ -612,9 +619,10 @@ class NewElection extends Component {
                 }
             }
             if (result.data) {
-                console.log("result after result.getDetailsStepData>>>", result.data);
+                console.log("result after result.getDetailsStepData>>>", result.data[0]);
                 this.setState({
-                    electionData: result.data
+                    electionData: result.data[0],
+                    electiontitleballot: result.data[0].title
                 })
 
             }
@@ -1609,7 +1617,7 @@ class NewElection extends Component {
             if (result.data) {
                 console.log("result after result.getVotersStepData>>>", result.data);
                 this.setState({
-                    votersData: result.data
+                    votersData: result.data[0]
                 })
 
             }
@@ -1620,7 +1628,9 @@ class NewElection extends Component {
     reviewStep = () => {
         return (
             <div>
-                <h5>Election Title: {this.state.electiontitleballot}</h5>
+                <div style={{ textAlign: 'left', width: '100%' }}>
+                    <h5>Election Title: {this.state.electiontitleballot}</h5>
+                </div>
 
                 <Alert severity="info">
                     To start your election, complete the following review tasks.
@@ -1664,10 +1674,7 @@ class NewElection extends Component {
                             <td>
                                 <Button
                                     onClick={() => {
-                                        this.setState({
-                                            reviewText2: 'Voter list is reviewed',
-                                            textColorReview2: '#17BF3C'
-                                        })
+                                        toggleModal(REVIEWSTEP_REVIEW_ID)
                                     }}
                                     class="btn btn-light">Review</Button>
                             </td>
@@ -1681,10 +1688,7 @@ class NewElection extends Component {
                             <td>
                                 <Button
                                     onClick={() => {
-                                        this.setState({
-                                            reviewText3: 'Election details are verified',
-                                            textColorReview3: '#17BF3C'
-                                        })
+                                        toggleModal(REVIEWSTEP_VERIFY_ID)
                                     }}
                                     class="btn btn-light"> Verify</Button>
                             </td>
@@ -1699,10 +1703,7 @@ class NewElection extends Component {
                             <td>
                                 <Button
                                     onClick={() => {
-                                        this.setState({
-                                            reviewText4: 'Terms & conditions are confirmed',
-                                            textColorReview4: '#17BF3C'
-                                        })
+                                        toggleModal(REVIEWSTEP_CONFIRM_ID)
                                     }}
                                     class="btn btn-light"> Confirm</Button>
                             </td>
@@ -1714,29 +1715,145 @@ class NewElection extends Component {
                     Before you can start your election, you must complete the above tasks.
                 </Alert>
                 <br />
-            </div>
+            </div >
         )
     }
-    // MODAL OF Review
-    //  reviewModal = () => {
-    //     return (
-    //         <MyModal
-    //             modal_id={REVIEW_TEST_ID}
-    //             title={"Add Positions or Questions"}
-    //             action_btn_title="Create"
-    //             action_btn_color="primary"
-    //             cancelModal="modal"
-    //             large_modal='modal-lg'
-    //         // action={this.actionfucntion}
-    //         >
-    //             <span>
-    //                 <div className="justify-content-center" style={{ padding: '10px' }}>
 
-    //                 </div>
-    //             </span>
-    //         </MyModal>
-    //     )
-    // }
+
+    //////////////////////// MODALS OF Review Step
+    reviewStepReviewModal = () => {
+        return (
+            <MyModal
+                modal_id={REVIEWSTEP_REVIEW_ID}
+                title={"2 Voters"}
+                action_btn_title="Confirm"
+                action_btn_color="primary"
+                cancelModal="modal"
+                // large_modal='modal-lg'
+                action={this.reviewStepReviewModalFunction}
+            >
+                <span>
+                    <div className="justify-content-center" style={{ padding: '10px' }}>
+                        <h6>1 Listed voter and 1 Extra key</h6>
+                        <br />
+                        <p>Voter count: 1 (0 duplicates) — 1 emails, 0 SMS, 0 mail</p>
+                    </div>
+                </span>
+            </MyModal>
+        )
+    }
+    reviewStepReviewModalFunction = () => {
+        this.setState({
+            reviewText2: 'Voter list is reviewed',
+            textColorReview2: '#17BF3C'
+        })
+    }
+
+    reviewStepVerifyModal = () => {
+        return (
+            <MyModal
+                modal_id={REVIEWSTEP_VERIFY_ID}
+                title={"Election Details"}
+                action_btn_title="Confirm"
+                action_btn_color="primary"
+                cancelModal="modal"
+                large_modal='modal-lg'
+                action={this.reviewStepVerifyModalFunction}
+            >
+
+                <span>
+                    <div className="justify-content-center" style={{ padding: '10px', paddingLeft: '60px', textAlign: 'left' }}>
+                        {
+                            this.state.electionData ?
+                                <div>
+                                    <p>Election Name: <span style={{ fontWeight: '500' }}>
+                                        {this.state.electionData.title}</span></p>
+                                    <p>Organization: <span style={{ fontWeight: '500' }}>
+                                        {this.state.electionData.organization}</span></p>
+                                    <p>Start and End Date: <span style={{ fontWeight: '500' }}>
+                                        {this.state.electionData.startdate}
+                                        and
+                                        {this.state.electionData.enddate}</span></p>
+                                    <p>Anonymity and Integrity: <span style={{ fontWeight: '500' }}>Secret Ballot — High Integrity</span></p>
+                                    <p>Voter Results: <span style={{ fontWeight: '500' }}>Visible only after the election has ended</span></p>
+                                    <p>Administrator Results: <span style={{ fontWeight: '500' }}>Visible only after the election has ended</span></p>
+                                    <p>Positions: <span style={{ fontWeight: '500' }}>1 plurality</span></p>
+                                    <p>Voters and Notice: <span style={{ fontWeight: '500' }}>2 (1 email and 1 extra)</span></p>
+                                    <p>Reminders: <span style={{ fontWeight: '500' }}>0</span></p>
+                                </div>
+                                :
+                                "No Election Created!"
+                        }
+
+                    </div>
+                </span>
+            </MyModal>
+        )
+    }
+    reviewStepVerifyModalFunction = () => {
+        this.setState({
+            reviewText3: 'Election details are verified',
+            textColorReview3: '#17BF3C'
+        })
+    }
+
+    reviewStepConfirmModal = () => {
+        return (
+            <MyModal
+                modal_id={REVIEWSTEP_CONFIRM_ID}
+                title={"Terms and Conditions"}
+                action_btn_title="Confirm"
+                action_btn_color="primary"
+                cancelModal="modal"
+                large_modal='modal-lg'
+                action={this.reviewStepConfirmModalFunction}
+            >
+                <span>
+                    <div className="justify-content-center" style={{ padding: '10px', textAlign: 'left' }}>
+                        <p>Changes you can and can't make after the election starts</p>
+                        <br />
+                        <div className="row">
+                            <div className="col">
+                                <h4>Can Change</h4>
+                                <ul>
+                                    <li>Edit voter information up to 2 times</li>
+                                    <li>Add up to 1 voter</li>
+                                    <li>Extend or change the election date</li>
+                                    <li>Close or cancel the election</li>
+                                </ul>
+                                <br />
+                                <p>
+                                    <h6>Note</h6>Any changes will be shared with your voters and increase the likelihood your election will be challenged.
+                                </p>
+                            </div>
+                            <div className="col">
+                                <h4>Can't Change</h4>
+                                <ul>
+                                    <li>Add more than 1 voter</li>
+                                    <li>Add positions or candidates</li>
+                                    <li>Edit positions or candidates</li>
+                                    <li>Remove positions or candidates</li>
+                                </ul>
+                                <br />
+                                <p>
+                                    <h6>Note</h6>If you want to make any of the above changes, cancel the election and recreate or duplicate it
+                                     </p>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+            </MyModal>
+        )
+    }
+    reviewStepConfirmModalFunction = () => {
+        this.setState({
+            reviewText4: 'Terms & conditions are confirmed',
+            textColorReview4: '#17BF3C'
+        })
+    }
+    ////////////////// MODALS OF Review Step
+
+
 
     // result step
     resultStep = () => {

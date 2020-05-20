@@ -43,25 +43,25 @@ class ReviewTest extends Component {
 
                 })
                 // Get voters data
-                new ApiManager().getVotersData("board").then(result => {
-                    if (result.no_result) {
-                        return
-                    }
-                    if (result.data) {
-                        if (result.data.error) {
-                            alert(result.data.error)
-                            return
-                        }
-                    }
-                    if (result.data[0]) {
-                        if (result.data[0].voterEmail) {
-                            console.log("result getVotersData>>>", result.data[0].voterEmail);
-                            this.setState({
-                                voterData: result.data[0].voterEmail
-                            })
-                        }
-                    }
-                })
+                // new ApiManager().getVotersData("board").then(result => {
+                //     if (result.no_result) {
+                //         return
+                //     }
+                //     if (result.data) {
+                //         if (result.data.error) {
+                //             alert(result.data.error)
+                //             return
+                //         }
+                //     }
+                //     if (result.data[0]) {
+                //         if (result.data[0].voterEmail) {
+                //             console.log("result getVotersData>>>", result.data[0].voterEmail);
+                //             this.setState({
+                //                 voterData: result.data[0].voterEmail
+                //             })
+                //         }
+                //     }
+                // })
             }
         }
 

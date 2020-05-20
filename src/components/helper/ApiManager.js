@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { LocalStorage } from './LocalStorage'
+import moment from 'moment';
 
 
 
@@ -214,6 +215,8 @@ export default class ApiManager {
         enddate
     ) {
 
+        startdate = moment(new Date(startdate)).format('MMMM Do YYYY, h:mm:ss a');
+        enddate = moment(new Date(enddate)).format('MMMM Do YYYY, h:mm:ss a');
 
         let url = this._ELECTION_ADD;
         let electionData = {
