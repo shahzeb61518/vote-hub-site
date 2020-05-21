@@ -38,7 +38,8 @@ export default class ApiManager {
     _ADD_VOTERS = "voters/add"
     _VOTERS_GET = "voters"
     _SEND_LINK = "voting"
-    _GET_CANDIDATES= "voting/getcandidates"
+    _GET_CANDIDATES = "voting/getcandidates"
+    _VOTE_RESULT = "result"
 
     async sendPostRequest(_url, _params, headers) {
         _url = this._BASE_URL + _url;
@@ -314,4 +315,15 @@ export default class ApiManager {
         return this.sendPostRequest(url, candidatesData, '')
     }
 
+
+
+    voteToCandidateData(title, selectedCandidate) {
+        let url = this._VOTE_RESULT;
+        let voterData = {
+            title: title,
+            selectedCandidate: selectedCandidate
+        }
+        console.log("voteToCandidateData>>>>", voterData)
+        return this.sendPostRequest(url, voterData, '')
+    }
 }

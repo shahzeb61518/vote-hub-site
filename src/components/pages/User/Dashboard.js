@@ -175,7 +175,7 @@ export default class Dashboard extends Component {
                                             color="inherit"
                                             class="btn btn-primary"
                                             onClick={() => {
-                                            }}>Incomplete</Button>
+                                            }}>Completed</Button>
                                     </div>
                                     <br />
                                     <br />

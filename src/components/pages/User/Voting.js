@@ -24,6 +24,7 @@ export default class Voting extends Component {
             orgnization: '',
             candaidatebtn: 'none',
             candidates: '',
+            voteCandidatePage: true,
         }
         this.userData = '';
 
@@ -99,52 +100,87 @@ export default class Voting extends Component {
                     </div>
 
                     <br />
-                    <table class="table" style={{ backgroundColor: 'rgb(225, 237, 255)', color: '', textAlign: 'left', width: '70%', marginLeft: '15%' }}>
-                        <thead >
-                            <tr>
-                                <th>
-                                    <h6>Candidates</h6>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <FormControl component="fieldset">
-                                        <RadioGroup aria-label="type" name="type" value={this.state.candaidatebtn} onChange={handleChangecandidate}>
-                                            {
-                                                this.state.candidates && this.state.candidates.map(function (item, i) {
-                                                    return <FormControlLabel style={{ marginBottom: '0px' }} value={item} control={<Radio />} label={item} />
-                                                })
-                                            }
-                                        </RadioGroup>
-                                    </FormControl>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <br />
-                    <div style={{ textAlign: 'center', width: '100%' }}>
-                        <Button
-                            class="btn btn-primary"
-                            type="button"
-                            onClick={() => {
-                                this.props.history.push('/user/dashboard')
+                    <br />
+                    {
+                        this.state.voteCandidatePage ?
+                            <div>
+                                <table class="table" style={{ backgroundColor: 'rgb(225, 237, 255)', color: '', textAlign: 'left', width: '70%', marginLeft: '15%' }}>
+                                    <thead >
+                                        <tr>
+                                            <th>
+                                                <h6>Candidates</h6>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <FormControl component="fieldset">
+                                                    <RadioGroup aria-label="type" name="type" value={this.state.candaidatebtn} onChange={handleChangecandidate}>
+                                                        {
+                                                            this.state.candidates && this.state.candidates.map(function (item, i) {
+                                                                return <FormControlLabel style={{ marginBottom: '0px' }} value={item} control={<Radio />} label={item} />
+                                                            })
+                                                        }
+                                                    </RadioGroup>
+                                                </FormControl>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br />
+                                <div style={{ textAlign: 'center', width: '100%' }}>
+                                    <Button
+                                        class="btn btn-primary"
+                                        type="button"
+                                        style={{ width: '150px' }}
+                                        onClick={() => {
+                                            // this.props.history.push('/user/dashboard')
+                                            this.voteToCandidateFunction()
 
-                            }}
-                        >   Vote   </Button>
-                    </div>
+                                        }}
+                                    >   Vote   </Button>
+                                </div>
+                            </div>
+                            :
+                            <div>
+                                <h6>Your Vote is recorded!</h6>
+                            </div>
 
-
+                    }
                     <br />
                     <br />
                     <br />
                     <br />
-
                 </div>
-
             </div>
         )
+    }
+
+    voteToCandidateFunction = () => {
+        if (this.state.candaidatebtn) {
+            this.setState({
+                voteCandidatePage: false
+            })
+
+            // Post Vote To Candidate
+            new ApiManager().voteToCandidateData(this.state.electionTitle, this.state.candaidatebtn).then(result => {
+                if (result.no_result) {
+                    return
+                }
+                if (result.data) {
+                    if (result.data.error) {
+                        alert(result.data.error)
+                        return
+                    }
+                }
+                if (result.data) {
+                    console.log("voteToCandidateFunction>>>", result.data);
+                }
+            })
+
+        }
     }
 
 
