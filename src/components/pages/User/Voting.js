@@ -22,9 +22,10 @@ export default class Voting extends Component {
         this.state = {
             electionTitle: '',
             orgnization: '',
-            candaidatebtn: 'none',
+            candaidatebtn: '',
             candidates: '',
             voteCandidatePage: true,
+            isLoading: false
         }
         this.userData = '';
 
@@ -103,6 +104,19 @@ export default class Voting extends Component {
                     <br />
                     <br />
                     {
+                        this.state.isLoading ?
+                            <div
+                                style={{
+                                    width: '60px',
+                                    height: '60px',
+                                    position: 'absolute',
+                                    marginLeft: '39%'
+                                }}
+                                class="spinner-border text-primary"></div>
+                            :
+                            undefined
+                    }
+                    {
                         this.state.voteCandidatePage ?
                             <div>
                                 <table class="table" style={{ backgroundColor: 'rgb(225, 237, 255)', color: '', textAlign: 'left', width: '70%', marginLeft: '15%' }}>
@@ -145,7 +159,7 @@ export default class Voting extends Component {
                             </div>
                             :
                             <div>
-                                <h6>Your Vote is recorded!</h6>
+                                <h6>Your Vote has recorded!</h6>
                             </div>
 
                     }
@@ -159,9 +173,11 @@ export default class Voting extends Component {
     }
 
     voteToCandidateFunction = () => {
+        console.log("candaidatebtn>", this.state.candaidatebtn)
         if (this.state.candaidatebtn) {
+
             this.setState({
-                voteCandidatePage: false
+                isLoading: true
             })
 
             // Post Vote To Candidate
@@ -175,6 +191,12 @@ export default class Voting extends Component {
                         return
                     }
                 }
+
+                this.setState({
+                    voteCandidatePage: false,
+                    isLoading: false
+                })
+
                 if (result.data) {
                     console.log("voteToCandidateFunction>>>", result.data);
                 }
