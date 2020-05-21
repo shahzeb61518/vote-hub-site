@@ -37,6 +37,8 @@ export default class ApiManager {
     _BALLOT_GET = "ballot"
     _ADD_VOTERS = "voters/add"
     _VOTERS_GET = "voters"
+    _SEND_LINK = "voting"
+    _GET_CANDIDATES= "voting/getcandidates"
 
     async sendPostRequest(_url, _params, headers) {
         _url = this._BASE_URL + _url;
@@ -215,8 +217,7 @@ export default class ApiManager {
         enddate
     ) {
 
-        startdate = moment(new Date(startdate)).format('MMMM Do YYYY, h:mm:ss a');
-        enddate = moment(new Date(enddate)).format('MMMM Do YYYY, h:mm:ss a');
+
 
         let url = this._ELECTION_ADD;
         let electionData = {
@@ -292,5 +293,25 @@ export default class ApiManager {
         return this.sendPostRequest(url, voterData, this.headers)
     }
 
+
+
+    sendLinkWithTitle(title) {
+        let url = this._SEND_LINK;
+        let sneLinkData = {
+            title: title
+        }
+        console.log("sendLinkWithTitle>>>>", sneLinkData)
+        return this.sendPostRequest(url, sneLinkData, this.headers)
+    }
+
+
+    getCandidatesByTitle(title) {
+        let url = this._GET_CANDIDATES;
+        let candidatesData = {
+            title: title
+        }
+        console.log("GETcandidatesData>>>>", candidatesData)
+        return this.sendPostRequest(url, candidatesData, '')
+    }
 
 }

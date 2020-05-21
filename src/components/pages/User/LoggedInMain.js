@@ -8,7 +8,6 @@ import Footer from './../common/Footer'
 import routesLoggedIn from './../../helper/RoutesLoggedIn';
 import { connect } from 'react-redux'
 import { userData } from './../../../redux-store/actions/ActionUserData'
-
 class LoggedInMain extends Component {
 
   render() {

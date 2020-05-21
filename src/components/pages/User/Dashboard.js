@@ -51,9 +51,9 @@ export default class Dashboard extends Component {
             }
             if (result.data) {
                 this.setState({
-                    electionData: result.data[0]
+                    electionData: result.data
                 })
-                console.log("getElectionData>>>", result.data[0]);
+                console.log("getElectionData>>>", result.data);
 
             }
         })
@@ -91,7 +91,7 @@ export default class Dashboard extends Component {
                         <div className="col">
                             <Card style={{ padding: '20px', height: '90px' }}>
                                 <h6>Total Elections</h6>
-                                <p>1</p>
+                                <p>{this.state.electionData ? this.state.electionData.length : 0}</p>
                             </Card>
                         </div>
                         <div className="col">
@@ -127,53 +127,62 @@ export default class Dashboard extends Component {
                     </div>
                     <br />
                     <br />
-                    <div className="row">
-                        <div className="col">
-                            <Nav navbar style={{ float: 'left' }}>
-                                <AppHeaderDropdown direction="down">
-                                    <DropdownToggle nav
-                                        style={{
-                                            color: ''
-                                        }}>
-                                        <Button style={{ padding: '20px' }} color="inherit">Action</Button>
-                                    </DropdownToggle>
-                                    <DropdownMenu>
+                    {
+                        this.state.electionData && this.state.electionData.map((item, i) => {
 
-                                        <DropdownItem
-                                            onClick={e => this.props.history.push('/')}
-                                        >Complete Setup</DropdownItem>
-                                        <DropdownItem divider />
-                                        <DropdownItem
-                                            onClick={e => this.props.history.push('/')}
-                                        >Dublicate</DropdownItem>
-                                        <DropdownItem divider />
-                                        <DropdownItem
-                                            onClick={e => this.props.history.push('/')}
-                                        >Delete</DropdownItem>
-                                        <DropdownItem />
-                                    </DropdownMenu>
-                                </AppHeaderDropdown>
-                            </Nav>
-                            <div style={{ float: 'left', marginLeft: '10px' }}>
-                                {this.state.electionData ?
-                                    <div>
-                                        <h4 style={{ marginTop: '5px' }}>{this.state.electionData.title}</h4>
-                                        <p>{this.state.electionData.startdate}</p>
+                            return (
+                                <div className="row" key={i}>
+                                    <div className="col">
+                                        <Nav navbar style={{ float: 'left' }}>
+                                            <AppHeaderDropdown direction="down">
+                                                <DropdownToggle nav
+                                                    style={{
+                                                        color: ''
+                                                    }}>
+                                                    <Button style={{ padding: '20px' }} color="inherit">Action</Button>
+                                                </DropdownToggle>
+                                                <DropdownMenu>
+
+                                                    <DropdownItem
+                                                        onClick={e => this.props.history.push('/')}
+                                                    >Complete Setup</DropdownItem>
+                                                    <DropdownItem divider />
+                                                    <DropdownItem
+                                                        onClick={e => this.props.history.push('/')}
+                                                    >Dublicate</DropdownItem>
+                                                    <DropdownItem divider />
+                                                    <DropdownItem
+                                                        onClick={e => this.props.history.push('/')}
+                                                    >Delete</DropdownItem>
+                                                    <DropdownItem />
+                                                </DropdownMenu>
+                                            </AppHeaderDropdown>
+                                        </Nav>
+                                        <div style={{ float: 'left', marginLeft: '10px', textAlign: 'left' }}>
+                                            {this.state.electionData ?
+                                                <div>
+                                                    <h4 style={{ marginTop: '5px' }}>{item.title}</h4>
+                                                    <p>{item.startdate}</p>
+                                                </div>
+                                                :
+                                                undefined
+                                            }
+                                        </div>
                                     </div>
-                                    :
-                                    undefined
-                                }
-                            </div>
-                        </div>
-                        <div className="col" style={{ textAlign: 'right' }}>
-                            <Button
-                                style={{}}
-                                color="inherit"
-                                class="btn btn-primary"
-                                onClick={() => {
-                                }}>Incomplete</Button>
-                        </div>
-                    </div>
+                                    <div className="col" style={{ textAlign: 'right' }}>
+                                        <Button
+                                            style={{}}
+                                            color="inherit"
+                                            class="btn btn-primary"
+                                            onClick={() => {
+                                            }}>Incomplete</Button>
+                                    </div>
+                                    <br />
+                                    <br />
+                                </div>
+                            )
+                        })
+                    }
                 </div>
                 <br />
                 <br />

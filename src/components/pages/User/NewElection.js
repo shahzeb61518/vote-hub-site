@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import moment from 'moment';
 
 import MyTextField from '../../helper/MyTextField'
 
@@ -173,10 +174,11 @@ class NewElection extends Component {
             let nextStep = this.state.activeStep + 1;
             this.setState({ activeStep: nextStep })
 
-        } else {
-            let nextStep = this.state.activeStep + 1;
-            this.setState({ activeStep: nextStep })
         }
+        // else if (this.state.activeStep === 6) {
+        //     let nextStep = this.state.activeStep + 1;
+        //     this.setState({ activeStep: nextStep })
+        // }
     }
 
     handleOnClickBack = () => {
@@ -219,7 +221,9 @@ class NewElection extends Component {
                                                 {this.reviewStepConfirmModal()}
                                             </div>
                                             :
-                                            <div> {this.resultStep()} </div>
+                                            // <div> {this.resultStep()} </div>
+                                            <div> {this.props.history.push('/user/new-election/ready',
+                                                { title: this.state.electionTitle, })} </div>
 
                     }
                 </div>
@@ -538,6 +542,18 @@ class NewElection extends Component {
             endDateandTime
         } = this.state;
 
+       let startDate = moment(new Date(startDateandTime)).format('MMMM Do YYYY, h:mm:ss a');
+        let endDate = moment(new Date(endDateandTime)).format('MMMM Do YYYY, h:mm:ss a');
+
+        this.setState({
+            electionData: {
+                title:electionTitle,
+                orgnization:orgnization,
+                startDateandTime:startDate,
+                endDateandTime:endDate,
+            }
+        })
+
         if (validator.isEmpty(electionTitle + "")) {
             this.setState({
                 electionTitle_error: "Please enter your Election Title"
@@ -619,11 +635,11 @@ class NewElection extends Component {
                 }
             }
             if (result.data) {
-                console.log("result after result.getDetailsStepData>>>", result.data[0]);
-                this.setState({
-                    electionData: result.data[0],
-                    electiontitleballot: result.data[0].title
-                })
+                console.log("result after result.getDetailsStepData>>>", result.data);
+                // this.setState({
+                    // electionData: result.data,
+                    // electiontitleballot: result.data[0].title
+                // })
 
             }
         })
@@ -634,7 +650,7 @@ class NewElection extends Component {
     ballotStep = () => {
         return (
             <div style={{ textAlign: 'left' }}>
-                <h5>Election Title: {this.state.electiontitleballot}</h5>
+                <h5>Election Title: {this.state.electionTitle}</h5>
                 <Alert severity="info">
                     Design your ballot - add instructions, positions and questions.
                 </Alert>
@@ -924,7 +940,7 @@ class NewElection extends Component {
     // BALLOTS step FUNCTION
     addBallotStep = () => {
         const {
-            electiontitleballot,
+            electionTitle,
             ballotInfo,
             postionorquestion,
             noOfCondidate,
@@ -941,7 +957,7 @@ class NewElection extends Component {
         })
 
         new ApiManager().createBallot(
-            electiontitleballot,
+            electionTitle,
             ballotInfo,
             postionorquestion,
             noOfCondidate,
@@ -1030,7 +1046,7 @@ class NewElection extends Component {
     noticeStep = () => {
         return (
             <div style={{ textAlign: 'left' }}>
-                <h5>Election Title: {this.state.electiontitleballot}</h5>
+                <h5>Election Title: {this.state.electionTitle}</h5>
                 <h4>Notifications</h4>
                 <Alert severity="info">
                     Specify how voters will receive notices and access keys — choose any of the following:
@@ -1244,7 +1260,7 @@ class NewElection extends Component {
         };
         return (
             <div style={{ textAlign: 'left' }}>
-                <h5>Election Title: {this.state.electiontitleballot}</h5>
+                <h5>Election Title: {this.state.electionTitle}</h5>
 
                 <div>
                     <Alert severity="info">
@@ -1551,7 +1567,7 @@ class NewElection extends Component {
     // voters step FUNCTION
     addVotersStep = () => {
         const {
-            electiontitleballot,
+            electionTitle,
             candidateIdObject,
             candidateEmailObject,
             candidatePhoneObject,
@@ -1567,7 +1583,7 @@ class NewElection extends Component {
         // let email = "abc@gmail.com ";
         // let phone = "1231231312";
         new ApiManager().addVotersData(
-            electiontitleballot,
+            electionTitle,
             candidateIdObject,
             candidateEmailObject,
             candidatePhoneObject,
@@ -1604,7 +1620,7 @@ class NewElection extends Component {
 
     // Voter step get FUNCTION
     getVotersStepData = () => {
-        new ApiManager().getVotersData(this.state.electiontitleballot).then(result => {
+        new ApiManager().getVotersData(this.state.electionTitle).then(result => {
             if (result.no_result) {
                 return
             }
@@ -1629,7 +1645,7 @@ class NewElection extends Component {
         return (
             <div>
                 <div style={{ textAlign: 'left', width: '100%' }}>
-                    <h5>Election Title: {this.state.electiontitleballot}</h5>
+                    <h5>Election Title: {this.state.electionTitle}</h5>
                 </div>
 
                 <Alert severity="info">
@@ -1656,7 +1672,7 @@ class NewElection extends Component {
                                 <Button
                                     onClick={() => {
                                         this.props.history.push('/user/new-election/test', {
-                                            title: this.state.electiontitleballot,
+                                            title: this.state.electionTitle,
                                             candidateNames: this.state.candidateNameObject
                                         })
                                     }}
@@ -1750,6 +1766,7 @@ class NewElection extends Component {
     }
 
     reviewStepVerifyModal = () => {
+        
         return (
             <MyModal
                 modal_id={REVIEWSTEP_VERIFY_ID}
@@ -1765,15 +1782,15 @@ class NewElection extends Component {
                     <div className="justify-content-center" style={{ padding: '10px', paddingLeft: '60px', textAlign: 'left' }}>
                         {
                             this.state.electionData ?
-                                <div>
+                                <div> 
                                     <p>Election Name: <span style={{ fontWeight: '500' }}>
                                         {this.state.electionData.title}</span></p>
                                     <p>Organization: <span style={{ fontWeight: '500' }}>
-                                        {this.state.electionData.organization}</span></p>
+                                        {this.state.electionData.orgnization}</span></p>
                                     <p>Start and End Date: <span style={{ fontWeight: '500' }}>
-                                        {this.state.electionData.startdate}
+                                        {this.state.electionData.startDateandTime}
                                         and
-                                        {this.state.electionData.enddate}</span></p>
+                                        {this.state.electionData.endDateandTime}</span></p>
                                     <p>Anonymity and Integrity: <span style={{ fontWeight: '500' }}>Secret Ballot — High Integrity</span></p>
                                     <p>Voter Results: <span style={{ fontWeight: '500' }}>Visible only after the election has ended</span></p>
                                     <p>Administrator Results: <span style={{ fontWeight: '500' }}>Visible only after the election has ended</span></p>
@@ -1784,7 +1801,6 @@ class NewElection extends Component {
                                 :
                                 "No Election Created!"
                         }
-
                     </div>
                 </span>
             </MyModal>

@@ -16,6 +16,7 @@ import { LocalStorage } from './components/helper/LocalStorage';
 const Login = React.lazy(() => import('./components/pages/User/Login'));
 const Signup = React.lazy(() => import('./components/pages/User/Signup'));
 const Dashboard = React.lazy(() => import('./components/pages/User/Dashboard'));
+const Voting = React.lazy(() => import('./components/pages/User/Voting'));
 const Main = React.lazy(() => import('./components/pages/Main'));
 const LoggedInMain = React.lazy(() => import('./components/pages/User/LoggedInMain'));
 
@@ -58,6 +59,7 @@ class App extends Component {
                 {/* 
 								<Route exact path={ROUTES.err_404} name="Page 404" render={props => <Page404 {...props} />} />
 								<Route exact path={ROUTES.err_500} name="Page 500" render={props => <Page500 {...props} />} /> */}
+                <Route exact path="/user/new-election/voting" name="Voting" render={props => <Voting {...props} />} /> */}
                 <Route path="/user/dashboard" name="Home" render={props => <LoggedInMain {...props} />} />
                 {/* <Route exact path="/user/dashboard" name="Dashboard" render={props => <Dashboard {...props} />} /> */}
                 <Redirect to="/user/dashboard" />
