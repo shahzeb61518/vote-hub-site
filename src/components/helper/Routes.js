@@ -14,6 +14,8 @@ const Services = React.lazy(() => import('../pages/Services'))
 const WhoItsFor = React.lazy(() => import('../pages/WhoItsFor'))
 const Vote = React.lazy(() => import('../pages/Vote'))
 const ForgotPassword = React.lazy(() => import('../pages/User/ForgotPassword'))
+const Voting = React.lazy(() => import('../pages/User/Voting'))
+
 
 const routes = [
     { path: '/login', exact: true, name: 'Login', component: Login },
@@ -28,6 +30,8 @@ const routes = [
     { path: '/who-its-for', exact: true, name: 'Who Its For', component: WhoItsFor },
     { path: '/vote', exact: true, name: 'Vote', component: Vote },
     { path: '/forgot-password', exact: true, name: 'Vote', component: ForgotPassword },
+    { path: '/user/new-election/voting', exact: true, name: 'Voting', component: Voting },
+
 ];
 
 export default routes;

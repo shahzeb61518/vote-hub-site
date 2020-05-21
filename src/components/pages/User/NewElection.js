@@ -381,8 +381,11 @@ class NewElection extends Component {
                         type="text"
                         value={this.state.electionTitle}
                         onChange={(e) => {
+                            let titleHere = e.target.value
+                            titleHere = titleHere.split(" ").join("-");
+
                             this.setState({
-                                electionTitle: e.target.value
+                                electionTitle: titleHere
                             });
                         }}
                     />
