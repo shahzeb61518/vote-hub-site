@@ -27,6 +27,7 @@ import ApiManager from '../../helper/ApiManager'
 import MyModal, { toggleModal } from '../../helper/MyModal';
 
 const ADDPOSITION_ID = "addpositionmodal"
+const REVIEWSTEP_TEST_ID = "reviewsteptest"
 const REVIEWSTEP_REVIEW_ID = "reviewstepreview"
 const REVIEWSTEP_VERIFY_ID = "reviewstepverify"
 const REVIEWSTEP_CONFIRM_ID = "reviewstepconfirm"
@@ -110,6 +111,7 @@ class NewElection extends Component {
 
             stepFive: '',
 
+            candaidatebtn: 'none',
 
             electionData: '',
             ballotData: '',
@@ -195,7 +197,7 @@ class NewElection extends Component {
 
                     steps={steps}
                     activeStep={this.state.activeStep}
-                    onSelect={this.handleOnClickStepper}
+                    // onSelect={this.handleOnClickStepper}
                     showNumber={false}
                 />
 
@@ -216,6 +218,7 @@ class NewElection extends Component {
                                         this.state.activeStep === 5 ?
                                             <div>
                                                 {this.reviewStep()}
+                                                {this.reviewStepTestModal()}
                                                 {this.reviewStepReviewModal()}
                                                 {this.reviewStepVerifyModal()}
                                                 {this.reviewStepConfirmModal()}
@@ -542,15 +545,15 @@ class NewElection extends Component {
             endDateandTime
         } = this.state;
 
-       let startDate = moment(new Date(startDateandTime)).format('MMMM Do YYYY, h:mm:ss a');
+        let startDate = moment(new Date(startDateandTime)).format('MMMM Do YYYY, h:mm:ss a');
         let endDate = moment(new Date(endDateandTime)).format('MMMM Do YYYY, h:mm:ss a');
 
         this.setState({
             electionData: {
-                title:electionTitle,
-                orgnization:orgnization,
-                startDateandTime:startDate,
-                endDateandTime:endDate,
+                title: electionTitle,
+                orgnization: orgnization,
+                startDateandTime: startDate,
+                endDateandTime: endDate,
             }
         })
 
@@ -637,8 +640,8 @@ class NewElection extends Component {
             if (result.data) {
                 console.log("result after result.getDetailsStepData>>>", result.data);
                 // this.setState({
-                    // electionData: result.data,
-                    // electiontitleballot: result.data[0].title
+                // electionData: result.data,
+                // electiontitleballot: result.data[0].title
                 // })
 
             }
@@ -1671,10 +1674,11 @@ class NewElection extends Component {
                             <td>
                                 <Button
                                     onClick={() => {
-                                        this.props.history.push('/user/new-election/test', {
-                                            title: this.state.electionTitle,
-                                            candidateNames: this.state.candidateNameObject
-                                        })
+                                        toggleModal(REVIEWSTEP_TEST_ID)
+                                        // this.props.history.push('/user/new-election/test', {
+                                        //     title: this.state.electionTitle,
+                                        //     candidateNames: this.state.candidateNameObject
+                                        // })
                                     }}
                                     class="btn btn-light">Test</Button>
                             </td>
@@ -1736,7 +1740,87 @@ class NewElection extends Component {
     }
 
 
+
+
     //////////////////////// MODALS OF Review Step
+    reviewStepTestModal = () => {
+        const handleChangecandidate = (event) => {
+            this.setState({ candaidatebtn: event.target.value });
+        };
+        return (
+            <MyModal
+                modal_id={REVIEWSTEP_TEST_ID}
+                title={"Vote Testing"}
+                action_btn_title="Confirm"
+                action_btn_color="primary"
+                cancelModal="modal"
+                large_modal='modal-lg'
+                action={this.reviewStepTestModalFunction}
+            >
+                <span>
+                    <div className="justify-content-center" style={{ padding: '10px' }}>
+                        <div className="container">
+                            <br />
+                            <br />
+
+                            <h3>Orgnization: {
+                                this.state.electionData.orgnization ?
+                                    this.state.electionData.orgnization
+                                    :
+                                    ''
+                            }</h3>
+                            <h4>Election Title: {this.state.electionTitle}</h4>
+
+                            <br />
+                            <br />
+                            <div style={{ textAlign: 'left', width: '70%', marginLeft: '15%' }}>
+                                <h4>Board Speaker</h4>
+                                <h5>Select exactly 1 of 2 candidates or choose abstain to vote for none of the candidates.</h5>
+                            </div>
+
+                            <br />
+                            <table class="table" style={{ backgroundColor: 'rgb(225, 237, 255)', color: '', textAlign: 'left', width: '70%', marginLeft: '15%' }}>
+                                <thead >
+                                    <tr>
+                                        <th>
+                                            <h6>Candidate</h6>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <FormControl component="fieldset">
+                                                <RadioGroup aria-label="type" name="type" value={this.state.candaidatebtn} onChange={handleChangecandidate}>
+                                                    {
+                                                        this.state.candidateNameObject && this.state.candidateNameObject.map(function (item, i) {
+                                                            return <FormControlLabel style={{ marginBottom: '0px' }} value={item} control={<Radio />} label={item} />
+                                                        })
+                                                    }
+                                                    <FormControlLabel style={{ marginBottom: '0px' }} value="none" control={<Radio />} label="Abstain" />
+                                                </RadioGroup>
+                                            </FormControl>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br />
+                        </div>
+
+                    </div>
+                </span>
+            </MyModal>
+        )
+    }
+    reviewStepTestModalFunction = () => {
+        this.setState({
+            reviewText1: 'Test vote is completed',
+            textColorReview1: '#17BF3C'
+        })
+    }
+
+
+
     reviewStepReviewModal = () => {
         return (
             <MyModal
@@ -1745,14 +1829,30 @@ class NewElection extends Component {
                 action_btn_title="Confirm"
                 action_btn_color="primary"
                 cancelModal="modal"
-                // large_modal='modal-lg'
+                large_modal='modal-lg'
                 action={this.reviewStepReviewModalFunction}
             >
                 <span>
                     <div className="justify-content-center" style={{ padding: '10px' }}>
-                        <h6>1 Listed voter and 1 Extra key</h6>
+                        <h5>Voter list</h5>
                         <br />
-                        <p>Voter count: 1 (0 duplicates) — 1 emails, 0 SMS, 0 mail</p>
+                        <br />
+                        {
+                            this.state.candidateEmailObject && this.state.candidateEmailObject.map(function (item, i) {
+                                return (
+                                    <div style={{ textAlign: 'left' }}>
+
+                                        <ul key={i}>
+                                            <li>{item}</li>
+                                        </ul>
+
+                                    </div>
+                                )
+                            })
+                        }
+                        <br />
+                        <br />
+                        <br />
                     </div>
                 </span>
             </MyModal>
@@ -1766,7 +1866,7 @@ class NewElection extends Component {
     }
 
     reviewStepVerifyModal = () => {
-        
+
         return (
             <MyModal
                 modal_id={REVIEWSTEP_VERIFY_ID}
@@ -1782,7 +1882,7 @@ class NewElection extends Component {
                     <div className="justify-content-center" style={{ padding: '10px', paddingLeft: '60px', textAlign: 'left' }}>
                         {
                             this.state.electionData ?
-                                <div> 
+                                <div>
                                     <p>Election Name: <span style={{ fontWeight: '500' }}>
                                         {this.state.electionData.title}</span></p>
                                     <p>Organization: <span style={{ fontWeight: '500' }}>
