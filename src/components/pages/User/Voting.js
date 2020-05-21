@@ -183,11 +183,17 @@ export default class Voting extends Component {
             // Post Vote To Candidate
             new ApiManager().voteToCandidateData(this.state.electionTitle, this.state.candaidatebtn).then(result => {
                 if (result.no_result) {
+                    this.setState({
+                        isLoading: false
+                    })
                     return
                 }
                 if (result.data) {
                     if (result.data.error) {
                         alert(result.data.error)
+                        this.setState({
+                            isLoading: false
+                        })
                         return
                     }
                 }
