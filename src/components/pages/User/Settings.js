@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import ApiManager from './../../helper/ApiManager'
+import { LocalStorage } from '../../helper/LocalStorage';
 
 import MyTextField from './../../helper/MyTextField'
 
@@ -46,50 +47,60 @@ class Profile extends Component {
 
     componentDidMount() {
         // this.getUserById()
+        this.userData = new LocalStorage().getUserData();
+        this.userData = JSON.parse(this.userData);
+        console.log("this.userData>", this.userData)
+        if (this.userData) {
+            this.setState({
+                name: this.userData.firstname + " " + this.userData.lastname,
+                email: this.userData.email
+            })
+        }
+
     }
 
-    getUserById = () => {
-        // console.log("this.props.user.user", this.props.user.user.userId)
-        let id = this.props.user.user.userId
-        this.setState({
-            userId: this.props.user.user.userId
-        })
-        return (
-            new ApiManager().userById(id).then(result => {
-                if (result.no_result) {
-                    return
-                }
-                if (result.error) {
-                    return
-                }
-                if (result) {
-                    if (result.data) {
-                        this.setState({
-                            userData: result.data
-                        })
-                        if (this.state.userData) {
-                            this.setState({
-                                name: this.state.userData.name,
-                                phone: this.state.userData.phone,
-                                email: this.state.userData.email,
-                                dob: this.state.userData.dob,
-                                education: this.state.userData.education,
-                                job: this.state.userData.job,
-                                address: this.state.userData.address,
-                                joinDate: this.state.userData.joinDate,
-                                image: this.state.userData.image
-                            })
-                        }
-                        console.log("result.data", result.data)
-                    }
-                } else {
-                    this.setState({
-                        errorMsg: "Check your network..."
-                    })
-                }
-            })
-        )
-    }
+    // getUserById = () => {
+    //     // console.log("this.props.user.user", this.props.user.user.userId)
+    //     let id = this.props.user.user.userId
+    //     this.setState({
+    //         userId: this.props.user.user.userId
+    //     })
+    //     return (
+    //         new ApiManager().userById(id).then(result => {
+    //             if (result.no_result) {
+    //                 return
+    //             }
+    //             if (result.error) {
+    //                 return
+    //             }
+    //             if (result) {
+    //                 if (result.data) {
+    //                     this.setState({
+    //                         userData: result.data
+    //                     })
+    //                     if (this.state.userData) {
+    //                         this.setState({
+    //                             name: this.state.userData.name,
+    //                             phone: this.state.userData.phone,
+    //                             email: this.state.userData.email,
+    //                             dob: this.state.userData.dob,
+    //                             education: this.state.userData.education,
+    //                             job: this.state.userData.job,
+    //                             address: this.state.userData.address,
+    //                             joinDate: this.state.userData.joinDate,
+    //                             image: this.state.userData.image
+    //                         })
+    //                     }
+    //                     console.log("result.data", result.data)
+    //                 }
+    //             } else {
+    //                 this.setState({
+    //                     errorMsg: "Check your network..."
+    //                 })
+    //             }
+    //         })
+    //     )
+    // }
 
 
     render() {

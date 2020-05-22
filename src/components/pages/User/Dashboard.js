@@ -19,7 +19,9 @@ export default class Dashboard extends Component {
             userFName: "",
             userLName: "",
             electionName: "",
-            date: "25-05-2020 12:12PM"
+            date: "25-05-2020 12:12PM",
+
+            isLoading: true,
         }
         this.userData = '';
 
@@ -41,15 +43,24 @@ export default class Dashboard extends Component {
         // Get Election data
         new ApiManager().getElectionData().then(result => {
             if (result.no_result) {
+                this.setState({
+                    isLoading: false
+                })
                 return
             }
             if (result.data) {
                 if (result.data.error) {
                     alert(result.data.error)
+                    this.setState({
+                        isLoading: false
+                    })
                     return
                 }
             }
             if (result.data) {
+                this.setState({
+                    isLoading: false
+                })
                 this.setState({
                     electionData: result.data
                 })
@@ -128,10 +139,27 @@ export default class Dashboard extends Component {
                     <br />
                     <br />
                     {
+                        this.state.isLoading ?
+                            <div
+                                style={{
+                                    width: '60px',
+                                    height: '60px',
+                                    position: 'absolute',
+                                    marginLeft: '-5%',
+                                    marginTop: '30px'
+                                }}
+                                class="spinner-border text-primary"></div>
+                            :
+                            undefined
+                    }
+                    {
                         this.state.electionData && this.state.electionData.map((item, i) => {
 
                             return (
-                                <div className="row" key={i}>
+                                <div
+                                    className="row"
+                                    key={i}
+                                >
                                     <div className="col">
                                         <Nav navbar style={{ float: 'left' }}>
                                             <AppHeaderDropdown direction="down">
@@ -176,6 +204,14 @@ export default class Dashboard extends Component {
                                             class="btn btn-primary"
                                             onClick={() => {
                                             }}>Completed</Button>
+                                        <Button
+                                            style={{ marginLeft: '5px' }}
+                                            color="inherit"
+                                            class="btn btn-primary"
+                                            onClick={() => {
+                                                this.getResultAndVotes(item.title)
+                                            }}
+                                        >Show Result</Button>
                                     </div>
                                     <br />
                                     <br />
@@ -193,5 +229,10 @@ export default class Dashboard extends Component {
             </div>
 
         )
+    }
+
+
+    getResultAndVotes = (title) => {
+        this.props.history.push('/user/result', { title: title })
     }
 }

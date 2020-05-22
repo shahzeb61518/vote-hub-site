@@ -97,8 +97,6 @@ class NewElection extends Component {
             reviewText3: 'Election details are NOT verified',
             reviewText4: 'Terms & conditions are NOT confirmed',
 
-            resultStatus: "0 ballots submitted of 1 possible ballot — 0%",
-            resultStatusLink: "Access Link: secure.electionbuddy.com/m/RPkUKYQ/nc2ozvqxi3",
             searchVoters: '',
 
 
@@ -197,7 +195,7 @@ class NewElection extends Component {
 
                     steps={steps}
                     activeStep={this.state.activeStep}
-                    // onSelect={this.handleOnClickStepper}
+                    onSelect={this.handleOnClickStepper}
                     showNumber={false}
                 />
 
@@ -224,7 +222,6 @@ class NewElection extends Component {
                                                 {this.reviewStepConfirmModal()}
                                             </div>
                                             :
-                                            // <div> {this.resultStep()} </div>
                                             <div> {this.props.history.push('/user/new-election/ready',
                                                 { title: this.state.electionTitle, })} </div>
 
@@ -1974,89 +1971,7 @@ class NewElection extends Component {
 
 
 
-    // result step
-    resultStep = () => {
-        return (
-            <div>
-                <br />
-                <div style={{ width: '100%', textAlign: 'center' }}>
-                    <Alert>
-                        {this.state.resultStatus}
-                    </Alert>
-                    <FormHelperText
-                        style={{ marginTop: '0px' }}
-                    >{this.state.resultStatusLink}
-                    </FormHelperText>
-                </div>
 
-
-
-                <br />
-                <div style={{ width: '100%', textAlign: 'right' }}>
-                    <input
-                        style={{ borderRadius: '5px' }}
-                        type="text"
-                        className="input"
-                        placeholder="Search"
-                    />
-                    <Button class="btn btn-light">Search</Button>
-
-                    <br />
-                    <Button class="btn btn-light"><li className="fa fa-download"></li>Download</Button>
-                </div>
-                <br />
-                <table class="table">
-                    <thead style={{ backgroundColor: 'black', color: 'white' }}>
-                        <tr>
-                            <th>Select</th>
-                            <th>Label</th>
-                            <th>Status</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody style={{ textAlign: 'left' }}>
-                        <tr>
-                            <td>
-                                <div className="custom-control custom-checkbox">
-                                    <input
-                                        type="checkbox"
-                                        className="custom-control-input"
-                                        id="resultchkbox1"
-                                    />
-                                    <label
-                                        className="custom-control-label"
-                                        htmlFor="resultchkbox1"
-                                    ></label>
-                                </div>
-                            </td>
-                            <td>Abc</td>
-                            <td>Not Voted</td>
-                            <td>Abc@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div className="custom-control custom-checkbox">
-                                    <input
-                                        type="checkbox"
-                                        className="custom-control-input"
-                                        id="resultchkbox2"
-                                    />
-                                    <label
-                                        className="custom-control-label"
-                                        htmlFor="resultchkbox2"
-                                    ></label>
-                                </div>
-                            </td>
-                            <td>XYZ</td>
-                            <td>Not Voted</td>
-                            <td>XYZ@gmail.com</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-            </div>
-        )
-    }
 }
 
 const mapStateToProps = (state) => {

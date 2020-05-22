@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import Card from '@material-ui/core/Card';
+import validator from 'validator';
 
 import Button from '@material-ui/core/Button';
 
@@ -12,6 +13,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 
 import { DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import { AppHeaderDropdown } from '@coreui/react';
+import MyTextField from '../../helper/MyTextField'
 
 import { LocalStorage } from '../../helper/LocalStorage';
 import ApiManager from '../../helper/ApiManager'
@@ -25,7 +27,12 @@ export default class Voting extends Component {
             candaidatebtn: '',
             candidates: '',
             voteCandidatePage: true,
-            isLoading: false
+            isLoading: false,
+            isAccessKey: false,
+
+            accessKey: "",
+            accessKey_error: "",
+            noAccessKeyString: ''
         }
         this.userData = '';
 
@@ -85,6 +92,8 @@ export default class Voting extends Component {
 
     //VOting main body
     mainBody = () => {
+        const { accessKey, accessKey_error } = this.state;
+
         const handleChangecandidate = (event) => {
             this.setState({ candaidatebtn: event.target.value });
         };
@@ -102,8 +111,54 @@ export default class Voting extends Component {
 
                     <br />
                     <br />
+                    <div style={{ width: "50%", marginLeft: '25%' }}>
+                        <Card style={{ padding: '50px' }}>
+                            <h5>Enter Your Access Key</h5>
+                            <br />
+                            <p>If you don't have a key, contact your organization's election administrator.</p>
+                            <MyTextField
+                                reference={(ref) => this.accessKey = ref}
+                                label="Enter you Access Key"
+                                required={true}
+                                type="text"
+                                value={accessKey}
+                                onChange={(e) => {
+                                    this.setState({
+                                        accessKey: e.target.value
+                                    });
+                                }}
+                                helperText={accessKey_error ? accessKey_error : ""}
+                                error={accessKey_error ? true : false}
+                            />
+
+
+                            <Button style={{}}
+                                variant="contained"
+                                className="btn btn-primary"
+                                onClick={() => {
+                                    this.getAccessToVoteFunction()
+                                }}
+                                disabled={this.state.disableBtn}>
+                                {
+                                    this.state.disableBtn ?
+                                        <span className="spinner-border spinner-border-sm"></span>
+                                        :
+                                        undefined
+                                }
+                        Start Voting
+                        </Button>
+                            <br />
+                            <br />
+                            <div style={{ width: '100%', textAlign: 'center', color: 'green' }}>
+                                <br />
+                                <h6>{this.state.noAccessKeyString}</h6>
+                            </div>
+                            <br />
+                        </Card>
+                    </div>
+
                     <br />
-                    {
+                    {/* {
                         this.state.isLoading ?
                             <div
                                 style={{
@@ -115,54 +170,70 @@ export default class Voting extends Component {
                                 class="spinner-border text-primary"></div>
                             :
                             undefined
-                    }
-                    {
-                        this.state.voteCandidatePage ?
-                            <div>
-                                <table class="table" style={{ backgroundColor: 'rgb(225, 237, 255)', color: '', textAlign: 'left', width: '70%', marginLeft: '15%' }}>
-                                    <thead >
-                                        <tr>
-                                            <th>
-                                                <h6>Candidates</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <FormControl component="fieldset">
-                                                    <RadioGroup aria-label="type" name="type" value={this.state.candaidatebtn} onChange={handleChangecandidate}>
-                                                        {
-                                                            this.state.candidates && this.state.candidates.map(function (item, i) {
-                                                                return <FormControlLabel style={{ marginBottom: '0px' }} value={item} control={<Radio />} label={item} />
-                                                            })
-                                                        }
-                                                    </RadioGroup>
-                                                </FormControl>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <br />
-                                <div style={{ textAlign: 'center', width: '100%' }}>
-                                    <Button
-                                        class="btn btn-primary"
-                                        type="button"
-                                        style={{ width: '150px' }}
-                                        onClick={() => {
-                                            // this.props.history.push('/user/dashboard')
-                                            this.voteToCandidateFunction()
+                    } */}
 
-                                        }}
-                                    >   Vote   </Button>
-                                </div>
+                    {
+                        this.state.isAccessKey ?
+                            <div>
+                                {
+                                    this.state.voteCandidatePage ?
+                                        <div>
+                                            <table class="table" style={{ backgroundColor: 'rgb(225, 237, 255)', color: '', textAlign: 'left', width: '70%', marginLeft: '15%' }}>
+                                                <thead >
+                                                    <tr>
+                                                        <th>
+                                                            <h6>Candidates</h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <FormControl component="fieldset">
+                                                                <RadioGroup aria-label="type" name="type" value={this.state.candaidatebtn} onChange={handleChangecandidate}>
+                                                                    {
+                                                                        this.state.candidates && this.state.candidates.map(function (item, i) {
+                                                                            return (
+                                                                                <FormControlLabel
+                                                                                    style={{ marginBottom: '0px' }}
+                                                                                    value={item}
+                                                                                    control={<Radio />}
+                                                                                    label={item} />
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </RadioGroup>
+                                                            </FormControl>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <br />
+                                            <div style={{ textAlign: 'center', width: '100%' }}>
+                                                <Button
+                                                    className="btn btn-primary"
+                                                    type="button"
+                                                    style={{ width: '150px' }}
+                                                    onClick={() => {
+                                                        // this.props.history.push('/user/dashboard')
+                                                        this.voteToCandidateFunction()
+
+                                                    }}
+                                                >   Vote   </Button>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div style={{ width: '100%', textAlign: 'center', color: 'green' }}>
+                                            <br />
+                                            <h4>Your Vote has recorded!</h4>
+                                        </div>
+
+                                }
                             </div>
                             :
-                            <div>
-                                <h6>Your Vote has recorded!</h6>
-                            </div>
-
+                            undefined
                     }
+
                     <br />
                     <br />
                     <br />
@@ -211,5 +282,51 @@ export default class Voting extends Component {
         }
     }
 
+
+    getAccessToVoteFunction = () => {
+        const { accessKey, electionTitle } = this.state;
+
+
+        if (validator.isEmpty(accessKey + "")) {
+            this.setState({
+                accessKey_error: "Please enter your Access Key"
+            })
+            var positionName = this.accessKey.offsetTop;
+            this.scrollToView(positionName)
+            return;
+        } else {
+            this.setState({
+                accessKey_error: ""
+            })
+        }
+
+        new ApiManager().getAccessForVote(electionTitle, accessKey).then(result => {
+            if (result.no_result) {
+                return
+            }
+            if (result.data) {
+                if (result.data.error) {
+                    alert(result.data.error)
+                    return
+                }
+            }
+
+
+
+            if (result.data) {
+                if (result.data === "Key Matched.. You can vote now") {
+                    this.setState({
+                        isAccessKey: true,
+                    })
+                } else {
+                    this.setState({
+                        noAccessKeyString: result.data
+                    })
+                }
+
+                console.log("voteToCandidateFunction>>>", result.data);
+            }
+        })
+    }
 
 }

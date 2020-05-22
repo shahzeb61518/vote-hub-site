@@ -98,7 +98,7 @@ export default class Signup extends Component {
                                 error={firstname_error ? true : false}
                             />
                         </div>
-                        <div className="col" style={{  paddingRight: '0px' }}>
+                        <div className="col" style={{ paddingRight: '0px' }}>
                             <MyTextField
                                 reference={(ref) => this.lastname = ref}
                                 label="Last Name"
@@ -351,10 +351,24 @@ export default class Signup extends Component {
             var positionConfirmPass = this.confirmPassword.offsetTop;
             this.scrollToView(positionConfirmPass)
             return;
+
         } else {
-            this.setState({
-                confirmPassword_error: ""
-            })
+            if (password && password != confirmPassword) {
+                console.log("wrong password")
+                this.setState({
+                    password_error: "Please match Password",
+                    confirmPassword_error: "Please match Confirm Password"
+                })
+                var position = this.confirmPassword.offsetTop;
+                this.scrollToView(position)
+                return;
+
+            } else {
+                this.setState({
+                    confirmPassword_error: ""
+                })
+            }
+
         }
 
         if (validator.isEmpty(orgType + "")) {
@@ -445,10 +459,10 @@ export default class Signup extends Component {
                     return
                 }
             }
-            this.props.history.push('/verify-mail',{
-            userEmail: email
+            this.props.history.push('/verify-mail', {
+                userEmail: email
             });
-             new LocalStorage().setUserData(JSON.stringify(email))
+            new LocalStorage().setUserData(JSON.stringify(email))
             this.setState({
                 isLoading: false,
                 disableBtn: false
