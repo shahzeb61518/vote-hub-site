@@ -243,6 +243,7 @@ export default class Result extends Component {
                                         }
                                     </div>
                                     <div className="col">
+                                        <br />
                                         <h5>Votes</h5>
                                         {
                                             this.state.resultData && this.state.resultData.array.map(function (item2, j) {

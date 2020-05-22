@@ -319,11 +319,12 @@ export default class ApiManager {
 
 
 
-    voteToCandidateData(title, selectedCandidate) {
+    voteToCandidateData(title, selectedCandidate, accesskey) {
         let url = this._VOTE_RESULT;
         let voterData = {
             title: title,
-            selection: selectedCandidate
+            selection: selectedCandidate,
+            accessKey: accesskey
         }
         console.log("voteToCandidateData>>>>", voterData)
         return this.sendPostRequest(url, voterData, '')
