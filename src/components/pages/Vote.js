@@ -49,28 +49,7 @@ export default class Vote extends Component {
             })
         }
 
-        // Get voters data
-        // if (title) {
-        //     new ApiManager().getCandidatesByTitle(title).then(result => {
-        //         if (result.no_result) {
-        //             return
-        //         }
-        //         if (result.data) {
-        //             if (result.data.error) {
-        //                 alert(result.data.error)
-        //                 return
-        //             }
-        //         }
-        //         if (result.data[0]) {
-        //             if (result.data) {
-        //                 console.log("result getCandidatesByTitle>>>", result.data);
-        //                 this.setState({
-        //                     candidates: result.data
-        //                 })
-        //             }
-        //         }
-        //     })
-        // }
+
     }
 
     render() {
@@ -230,7 +209,7 @@ export default class Vote extends Component {
             })
 
             // Post Vote To Candidate
-            new ApiManager().voteToCandidateData(this.state.electionTitle, this.state.candaidatebtn).then(result => {
+            new ApiManager().voteToCandidateData(this.state.electionTitle, this.state.candaidatebtn, this.state.accessKey).then(result => {
                 if (result.no_result) {
                     this.setState({
                         isLoading: false
@@ -278,7 +257,7 @@ export default class Vote extends Component {
             })
         }
 
-        new ApiManager().getAccessForVote(electionTitle, accessKey).then(result => {
+        new ApiManager().getTitleByAccessKey(accessKey).then(result => {
             if (result.no_result) {
                 return
             }
@@ -292,17 +271,44 @@ export default class Vote extends Component {
 
 
             if (result.data) {
-                if (result.data === "Key Matched.. You can vote now") {
-                    this.setState({
-                        isAccessKey: true,
-                    })
-                } else {
+                if (result.data === "No Access Key Found") {
                     this.setState({
                         noAccessKeyString: result.data
                     })
+                } else if (result.data === "You have already voted") {
+                    this.setState({
+                        noAccessKeyString: result.data
+                    })
+                } else {
+
+                    // Get Candidates data
+                    this.setState({
+                        isAccessKey: true,
+                        noAccessKeyString: "",
+                        electionTitle: result.data
+                    })
+                    new ApiManager().getCandidatesByTitle(result.data).then(result => {
+                        if (result.no_result) {
+                            return
+                        }
+                        if (result.data) {
+                            if (result.data.error) {
+                                alert(result.data.error)
+                                return
+                            }
+                        }
+                        if (result.data) {
+                            if (result.data) {
+                                console.log("result getCandidatesByTitle>>>", result.data);
+                                this.setState({
+                                    candidates: result.data
+                                })
+                            }
+                        }
+                    })
                 }
 
-                console.log("voteToCandidateFunction>>>", result.data);
+                console.log("getTitleByAccessKey>>>", result.data);
             }
         })
     }

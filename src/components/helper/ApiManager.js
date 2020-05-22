@@ -42,7 +42,8 @@ export default class ApiManager {
     _VOTE_RESULT = "result"
     _GET_RESULT = "result/show"
     _GET_ACCESS_TO_VOTE = "voting/verify"
-
+    _GET_TITLE_BY_ACCESSKEY= "voting/verify2"
+    
     async sendPostRequest(_url, _params, headers) {
         _url = this._BASE_URL + _url;
         console.log("API _url", _url)
@@ -349,4 +350,15 @@ export default class ApiManager {
         console.log("getAccessForVote>>>>", getAccessData)
         return this.sendPostRequest(url, getAccessData, '')
     }
+
+
+    getTitleByAccessKey(accessKey) {
+        let url = this._GET_TITLE_BY_ACCESSKEY;
+        let accessData = {
+            accessKey: accessKey
+        }
+        console.log("getTitleByAccessKey>>>>", accessData)
+        return this.sendPostRequest(url, accessData, '')
+    }
+
 }

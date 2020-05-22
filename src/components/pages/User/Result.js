@@ -21,7 +21,7 @@ export default class Result extends Component {
             electionTitle: '',
             votersData: '',
             candidatesData: '',
-            resultData: ''
+            resultData: []
         }
         this.userData = '';
 
@@ -231,34 +231,30 @@ export default class Result extends Component {
                             <Card style={{ padding: '20px' }}>
                                 <div className="row">
                                     <div className="col"></div>
-                                    <div className="col"></div>
                                     <div className="col">
                                         <br />
 
-                                        <h5>Candidates</h5>
-                                        {
-                                            this.state.candidatesData && this.state.candidatesData.map(function (item, i) {
-                                                return (<p>{item}</p>)
-                                            })
-                                        }
-                                    </div>
-                                    <div className="col">
+                                        <h4>Candidates & Votes</h4>
                                         <br />
-                                        <h5>Votes</h5>
-                                        {
-                                            this.state.resultData && this.state.resultData.array.map(function (item2, j) {
-                                                // var count = {};
-                                                // if (this.state.resultData.array) {
-                                                //     let myArr = this.state.resultData.array;
 
-                                                //     myArr.forEach(function (i) { count[i] = (count[i] || 0) + 1; });
-                                                //     console.log("countcountcount>>>", count);
-                                                // }
-                                                return (<p>{item2}</p>)
+                                        {
+                                            this.state.candidatesData && this.state.candidatesData.map((item, i) => {
+                                                return (
+                                                    <>
+                                                        <div className="row" key={i}>
+                                                            <div className="col">
+                                                                <h5>Name: {item}</h5>
+                                                            </div>
+                                                            <div className="col">
+                                                                <h5>Votes: {this.getOccurrence(this.state.resultData, item)}</h5>
+                                                            </div>
+                                                        </div>
+
+                                                    </>
+                                                )
                                             })
                                         }
                                     </div>
-                                    <div className="col"></div>
                                     <div className="col"></div>
                                 </div>
 
@@ -268,7 +264,7 @@ export default class Result extends Component {
                                 <br />
                                 <div className="row">
                                     <div className="col"></div>
-                                    <div className="col">
+                                    {/* <div className="col">
                                         <Alert>
                                             Voters: {this.state.resultData.voterlist ? this.state.resultData.voterlist : undefined}
                                         </Alert>
@@ -277,7 +273,7 @@ export default class Result extends Component {
                                         <Alert>
                                             Total Votes:  {this.state.resultData.votescount ? this.state.resultData.votescount : undefined}
                                         </Alert>
-                                    </div>
+                                    </div> */}
                                     <div className="col"></div>
                                 </div>
                                 <br />
@@ -299,4 +295,10 @@ export default class Result extends Component {
             </div >
         )
     }
+
+
+    getOccurrence = (array, value) => {
+        return array.filter((v) => (v === value)).length;
+    }
+
 }
