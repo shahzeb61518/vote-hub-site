@@ -325,9 +325,19 @@ export default class Signup extends Component {
             this.scrollToView(positionEmail)
             return;
         } else {
-            this.setState({
-                email_error: ""
-            })
+            if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+                this.setState({
+                    email_error: ""
+                })
+            } else {
+                this.setState({
+                    email_error: "Please enter valid email"
+                })
+                var positionEmailchck = this.email.offsetTop;
+                this.scrollToView(positionEmailchck)
+                return;
+            }
+
         }
 
 

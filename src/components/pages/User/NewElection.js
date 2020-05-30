@@ -103,6 +103,10 @@ class NewElection extends Component {
             candidateNameObject: [],
             candidateDescriptionObject: [],
 
+            votersId1: '',
+            votersId2: '',
+            votersId3: '',
+            votersId: '',
             candidateIdObject: [],
             candidateEmailObject: [],
             candidatePhoneObject: [],
@@ -195,7 +199,7 @@ class NewElection extends Component {
 
                     steps={steps}
                     activeStep={this.state.activeStep}
-                    onSelect={this.handleOnClickStepper}
+                    // onSelect={this.handleOnClickStepper}
                     showNumber={false}
                 />
 
@@ -1446,15 +1450,35 @@ class NewElection extends Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
+                                <td style={{width:'30%'}}>
                                     <input
                                         style={{
-                                            width: '100%',
+                                            width: '20%',
                                             padding: '5px',
                                             borderRadius: '5px'
                                         }}
-                                        ref="inputId"
-                                        placeholder="Id"
+                                        ref="inputId1"
+                                        maxlength="4"
+                                    />
+                                    <span>-</span>
+                                    <input
+                                        style={{
+                                            width: '15%',
+                                            padding: '5px',
+                                            borderRadius: '5px'
+                                        }}
+                                        ref="inputId2"
+                                        maxlength="3"
+                                    />
+                                    <span>-</span>
+                                    <input
+                                        style={{
+                                            width: '15%',
+                                            padding: '5px',
+                                            borderRadius: '5px'
+                                        }}
+                                        ref="inputId3"
+F                                        maxlength="3"
                                     />
                                     <div>{Object.values(this.state.candidateIdObject)
                                         .map(id =>
@@ -1507,7 +1531,9 @@ class NewElection extends Component {
                         className="btn btn-primary"
                         style={{ marginLeft: '40%' }}
                         onClick={() => {
-                            if (this.refs.inputId.value.trim() != "") {
+                            if (this.refs.inputId1.value.trim() != "" 
+                            && this.refs.inputId2.value.trim() != "" 
+                            && this.refs.inputId3.value.trim() != "") {
                                 if (this.refs.inputEmail.value.trim() != "") {
                                     if (this.refs.inputPhone.value.trim() != "") {
 
@@ -1515,16 +1541,20 @@ class NewElection extends Component {
                                         const candidateEmailObject = this.state.candidateEmailObject;
                                         const candidatePhoneObject = this.state.candidatePhoneObject;
 
-                                        candidateIdObject.push(this.refs.inputId.value);
+                                        candidateIdObject.push(this.refs.inputId1.value+"-"+this.refs.inputId2.value+"-"+this.refs.inputId3.value);
                                         candidateEmailObject.push(this.refs.inputEmail.value);
                                         candidatePhoneObject.push(this.refs.inputPhone.value);
 
                                         this.setState({ candidateIdObject, candidateEmailObject, candidatePhoneObject });
-                                        this.refs.inputId.select();
+                                        this.refs.inputId1.select();
+                                        this.refs.inputId2.select();
+                                        this.refs.inputId3.select();
                                         this.refs.inputEmail.select();
                                         this.refs.inputPhone.select();
 
-                                        this.refs.inputId.value = '';
+                                        this.refs.inputId1.value = '';
+                                        this.refs.inputId2.value = '';
+                                        this.refs.inputId3.value = '';
                                         this.refs.inputEmail.value = '';
                                         this.refs.inputPhone.value = '';
                                     }
