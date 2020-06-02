@@ -118,6 +118,8 @@ class NewElection extends Component {
             electionData: '',
             ballotData: '',
             votersData: '',
+
+            voterEmail_error: '',
         }
 
         this.userData = '';
@@ -464,19 +466,33 @@ class NewElection extends Component {
                         label="Start Date and Time"
                         format="dd/MM/yyyy hh:mm"
                         value={this.state.startDateandTime}
+                        // maxDate={
+                        //     this.state.startDateandTime ?
+                        //         this.state.startDateandTimes
+                        //         :
+                        //         undefined
+                        // }
                         onChange={(e) => {
+                            let date = e
                             this.setState({
                                 startDateandTime: e,
+
                             })
                         }}
                     />
                     <MaterialUIPickers
                         label="End Date and Time"
                         value={this.state.endDateandTime}
+                        minDate={
+                            this.state.startDateandTime ?
+                                this.state.startDateandTime
+                                :
+                                undefined
+                        }
                         format="dd/MM/yyyy hh:mm"
                         onChange={(e) => {
                             this.setState({
-                                endDateandTime: e,
+                                endDateandTime: e
                             })
                         }}
                     />
@@ -1450,7 +1466,7 @@ class NewElection extends Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td style={{width:'30%'}}>
+                                <td style={{ width: '30%' }}>
                                     <input
                                         style={{
                                             width: '20%',
@@ -1478,7 +1494,7 @@ class NewElection extends Component {
                                             borderRadius: '5px'
                                         }}
                                         ref="inputId3"
-F                                        maxlength="3"
+                                        maxlength="3"
                                     />
                                     <div>{Object.values(this.state.candidateIdObject)
                                         .map(id =>
@@ -1497,6 +1513,19 @@ F                                        maxlength="3"
                                         }}
                                         ref="inputEmail"
                                         placeholder="Email"
+                                        required
+                                        onChange={(e) => {
+                                            if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(e.target.value)) {
+                                                this.setState({
+                                                    voterEmail_error: ""
+                                                })
+                                            } else {
+                                                this.setState({
+                                                    voterEmail_error: "Please enter valid email"
+                                                })
+                                                return;
+                                            }
+                                        }}
                                     />
                                     <div>{Object.values(this.state.candidateEmailObject)
                                         .map(email =>
@@ -1506,15 +1535,20 @@ F                                        maxlength="3"
                                         )}
                                     </div>
                                 </td>
+                                <p style={{ color: 'red', fontSize: '12px' }}>{this.state.voterEmail_error}</p>
                                 <td>
+                                    <p style={{ float: 'left', fontSize: '18px' }}>+91</p>
                                     <input
                                         style={{
-                                            width: '100%',
+                                            width: '85%',
                                             padding: '5px',
+                                            marginLeft: '10px',
                                             borderRadius: '5px'
                                         }}
+                                        type="number"
                                         ref="inputPhone"
-                                        placeholder="Phone"
+                                        placeholder="phone"
+                                        required
                                     />
                                     <div>{Object.values(this.state.candidatePhoneObject)
                                         .map(phone =>
@@ -1531,9 +1565,9 @@ F                                        maxlength="3"
                         className="btn btn-primary"
                         style={{ marginLeft: '40%' }}
                         onClick={() => {
-                            if (this.refs.inputId1.value.trim() != "" 
-                            && this.refs.inputId2.value.trim() != "" 
-                            && this.refs.inputId3.value.trim() != "") {
+                            if (this.refs.inputId1.value.trim() != ""
+                                && this.refs.inputId2.value.trim() != ""
+                                && this.refs.inputId3.value.trim() != "") {
                                 if (this.refs.inputEmail.value.trim() != "") {
                                     if (this.refs.inputPhone.value.trim() != "") {
 
@@ -1541,9 +1575,9 @@ F                                        maxlength="3"
                                         const candidateEmailObject = this.state.candidateEmailObject;
                                         const candidatePhoneObject = this.state.candidatePhoneObject;
 
-                                        candidateIdObject.push(this.refs.inputId1.value+"-"+this.refs.inputId2.value+"-"+this.refs.inputId3.value);
+                                        candidateIdObject.push(this.refs.inputId1.value + "-" + this.refs.inputId2.value + "-" + this.refs.inputId3.value);
                                         candidateEmailObject.push(this.refs.inputEmail.value);
-                                        candidatePhoneObject.push(this.refs.inputPhone.value);
+                                        candidatePhoneObject.push("+91" + this.refs.inputPhone.value);
 
                                         this.setState({ candidateIdObject, candidateEmailObject, candidatePhoneObject });
                                         this.refs.inputId1.select();
@@ -1606,6 +1640,9 @@ F                                        maxlength="3"
             candidatePhoneObject,
 
         } = this.state;
+
+
+
 
         this.setState({
             disableBtn: true
