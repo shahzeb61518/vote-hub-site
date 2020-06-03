@@ -1554,7 +1554,7 @@ class NewElection extends Component {
                                         ref="inputPhone"
                                         placeholder="phone"
                                         required
-                                        maxlength="10"
+                                        onkeypress="if(this.value.length==10) return false;"
                                     />
                                     <div>{Object.values(this.state.candidatePhoneObject)
                                         .map(phone =>
