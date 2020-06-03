@@ -1550,7 +1550,7 @@ class NewElection extends Component {
                                             marginLeft: '10px',
                                             borderRadius: '5px'
                                         }}
-                                        type="tel"
+                                        type="number"
                                         ref="inputPhone"
                                         placeholder="phone"
                                         required
