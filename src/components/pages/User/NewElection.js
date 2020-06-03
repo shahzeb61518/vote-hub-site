@@ -1584,17 +1584,18 @@ class NewElection extends Component {
 
                                         let checID = this.refs.inputId1.value + "-" + this.refs.inputId2.value + "-" + this.refs.inputId3.value
                                         let chceckPhone = "+91" + this.refs.inputPhone.value.trim()
-                                        if (
-                                            this.state.candidateIdObject.includes(checID) ||
-                                            this.state.candidateEmailObject.includes(this.refs.inputEmail.value.trim()) ||
-                                            this.state.candidatePhoneObject.includes(chceckPhone)
-                                        ) {
-                                            return alert("Check ID, Email and Phone if already added")
-                                        } else {
-                                            candidateIdObject.push(this.refs.inputId1.value + "-" + this.refs.inputId2.value + "-" + this.refs.inputId3.value);
-                                            candidateEmailObject.push(this.refs.inputEmail.value);
-                                            candidatePhoneObject.push("+91" + this.refs.inputPhone.value);
-
+                                        if (this.state.voterEmail_error === "") {
+                                            if (
+                                                this.state.candidateIdObject.includes(checID) ||
+                                                this.state.candidateEmailObject.includes(this.refs.inputEmail.value.trim()) ||
+                                                this.state.candidatePhoneObject.includes(chceckPhone)
+                                            ) {
+                                                return alert("Check ID, Email and Phone if already added")
+                                            } else {
+                                                candidateIdObject.push(this.refs.inputId1.value + "-" + this.refs.inputId2.value + "-" + this.refs.inputId3.value);
+                                                candidateEmailObject.push(this.refs.inputEmail.value);
+                                                candidatePhoneObject.push("+91" + this.refs.inputPhone.value);
+                                            }
                                         }
 
                                         this.setState({ candidateIdObject, candidateEmailObject, candidatePhoneObject });
