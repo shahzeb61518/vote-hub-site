@@ -476,7 +476,7 @@ class NewElection extends Component {
                             let date = e
                             this.setState({
                                 startDateandTime: e,
-
+                                endDateandTime: e
                             })
                         }}
                     />
