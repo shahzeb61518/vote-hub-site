@@ -1544,6 +1544,7 @@ class NewElection extends Component {
                                 <td>
                                     <p style={{ float: 'left', fontSize: '18px' }}>+91</p>
                                     <input
+                                        maxLength="10" onInput={this.maxLengthCheck} 
                                         style={{
                                             width: '85%',
                                             padding: '5px',
@@ -1554,7 +1555,6 @@ class NewElection extends Component {
                                         ref="inputPhone"
                                         placeholder="phone"
                                         required
-                                        onkeypress="if(this.value.length==10) return false;"
                                     />
                                     <div>{Object.values(this.state.candidatePhoneObject)
                                         .map(phone =>
@@ -1650,6 +1650,13 @@ class NewElection extends Component {
             </div >
         )
     }
+
+    maxLengthCheck = (object) => {
+        if (object.target.value.length > object.target.maxLength) {
+            object.target.value = object.target.value.slice(0, object.target.maxLength)
+        }
+    }
+
     // voters step FUNCTION
     addVotersStep = () => {
         const {
