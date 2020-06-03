@@ -129,6 +129,7 @@ class NewElection extends Component {
         this.counterId = 1;
         this.counterEmail = 1;
         this.counterPhone = 1;
+        this.endDate = new Date()
     }
 
     componentDidMount() {
@@ -473,16 +474,19 @@ class NewElection extends Component {
                         //         undefined
                         // }
                         onChange={(e) => {
-                            let date = e
                             this.setState({
                                 startDateandTime: e,
-                                endDateandTime: e
                             })
                         }}
                     />
                     <MaterialUIPickers
                         label="End Date and Time"
-                        value={this.state.endDateandTime}
+                        value={
+                            this.endDate ?
+                                this.endDate.setDate(this.state.startDateandTime.getDate() + 1)
+                                :
+                                new Date()
+                        }
                         minDate={
                             this.state.startDateandTime ?
                                 this.state.startDateandTime
@@ -1527,6 +1531,8 @@ class NewElection extends Component {
                                             }
                                         }}
                                     />
+                                    <p style={{ color: 'red', fontSize: '12px' }}>{this.state.voterEmail_error}</p>
+
                                     <div>{Object.values(this.state.candidateEmailObject)
                                         .map(email =>
                                             <Alert>
@@ -1535,7 +1541,6 @@ class NewElection extends Component {
                                         )}
                                     </div>
                                 </td>
-                                <p style={{ color: 'red', fontSize: '12px' }}>{this.state.voterEmail_error}</p>
                                 <td>
                                     <p style={{ float: 'left', fontSize: '18px' }}>+91</p>
                                     <input
@@ -1545,10 +1550,11 @@ class NewElection extends Component {
                                             marginLeft: '10px',
                                             borderRadius: '5px'
                                         }}
-                                        type="number"
+                                        type="tel"
                                         ref="inputPhone"
                                         placeholder="phone"
                                         required
+                                        maxlength="10"
                                     />
                                     <div>{Object.values(this.state.candidatePhoneObject)
                                         .map(phone =>
@@ -1575,9 +1581,21 @@ class NewElection extends Component {
                                         const candidateEmailObject = this.state.candidateEmailObject;
                                         const candidatePhoneObject = this.state.candidatePhoneObject;
 
-                                        candidateIdObject.push(this.refs.inputId1.value + "-" + this.refs.inputId2.value + "-" + this.refs.inputId3.value);
-                                        candidateEmailObject.push(this.refs.inputEmail.value);
-                                        candidatePhoneObject.push("+91" + this.refs.inputPhone.value);
+
+                                        let checID = this.refs.inputId1.value + "-" + this.refs.inputId2.value + "-" + this.refs.inputId3.value
+                                        let chceckPhone = "+91" + this.refs.inputPhone.value.trim()
+                                        if (
+                                            this.state.candidateIdObject.includes(checID) ||
+                                            this.state.candidateEmailObject.includes(this.refs.inputEmail.value.trim()) ||
+                                            this.state.candidatePhoneObject.includes(chceckPhone)
+                                        ) {
+                                            return alert("Check ID, Email and Phone if already added")
+                                        } else {
+                                            candidateIdObject.push(this.refs.inputId1.value + "-" + this.refs.inputId2.value + "-" + this.refs.inputId3.value);
+                                            candidateEmailObject.push(this.refs.inputEmail.value);
+                                            candidatePhoneObject.push("+91" + this.refs.inputPhone.value);
+
+                                        }
 
                                         this.setState({ candidateIdObject, candidateEmailObject, candidatePhoneObject });
                                         this.refs.inputId1.select();
