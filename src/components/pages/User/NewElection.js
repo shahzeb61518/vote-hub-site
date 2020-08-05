@@ -203,6 +203,7 @@ class NewElection extends Component {
                     steps={steps}
                     activeStep={this.state.activeStep}
                     // onSelect={this.handleOnClickStepper}
+                    onSelect={this.handleOnClickStepper}
                     showNumber={false}
                 />
 
@@ -864,29 +865,57 @@ class NewElection extends Component {
                                                     placeholder="Candidate Name"
                                                 />
                                                 <div>{Object.values(this.state.candidateNameObject)
-                                                    .map(name =>
-                                                        <Alert>
-                                                            {name}
-                                                        </Alert>
+                                                    .map((name, i) =>
+                                                        <>
+                                                            <Alert style={{ float: 'left', width: '80%' }}>
+                                                                {name}
+                                                            </Alert>
+                                                            <li
+                                                                onClick={() => {
+                                                                    if (i > -1) {
+                                                                        this.state.candidateNameObject.splice(i, 1);
+                                                                        this.state.candidateDescriptionObject.splice(i, 1);
+                                                                        this.setState({
+                                                                            candidateNameObject: this.state.candidateNameObject,
+                                                                            candidateDescriptionObject: this.state.candidateDescriptionObject
+                                                                        })
+                                                                    }
+                                                                }}
+                                                                style={{ marginTop: '5px' }}
+                                                                className="fa fa-trash btn btn-danger"></li>
+                                                        </>
                                                     )}
                                                 </div>
                                             </div>
                                             <div className="col">
                                                 <label>Description</label>
-                                                <textarea
-                                                    ref="textarea"
-                                                    placeholder="description"
+                                                <input
                                                     style={{
                                                         width: '100%',
                                                         padding: '5px',
                                                         borderRadius: '5px'
-                                                    }} />
-
+                                                    }}
+                                                    ref="textarea"
+                                                    placeholder="description"
+                                                />
                                                 {Object.values(this.state.candidateDescriptionObject)
-                                                    .map(des =>
-                                                        <Alert>
-                                                            {des}
-                                                        </Alert>
+                                                    .map((des, i) =>
+                                                        <>
+                                                            <Alert>
+                                                                {des}
+                                                            </Alert>
+                                                            {/* <li
+                                                                onClick={() => {
+                                                                    if (i > -1) {
+                                                                        this.state.candidateDescriptionObject.splice(i, 1);
+                                                                        this.setState({
+                                                                            candidateDescriptionObject: this.state.candidateDescriptionObject
+                                                                        })
+                                                                    }
+                                                                }}
+                                                                style={{ marginTop: '5px' }}
+                                                                className="fa fa-trash btn btn-danger"></li> */}
+                                                        </>
                                                     )}
                                             </div>
                                             <br />
@@ -1544,7 +1573,7 @@ class NewElection extends Component {
                                 <td>
                                     <p style={{ float: 'left', fontSize: '18px' }}>+91</p>
                                     <input
-                                        maxLength="10" onInput={this.maxLengthCheck} 
+                                        maxLength="10" onInput={this.maxLengthCheck}
                                         style={{
                                             width: '85%',
                                             padding: '5px',
@@ -1557,10 +1586,27 @@ class NewElection extends Component {
                                         required
                                     />
                                     <div>{Object.values(this.state.candidatePhoneObject)
-                                        .map(phone =>
-                                            <Alert >
-                                                {phone}
-                                            </Alert>
+                                        .map((phone, i) =>
+                                            <>
+                                                <Alert style={{ float: 'left', width: '80%' }}>
+                                                    {phone}
+                                                </Alert>
+                                                <li
+                                                    onClick={() => {
+                                                        if (i > -1) {
+                                                            this.state.candidateIdObject.splice(i, 1);
+                                                            this.state.candidateEmailObject.splice(i, 1);
+                                                            this.state.candidatePhoneObject.splice(i, 1);
+                                                            this.setState({
+                                                                candidateIdObject: this.state.candidateIdObject,
+                                                                candidateEmailObject: this.state.candidateEmailObject,
+                                                                candidatePhoneObject: this.state.candidatePhoneObject
+                                                            })
+                                                        }
+                                                    }}
+                                                    style={{ marginTop: '5px' }}
+                                                    className="fa fa-trash btn btn-danger"></li>
+                                            </>
                                         )}
                                     </div>
                                 </td>
